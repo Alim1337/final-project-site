@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import {SearchIcon,
          GlobeAltIcon , 
          MenuIcon , 
@@ -18,7 +19,7 @@ function Header() {
       <div className='relative flex items-center h-20
       cursor-pointer my-auto'>
         <Image
-          src="https://img.freepik.com/free-vector/real-estate-business-logo-template-branding-design-vector-haus-estate-company-text_53876-136241.jpg?w=900&t=st=1682041935~exp=1682042535~hmac=d5e8f8d5476c7c1567f1ad4c589bf45badc2d149e2a5e16203d83e634b1b2283"
+          src="https://png.pngtree.com/png-clipart/20190619/original/pngtree-vector-house-icon-png-image_4013530.jpg"
           layout = "fill"
           objectFit="contain"
           objectPosition="left"
@@ -37,12 +38,21 @@ function Header() {
       {/* RIGHT SECTION */}
       <div className='flex items-center 
       space-x-4 justify-end text-gray-500'>
-        <p className='hidden md:inline-flex cursor-pointer'>Devenir un locataire</p>
+        <Link href="signup">
+        <button className="text-red-500 bg-white border border-red-100 px-8 py-4 font-mono
+        shadow-md rounded-full font-bold my-3
+        hover:shadow-2xl active:scale-90
+        transition duration-150">Devenir Un Client</button>
+   
+          </Link>
         <GlobeAltIcon className='h-6'/>
         <div className='flex items-center space-x-2 border-2 p-2
         rounded-full'>
         <MenuIcon className='h-6 cursor-pointer' />
         <UserCircleIcon className='h-6 cursor-pointer'/>
+        <Link href="/signup">
+        <div className='h-6 cursor-pointer'></div>
+        </Link>
 
         </div>
       </div>
