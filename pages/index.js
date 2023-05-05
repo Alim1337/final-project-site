@@ -13,7 +13,7 @@ export default function Home({ exploreData,cardsData }) {
   return (
     <div className='bg-white'>
       <Head>
-        <title>My site</title>
+        <title>Home page</title>
       </Head>
 
       <Header />
