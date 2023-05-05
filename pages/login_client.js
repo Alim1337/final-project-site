@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import BgLogin from "../components/bg_login";
 
 function ClientLogin() {
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  const history = useHistory();
+  const router = useRouter();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,11 +19,12 @@ function ClientLogin() {
     // Authenticate the user here
 
     // Redirect to the homepage
-    history.push("/");
+    router.push("/");
   };
 
   return (
     <div className="flex flex-col min-h-screen">
+      <BgLogin />
       <div className="flex-grow max-w-sm mx-auto p-6 bg-white rounded shadow-md">
         <h2 className="text-xl font-bold mb-4">Se connecter</h2>
         {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
@@ -63,7 +64,6 @@ function ClientLogin() {
             >
               Se connecter
             </button>
-           
           </div>
         </form>
       </div>
