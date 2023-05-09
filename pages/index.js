@@ -43,9 +43,10 @@ export default function Home({ exploreData,cardsData }) {
           </div>
          
         </section>
+        <br/>
         <section>
         <h2 className='text-4xl font-semibold pb-5 text-black font-mono'>live anywhere</h2>
-          <div className='flex space-x-3 overflow-scroll scrollbar-hide
+          <div className='flex space-x-2 overflow-scroll scrollbar-hide
           p-3 -ml-3'>
             
           {cardsData?.map(({img,title})=>(

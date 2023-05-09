@@ -3,12 +3,12 @@ import Image from 'next/image'
 
 function MediumCard({ img, title }) {
   return (
-    <div className='cursor-pointer hover:scale-125 
-    transform transition duration-300 ease-out bg-white'> 
-      <div className='relative h-80 w-80'>
-        <Image src={img} layout="fill" className='rounded-xl' />
+    <div className='relative cursor-pointer rounded-xl hover:bg-slate-600 
+    transform transition duration-300  ease-out group'> 
+      <div className='group h-80 w-80'>
+        <Image src={img} layout="fill" className='group-hover:opacity-25 rounded-xl' />
       </div>
-      <h3 className='text-2xl mt-3 font-mono text-black'> 
+      <h3 className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-0  group-hover:opacity-100 text-2xl mt-3 transform transition duration-300  ease-out'> 
         {title}
       </h3>  
     </div>
