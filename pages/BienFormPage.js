@@ -11,7 +11,9 @@ function Page() {
  
   return (
     <div>
-   <BienForm/>
+  <Header_signup/>
+  <BgLogin />
+  <BienForm/>
 </div>
 
 

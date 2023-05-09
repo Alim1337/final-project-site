@@ -4,7 +4,7 @@ import Footer from './Footer';
 export default function BienForm({ onClose }) {
   return (
    
-    <div className="fixed z-10 inset-0 overflow-y-auto">
+    <div className="fixed z-10 inset-0 overflow-y-auto ">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity" aria-hidden="true">
           <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
@@ -15,7 +15,7 @@ export default function BienForm({ onClose }) {
         </span>
 
         <div
-          className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          className="inline-block align-bottom bg-gray-600 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"
@@ -49,7 +49,7 @@ export default function BienForm({ onClose }) {
                       <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                         Title
                       </label>
-                      <div className="mt-1">
+                      <div className="mt-1 border-gray-800">
                         <input
                           type="text"
                           name="title"
@@ -60,16 +60,28 @@ export default function BienForm({ onClose }) {
                         />
                       </div>
                     </div>
+                    <label htmlFor="adresse" className="block text-sm font-medium text-gray-700">
+                    Adresse
+                      </label>
+                      <div className="mt-1 border-gray-400 ">
+                        <textarea
+                          id="adresse"
+                          name="adresse"
+                          rows="3"
+                          className=" border-gray-900  shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
+                          required
+                        ></textarea>
+                                            </div>
                     <div>
                       <label htmlFor="description" className="block text-sm font-medium text-gray-700">
                         Description
                       </label>
-                      <div className="mt-1">
+                      <div className="mt-1 border-gray-400 ">
                         <textarea
                           id="description"
                           name="description"
                           rows="3"
-                          className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                          className=" border-gray-900  shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
                           required
                         ></textarea>
                                             </div>
