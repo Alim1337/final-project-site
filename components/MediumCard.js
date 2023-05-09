@@ -8,7 +8,8 @@ function MediumCard({ img, title }) {
       <div className='group h-80 w-80'>
         <Image src={img} layout="fill" className='group-hover:opacity-25 rounded-xl' />
       </div>
-      <h3 className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-0  group-hover:opacity-100 text-2xl mt-3 transform transition duration-300  ease-out'> 
+      <h3 className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-0  
+      group-hover:opacity-100 text-2xl mt-3 transform transition duration-300  ease-out'> 
         {title}
       </h3>  
     </div>

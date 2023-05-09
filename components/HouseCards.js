@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image';
 
-function houseCards({img, location}) {
+function HouseCards({img, location}) {
   return (
     <div className='flex bg-slate-400 items-center gap-x-1 bg-opacity-20 m-2  mt-4 space-x-4 rounded-xl cursor-pointer
      hover:bg-gray-400 hover:scale-110
@@ -16,4 +16,4 @@ function houseCards({img, location}) {
   )
 }
 
-export default houseCards
+export default HouseCards
