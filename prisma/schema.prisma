@@ -65,7 +65,9 @@ model Proprietaire {
   sex               String?
   date_dinscription DateTime?
   proprietaireVip    ProprietaireVip[] @relation("ProprietaireToProprietaireVIP")
+  biens             Biens[]      @relation(name: "ProprietaireToBiens")
 }
+
 
 model ProprietaireVip {
   id                Int         @id @default(autoincrement())
@@ -83,3 +85,18 @@ model ProprietaireVip {
 
   @@map("ProprietaireVip")
 }
+
+model Biens {
+  id      Int      @id @default(autoincrement())
+  description   String?
+  type_bien     String?
+  adresse       String?
+  ville         String?
+  code_postal   String[]
+  prix_estime   Float?
+  etat          String?
+  proprietaire  Proprietaire @relation(name: "ProprietaireToBiens" ,fields: [id_proprietaire], references: [id])
+  id_proprietaire Int
+}
+
+

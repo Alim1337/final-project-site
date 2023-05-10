@@ -59,6 +59,7 @@ function ClientLogin() {
           required
         />
       </div>
+      
       <div className="flex justify-between">
         <button
           className="text-red-500 bg-white border border-red-100 px-10 py-2 font-mono shadow-md rounded-full font-bold my-4 hover:shadow-2xl active:scale-90 transition duration-150"

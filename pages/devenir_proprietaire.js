@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import BgLogin from "../components/bg_login";
 import Footer from "@/components/Footer";
 import Header_signup from "@/components/Header_signup";
+
+
 function DevenirProprietaireForm() {
   const [description, setDescription] = useState('');
   const [typeBien, setTypeBien] = useState('');
@@ -11,17 +13,37 @@ function DevenirProprietaireForm() {
   const [ville, setVille] = useState('');
   const [etat, setEtat] = useState('');
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
     const formData = {
-      description,
-      type_bien: typeBien,
-      adresse,
-      ville,
-      etat
+      nom: '',
+      prenom: '',
+      email: '',
+      ville: '',
+      telephone: '',
+      mdps: '',
+      date_naissance: '',
+      sex: '',
+      date_dinscription: ''
     };
     console.log(formData);
-    // Submit logic here
+  
+    // Insert new record using Prisma
+    const newProprietaire = await prisma.proprietaire.create({
+      data: {
+        nom: formData.nom,
+        prenom: formData.prenom,
+        email: formData.email,
+        ville: formData.ville,
+        telephone: formData.telephone,
+        mdps: formData.mdps,
+        date_naissance: formData.date_naissance,
+        sex: formData.sex,
+        date_dinscription: formData.date_dinscription
+      }
+    });
+  
+    console.log(newProprietaire);
   };
 
   return (

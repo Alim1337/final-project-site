@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Header_signup from "@/components/Header_signup";
 import BienForm from "@/components/BienForm";
 
+
 function Page() {
 
  

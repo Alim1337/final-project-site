@@ -4,6 +4,8 @@ import Footer from '@/components/Footer';
 import HouseCards from '@/components/HouseCards';
 import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import Header_signup from '@/components/Header_signup';
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 export default function ClientHouses({ exploreData, cardsData }) {
@@ -16,10 +18,14 @@ export default function ClientHouses({ exploreData, cardsData }) {
     { title: 'Devenir VIP', icon: FiChevronDown },
     { title: 'settings', icon: FiChevronLeft },
   ];
+  const router = useRouter();
+
 
   return (
+    
     <div>
-      <Header />
+      
+      <Header_signup />
       <main>
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
@@ -48,14 +54,17 @@ export default function ClientHouses({ exploreData, cardsData }) {
           </div>
 
           <div className="p-7 text-2xl font-semibold flex-1 h-screen">
-            <h1>Manage My Houses</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black">
-              <HouseCards key="add-house" img={<FiPlus />} location="Add a house" />
-              {exploreData?.map((item) => {
-                const { img, distance, location } = item;
-                return <HouseCards key={img} img={<Image src={img} alt="house image" width={300} height={200} />} location={location} />;
-              })}
-            </div>
+            <h1 className='font-bold text-gray-700 text-4xl'>Gestion Des Biens</h1>
+            <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black"
+            onClick={() => router.push('/BienFormPage')}>
+              <HouseCards key="Ajouter un bien" img={<FiPlus />} location="Ajouter un bien" />
+             
+            </button>
+            <div className="grid grid-cols-1 font-normal text-black">
+            <HouseCards key="Suprimmer un bien" img={<FiPlus />} location="Suprimmer un bien" />
+              <HouseCards key="Modifier un bien" img={<FiPlus />} location="Modifier un bien" />
+              </div>
+            
           </div>
         </div>
       </main>
