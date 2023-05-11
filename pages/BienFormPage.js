@@ -5,14 +5,18 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 
 function Page() {
+  
+  
   const [titre, setTitre] = useState('');
   const [desciption, setDesciption] = useState('');
   const [type, setType] = useState('');
   const [location, setLocation] = useState('');
   const [prix, setPrix] = useState('');
   const router = useRouter();
+  const {button1, button2} = router.query
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     const formData = {         
       titre,              
       desciption,          
@@ -100,7 +104,7 @@ function Page() {
 
      <div className="flex justify-center">
      <button
-           className="pl-5 text-red-500 bg-white border border-red-100 px-10 py-2 font-mono shadow-md rounded-full font-bold my-4 hover:shadow-2xl active:scale-90 transition duration-150"
+           className="pl-5 text-white bg-red-600 border border-red-100 px-10 py-2 font-mono shadow-md rounded-full font-bold my-4 hover:shadow-2xl active:scale-90 transition duration-150"
            onClick={() => router.push({
              pathname : "/clientHouses",
              query: {
@@ -108,10 +112,10 @@ function Page() {
              }
            })}
          >
-           annuler
+           {button2}
         </button>
      <button
-           className="pl-5 text-red-500 bg-white border border-red-100 px-10 py-2 font-mono shadow-md rounded-full font-bold my-4 hover:shadow-2xl active:scale-90 transition duration-150"
+           className="pl-5 text-red-500 bg-white border border-red-600 text-center px-10 py-2 font-mono shadow-md rounded-full font-bold my-4 hover:shadow-2xl active:scale-90 transition duration-150"
            onClick={() => router.push({
              pathname : "/clientHouses",
              query: {
@@ -119,7 +123,7 @@ function Page() {
              }
            })}
          >
-           Ajouter
+           {button1}
         </button>
         
      </div>

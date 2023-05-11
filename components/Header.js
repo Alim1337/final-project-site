@@ -34,7 +34,7 @@ function Header() {
         onChange={(e) => setSearchInput(e.target.value)}
           className='flex-grow pl-11  bg-transparent outline-none text-sm text-gray-600 placeholder-gray-400'
           type='text'
-          placeholder='Start'
+          placeholder='Rechercher'
         />
         <SearchIcon 
         onClick={() => router.push({
