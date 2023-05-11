@@ -1,140 +1,156 @@
 import React from 'react';
 import Footer from './Footer';
+import Header from './Header';
+import BgLogin from './bg_login';
+import { useState } from 'next/router';
 
-export default function BienForm({ onClose }) {
+export default function BienForm() {
+  const [nom, setNom] = useState('');
+  const [prenom, setPrenom] = useState('');
+  const [email, setEmail] = useState('');
+  const [telephone, setTelephone] = useState('');
+  const [mdps, setMdps] = useState('');
+  const [dateN, setDateN] = useState('');
+  const [sexe, setSexe] = useState('');
+  const [dateI, setDateI] = useState('');
+  const router = useRouter();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = {         
+      nom,              
+      prenom,          
+      email,            
+      telephone,        
+      mdps,             
+      dateN,
+      dateI,
+      sexe       
+    };
+    setDateI(Date.now)
+    console.log(formData);
+    // Submit logic here
+  };
+
   return (
    
-    <div className="fixed z-10 inset-0 overflow-y-auto">
-      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0  opacity-75"></div>
-        </div>
-
-        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-          &#8203;
-        </span>
-
-        <div
-          className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-headline"
-        >
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div className="sm:flex sm:items-start">
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                <svg
-                  className="h-6 w-6 text-blue-600"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  />
-                </svg>
-              </div>
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                  Add a new house
-                </h3>
-                <div className="mt-2">
-                  <form className="space-y-6">
-                    <div>
-                      <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                        Title
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          name="title"
-                          id="title"
-                          autoComplete="title"
-                          required
-                          className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                        Description
-                      </label>
-                      <div className="mt-1">
-                        <textarea
-                          id="description"
-                          name="description"
-                          rows="3"
-                          className="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                          required
-                        ></textarea>
-                                            </div>
-                    </div>
-                    <div>
-  <label className='text-black' htmlFor="price">Price range ($)</label>
-  <input
-    type="range"
-    id="price"
-    name="price"
-    min="1"
-    max="100000000000"
-    step="1"
-    defaultValue="100"
-    className="border-gray-400 border-2 rounded-lg w-full px-4 py-2 mt-2"
-  />
-</div>
-
-
-                    <div>
-                      <label  className='text-black' htmlFor="startDate">Start Date</label>
-                      <input
-                        type="date"
-                        id="startDate"
-                        name="startDate"
-                    
-                        className="border-gray-400 border-2 rounded-lg w-full px-4 py-2 mt-2"
-                      />
-                    </div>
-                    <div>
-                      <label className='text-black'  htmlFor="endDate">End Date</label>
-                      <input
-                        type="date"
-                        id="endDate"
-                        name="endDate"
-                       
-                        className="border-gray-400 border-2 rounded-lg w-full px-4 py-2 mt-2"
-                      />
-                      </div>
-               </form>
-
-                    </div>
-                  </div>
-                  <div className="flex text-black items-center justify-center mt-6">
-                    <button
-                      type="submit"
-                      className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
-                      Save
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setShowForm(false)}
-                      className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded ml-4 focus:outline-none focus:shadow-outline"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                  </div>
-                  </div>
-                </div>
-                
-    </div>
-    <Footer />
-  </div>
+    <div>
+    <div className="flex flex-col min-h-screen">
+   <Header />
+   <BgLogin />
+   <form
+     onSubmit={handleSubmit}
+     className="max-w-sm mx-auto bg-center cursor-pointer bg-slate-50 transition transform duration-100 ease-out 
+     p-6 rounded shadow-md flex flex-col justify-center"
+   >
+     <div className="mb-4">
+       <label htmlFor="nom" className="block text-gray-700 font-bold mb-2">
+         nom  
+       </label>
+       <input
+         type="text"
+         id="nom"
+         value={nom}
+         onChange={(e) => setNom(e.target.value)}
+         className="appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+       />
+     </div>
+     <div className="mb-4">
+       <label htmlFor="prenom" className="block text-gray-700 font-bold mb-2">
+       Prenom 
+       </label>
+       <input
+         type="text"
+         id="prenom"
+         value={prenom}
+         onChange={(e) => setPrenom(e.target.value)}
+         className="appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+       />
+     </div>
+     <div className="mb-4">
+       <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+       email 
+       </label>
+       <input
+         type="email"
+         id="email"
+         value={email}
+         onChange={(e) => setEmail(e.target.value)}
+         className="appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+       />
+     </div>
+     <div className="mb-4">
+       <label htmlFor="telephone" className="block text-gray-700 font-bold mb-2">
+       Telephone 
+       </label>
+       <input
+         type="text"
+         id="telephone"
+         value={telephone}
+         onChange={(e) => setTelephone(e.target.value)}
+         className="appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+       />
+     </div>
+     <div className="mb-4">
+       <label htmlFor="mdps" className="block text-gray-700 font-bold mb-2">
+       Mot de pass 
+       </label>
+       <input
+         type="password"
+         id="mdps"
+         value={mdps}
+         onChange={(e) => setMdps(e.target.value)}
+         className="appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+       />
+     </div>
+     <div className="mb-4">
+       <label htmlFor="date de naissance" className="block text-gray-700 font-bold mb-2">
+       Date de naissance 
+       </label>
+       <input
+         type="date"
+         id="dateN"
+         value={dateN}
+         onChange={(e) => setDateN(e.target.value)}
+         className="appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+       />
+     </div>
+     <div className="mb-4">
+       <label htmlFor="sexe" className="block text-gray-700 font-bold mb-2">
+       Sexe
+       </label>
+       <select
+         id="sexe"
+         value={sexe}
+         onChange={(e) => setSexe(e.target.value)}
+         className="appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+       >
+         <option value="H">Homme</option>
+         <option value="F">Famme</option>
+       </select>
+     </div>
+     
+         
+       
+     
+     <div className="flex justify-center">
+     <button
+           className="pl-5 text-red-500 bg-white border border-red-100 px-10 py-2 font-mono shadow-md rounded-full font-bold my-4 hover:shadow-2xl active:scale-90 transition duration-150"
+           onClick={() => router.push({
+             pathname : "/",
+             query: {
+               client : "online"
+             }
+           })}
+         >
+           Inscrire
+         </button>
+     </div>
+   </form>
+ </div>
+ <Footer/>
+ 
+ </div>
+ 
         )}
    
 

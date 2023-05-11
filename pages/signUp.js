@@ -1,9 +1,9 @@
-import { useState } from 'react';
 import Image from "next/image";
 import { useRouter } from "next/router";
 import BgLogin from "../components/bg_login";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { useState } from "react";
 
 function SignUp() {
   const [nom, setNom] = useState('');

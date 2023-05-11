@@ -6,14 +6,18 @@ import { useRouter } from 'next/router';
 function Header() {
   const router = useRouter();
   const [searchInput, setSearchInput] = useState("")
-
+  const {modeReq} = router.query
+  const [mode,setMode] = useState(modeReq)
   return (
     <header className='sticky top-0 z-50 
     grid
      grid-cols-3
       bg-white shadow-md py-3 px-3 md:px-10'>
       {/* LEFT SECTION */}
-      <div onClick={() => router.push("/")} className='relative flex items-center h-16 my-auto'>
+      <div onClick={() => router.push({
+        pathname : "/",
+        mode : true
+      })} className='relative flex items-center h-16 my-auto'>
         <Image
         
           src="https://img.freepik.com/free-vector/real-estate-business-logo-template-branding-design-vector-haus-estate-company-text_53876-136241.jpg?w=900&t=st=1682041935~exp=1682042535~hmac=d5e8f8d5476c7c1567f1ad4c589bf45badc2d149e2a5e16203d83e634b1b2283"
@@ -44,10 +48,13 @@ function Header() {
       {/* RIGHT SECTION */}
       <div className='flex items-center space-x-4 justify-end text-gray-500'>
         <div className="flex space-x-4">
-          <button className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-bold my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
-          onClick={() => router.push('/signup_client')}> Devenir Un Locataire
+          <button  className={`${mode ? 'hidden' : ''} text-red-500 flex-auto visible bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150`}
+          onClick={() => router.push({
+            pathname : "clientHouses",
+            mode : false
+          })}> Mode locataire
           </button>
-          <button className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-bold my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
+          <button className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
             onClick={() => router.push('/login_client')}>Connexion </button>
        
         </div>

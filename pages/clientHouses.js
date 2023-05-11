@@ -4,10 +4,12 @@ import Footer from '@/components/Footer';
 import HouseCards from '@/components/HouseCards';
 import { FiArrowLeft, FiChevronLeft, FiTag, FiSettings, FiHome ,FiPlus, FiUserPlus} from 'react-icons/fi';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 export default function ClientHouses({ exploreData, cardsData }) {
   const [open, setOpen] = useState(true);
+  const router = useRouter()
   const menus = [
     { title: 'Gestion de profil', icon: FiArrowLeft },
     { title: 'Gestion des annonces', icon: FiTag },
@@ -15,8 +17,8 @@ export default function ClientHouses({ exploreData, cardsData }) {
     { title: 'Devenir VIP', icon: FiUserPlus },
     { title: 'settings', icon: FiSettings },
   ];
-
   return (
+    
     <div>
       <Header />
       <main>
@@ -49,11 +51,20 @@ export default function ClientHouses({ exploreData, cardsData }) {
           <div className="p-7 text-2xl font-semibold flex-1 h-screen">
             <h1>Manage My Houses</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black">
-              <HouseCards key="add-house" img={<FiPlus />} location="Add a house" />
-              {exploreData?.map((item) => {
-                const { img, distance, location } = item;
-                return <HouseCards key={img} img={img} location={location} />;
-              })}
+              <div onClick={() => router.push("/BienFormPage")}>
+                <HouseCards key="add-house" img={<FiPlus/>} location="Add a house" />
+              </div>
+              
+                {exploreData?.map((item) => {
+                  const { img, distance, location } = item;
+                  return <div onClick={() => router.push({
+                    pathname : "/BienFormPage",
+                    query : {
+                      
+                    }
+                  })}><HouseCards key={img} img={img} location={location}/></div>;
+                })}
+              
             </div>
           </div>
         </div>
