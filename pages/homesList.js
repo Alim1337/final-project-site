@@ -22,7 +22,7 @@ function homesList({searchResults}) {
                 </div>
 
                 <div>
-                  {searchResults.map(({ img, location, title, description, star, price, total}) => (
+                  {/*searchResults.map(({ img, location, title, description, star, price, total}) => (
                     key={img},
                     img = {img},
                     location = {location},
@@ -31,7 +31,7 @@ function homesList({searchResults}) {
                     star = {star},
                     price = {price},
                     total = {total}
-                  ))}
+                  ))*/}
                 </div>
 
                 
@@ -44,7 +44,7 @@ function homesList({searchResults}) {
 
 export default homesList
 
-export async function getServerSideProps() {
+{/*export async function getServerSideProps() {
   const searchResults = await fetch("https://links.papareact.com/isz").then((res) => res.json())
   
   return{
@@ -52,4 +52,4 @@ export async function getServerSideProps() {
       searchResults,
     }
   }
-}
+}*/}

@@ -1,21 +1,18 @@
-import { useState } from "react";
-import Image from "next/image";
-import { useRouter } from "next/router";
 import BgLogin from "../components/bg_login";
 import Footer from "@/components/Footer";
-import Header_signup from "@/components/Header_signup";
 import BienForm from "@/components/BienForm";
+import Header from "@/components/Header";
 
 function Page() {
 
  
   return (
-    <div>
-   <BienForm/>
+    
+   <div className="flex flex-col min-h-screen">
+  <Header />
+  <BgLogin />
+  <BienForm/>
 </div>
-
-
-
   );
 }
 
