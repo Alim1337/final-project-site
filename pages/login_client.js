@@ -21,7 +21,7 @@ function ClientLogin() {
     // Authenticate the user here
 
     // Redirect to the homepage
-    router.push("/");
+    router.push("/home");
   };
 
   return (

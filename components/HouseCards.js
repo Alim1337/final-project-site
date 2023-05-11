@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image';
-
+import {FiSettings} from 'react-icons/fi';
 function HouseCards({img, location}) {
   return (
     <div className='flex bg-slate-400 items-center gap-x-1 bg-opacity-20 m-2  mt-4 space-x-4 rounded-xl cursor-pointer

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HouseCards from '@/components/HouseCards';
-import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
+import { FiArrowLeft, FiChevronLeft, FiTag, FiSettings, FiHome ,FiPlus, FiUserPlus} from 'react-icons/fi';
 import Image from 'next/image';
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
@@ -10,11 +10,10 @@ export default function ClientHouses({ exploreData, cardsData }) {
   const [open, setOpen] = useState(true);
   const menus = [
     { title: 'Gestion de profil', icon: FiArrowLeft },
-    { title: 'Gestion des annonces', icon: FiHome },
-    { title: 'Gestion des biens', icon: FiChevronDown },
-    { title: 'Support', icon: FiPlus },
-    { title: 'Devenir VIP', icon: FiChevronDown },
-    { title: 'settings', icon: FiChevronLeft },
+    { title: 'Gestion des annonces', icon: FiTag },
+    { title: 'Gestion des biens', icon: FiHome },
+    { title: 'Devenir VIP', icon: FiUserPlus },
+    { title: 'settings', icon: FiSettings },
   ];
 
   return (
@@ -53,7 +52,7 @@ export default function ClientHouses({ exploreData, cardsData }) {
               <HouseCards key="add-house" img={<FiPlus />} location="Add a house" />
               {exploreData?.map((item) => {
                 const { img, distance, location } = item;
-                return <HouseCards key={img} img={<Image src={img} alt="house image" width={300} height={200} />} location={location} />;
+                return <HouseCards key={img} img={img} location={location} />;
               })}
             </div>
           </div>
