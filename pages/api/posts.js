@@ -1,50 +1,42 @@
-// Import the required dependencies
-const express = require('express');
+const http = require('http');
 const { PrismaClient } = require('@prisma/client');
 
-// Create an instance of the Prisma client
 const prisma = new PrismaClient();
 
-// Create an instance of the Express app
-const app = express();
-
-// Set up middleware to parse JSON body from incoming requests
-app.use(express.json());
-
-// Create a route for handling POST requests to /signup_client
-app.post('/signup_client', async (req, res) => {
-  try {
-    // Extract the data from the request body
-    const { Nom,PreNom,Date,Telephone, email,password,Sex } = req.body;
-
-    // Use Prisma client to insert data into the database
-    const newClient = await prisma.client.create({
-      data: {
-        Nom,
-        PreNom,
-        Date,
-
-Telephone,
-
-  email,
-password, 
-  Sex,
-
-
-
-      
-      },
+const server = http.createServer(async (req, res) => {
+  if (req.method === 'POST' && req.url === '/signup_client') {
+    let requestBody = '';
+    req.on('data', chunk => {
+      requestBody += chunk.toString();
     });
-
-    // Return the newly created client as the response
-    res.status(201).json(newClient);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred while creating the client.' });
+    req.on('end', async () => {
+      try {
+        const { Nom, PreNom, Date, Telephone, email, password, Sex } = JSON.parse(requestBody);
+        const newClient = await prisma.client.create({
+          data: {
+            Nom,
+            PreNom,
+            Date,
+            Telephone,
+            email,
+            password, 
+            Sex,
+          },
+        });
+        res.writeHead(201, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(newClient));
+      } catch (error) {
+        console.error(error);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'An error occurred while creating the client.' }));
+      }
+    });
+  } else {
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Not found.' }));
   }
 });
 
-// Start the server on port 3000
-app.listen(3001, () => {
-  console.log('Server is running on port 3000');
+server.listen(3001, () => {
+  console.log('Server is running on port 3001');
 });
