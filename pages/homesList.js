@@ -3,7 +3,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { useRouter } from 'next/router';
 
-function homesList() {
+function homesList({searchResults}) {
   const router = useRouter();
   const {location} = router.query
   
@@ -20,6 +20,21 @@ function homesList() {
                         <p className='button'>Filters</p>
                     </div>
                 </div>
+
+                <div>
+                  {searchResults.map(({ img, location, title, description, star, price, total}) => (
+                    key={img},
+                    img = {img},
+                    location = {location},
+                    title = {title},
+                    description = {description},
+                    star = {star},
+                    price = {price},
+                    total = {total}
+                  ))}
+                </div>
+
+                
             </section>
         </main>
       <Footer/>
@@ -28,3 +43,13 @@ function homesList() {
 }
 
 export default homesList
+
+export async function getServerSideProps() {
+  const searchResults = await fetch("https://links.papareact.com/isz").then((res) => res.json())
+  
+  return{
+    props :{
+      searchResults,
+    }
+  }
+}

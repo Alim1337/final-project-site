@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import BgLogin from "../components/bg_login";
 import Footer from "@/components/Footer";
-import Header_signup from "@/components/Header_signup";
+import Header from "@/components/Header";
 
 function ClientLogin() {
   const [email, setEmail] = useState("");
@@ -27,10 +27,10 @@ function ClientLogin() {
   return (
     <div>
     <div className="flex flex-col min-h-screen">
-    <Header_signup/>
+    <Header/>
 
   <BgLogin />
-   <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-center p-9 rounded shadow-md ">
+   <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-center p-9 rounded bg-slate-50 shadow-md ">
       <div className="mb-4">
         <label className="block text-gray-700 font-bold mb-2">
           Email <span className="text-red-500">*</span>:
@@ -65,6 +65,12 @@ function ClientLogin() {
           type="submit"
         >
           Se connecter
+        </button>
+        <button
+          className="pl-5 text-red-500 bg-white border border-red-100 px-10 py-2 font-mono shadow-md rounded-full font-bold my-4 hover:shadow-2xl active:scale-90 transition duration-150"
+          onClick={() => router.push("devenir_proprietaire")}
+        >
+          Inscrire
         </button>
       </div>
     </form>

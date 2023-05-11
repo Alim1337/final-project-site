@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import BgLogin from "../components/bg_login";
 import Footer from "@/components/Footer";
-import Header_signup from "@/components/Header_signup";
+import Header from "@/components/Header";
 function DevenirProprietaireForm() {
   const [description, setDescription] = useState('');
   const [typeBien, setTypeBien] = useState('');
@@ -27,7 +27,7 @@ function DevenirProprietaireForm() {
   return (
    <div>
    <div className="flex flex-col min-h-screen">
-  <Header_signup />
+  <Header />
   <BgLogin />
   <form
     onSubmit={handleSubmit}
