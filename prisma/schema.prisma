@@ -29,13 +29,15 @@ model Client {
   nom               String
   prenom            String
   email             String
-  telephone         Int
+  telephone         String
   mdps              String
-  date_naissance    DateTime?
+  date_naissance    String?  // update to DateTime type
   sex               String?
-  date_dinscription DateTime?
+  date_dinscription String?
   clientVips        ClientVip[] @relation("ClientToClientVIP")
 }
+
+
 
 model ClientVip {
   id                Int       @id @default(autoincrement())

@@ -1,6 +1,7 @@
 import UserForm from '../components/UserForm'
 import Header from '@/components/Header'
 import BgLogin from '@/components/bg_login'
+
 export default function Form() {
 
   async function handleFormSubmit(name, email) {
@@ -16,16 +17,14 @@ export default function Form() {
     console.log('Result:', data)
   }
 
-  return (
-    <div>
-
+  return ( 
+  <div className='flex '>
 <div className="flex flex-col min-h-screen">
   <Header />
   <BgLogin />
-      <h3>User Form</h3>
-      <UserForm onSubmit={handleFormSubmit} />
-    </div>
-    </div>
+  <UserForm onSubmit={handleFormSubmit} />
+</div>
+</div>
 
   )
 }
