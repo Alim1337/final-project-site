@@ -35,20 +35,19 @@ model Client {
   sex               String?
   date_dinscription String?
   clientVips        ClientVip[] @relation("ClientToClientVIP")
+  proprietaires     Proprietaire[]
 }
-
-
 
 model ClientVip {
   id                Int       @id @default(autoincrement())
   nom               String?
   prenom            String?
   email             String?
-  telephone         Int?
+  telephone         String?
   mdps              String?
-  date_naissance    DateTime?
+  date_naissance    String?
   sex               String?
-  date_dinscription DateTime?
+  date_dinscription String?
   client            Client    @relation(name: "ClientToClientVIP", fields: [clientId], references: [id])
   clientId          Int
 
@@ -61,15 +60,16 @@ model Proprietaire {
   prenom            String
   email             String
   ville             String?
-  telephone         Float
+  telephone         String
   mdps              String
-  date_naissance    DateTime?
+  date_naissance    String?
   sex               String?
-  date_dinscription DateTime?
-  proprietaireVip    ProprietaireVip[] @relation("ProprietaireToProprietaireVIP")
+  date_dinscription String?
+  proprietaireVip   ProprietaireVip[] @relation("ProprietaireToProprietaireVIP")
+  client            Client?    @relation(fields: [clientId], references: [id])
+  clientId          Int?
   biens             Biens[]      @relation(name: "ProprietaireToBiens")
 }
-
 
 model ProprietaireVip {
   id                Int         @id @default(autoincrement())
@@ -77,11 +77,11 @@ model ProprietaireVip {
   prenom            String
   email             String
   ville             String?
-  telephone         Float
+  telephone         String
   mdps              String
-  date_naissance    DateTime?
+  date_naissance    String?
   sex               String?
-  date_dinscription DateTime?
+  date_dinscription String?
   proprietaire       Proprietaire @relation(name: "ProprietaireToProprietaireVIP", fields: [proprietaireId], references: [id])
   proprietaireId     Int
 
@@ -89,16 +89,14 @@ model ProprietaireVip {
 }
 
 model Biens {
-  id      Int      @id @default(autoincrement())
-  description   String?
-  type_bien     String?
-  adresse       String?
-  ville         String?
-  code_postal   String[]
-  prix_estime   Float?
-  etat          String?
-  proprietaire  Proprietaire @relation(name: "ProprietaireToBiens" ,fields: [id_proprietaire], references: [id])
+  id              Int          @id @default(autoincrement())
+  description     String?
+  type_bien       String?
+  adresse         String
+  ville           String?
+  code_postal     String[]
+  prix_estime     String?
+  etat            String?
+  proprietaire    Proprietaire @relation(name: "ProprietaireToBiens", fields: [id_proprietaire], references: [id])
   id_proprietaire Int
 }
-
-
