@@ -1,4 +1,5 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -23,13 +24,16 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Email or telephone number already exists' });
     }
 
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(mdps, 10);
+
     const result = await prisma.client.create({
       data: {
         nom,
         prenom,
         email,
         telephone,
-        mdps,
+        mdps: hashedPassword, // Store the hashed password in the database
         date_naissance,
         sex,
         date_dinscription: new Date(),

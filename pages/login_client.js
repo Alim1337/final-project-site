@@ -1,84 +1,69 @@
-import { useState } from "react";
-import { useRouter } from "next/router";
-import Cookies from "js-cookie";
-import BgLogin from "@/components/bg_login";
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Header_signup from '@/components/Header_signup';
 
-function ClientLogin() {
-  const [email, setEmail] = useState("");
-  const [mdps, setMdps] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+export default function LoginClient() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email || !mdps) {
-      setErrorMessage("Veuillez remplir tous les champs obligatoires.");
-      return;
-    }
+  async function handleLogin(event) {
+    event.preventDefault();
 
-    // Send a request to your backend API to check if the client exists in the database
-    const response = await fetch("/api/login_api", {
-      method: "POST",
-      body: JSON.stringify({ email, mdps }),
+    const response = await fetch('/api/api_login_client', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
     });
 
     if (response.ok) {
-      const result = await response.json();
-      if (result.success) {
-        // Client exists, proceed with login and save tokens
-        const { token } = result;
-        Cookies.set("token", token); 
-       // Save token in a cookie
-
-        router.push("/");
-      } else {
-        // Client does not exist, prompt for correct information
-        setErrorMessage("Les informations de connexion ne sont pas valides.");
-      }
+      const { token } = await response.json();
+      localStorage.setItem('token', token);
+      router.push('/clientHouses');
     } else {
-      // Error occurred during API request
-      setErrorMessage("Une erreur s'est produite lors de la demande de connexion.");
+      const error = await response.text();
+      toast.error(error, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
-  };
+  }
 
   return (
-    <div>
-      <BgLogin />
-      <form onSubmit={handleSubmit}>
-        <div className="bg-white text-black font-mono text-xl">
-          <label className="text-black font-mono text-xl" htmlFor="email">
-            Email
-          </label>
+    <div >
+          <Header_signup/>
+
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          <label htmlFor="email">Email</label>
           <input
-            id="email"
             type="email"
+            id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div className="text-black font-mono text-xl">
-          <label className="text-black font-mono text-xl" htmlFor="mdps">
-            Password
-          </label>
+        <div>
+          <label htmlFor="password">Password</label>
           <input
-            id="mdps"
             type="password"
-            value={mdps}
-            onChange={(e) => setMdps(e.target.value)}
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button className="text-black font-mono text-xl" type="submit">
-          Se connecter
-        </button>
+        <button type="submit">Login</button>
       </form>
-      {errorMessage && <div className="text-red-500">{errorMessage}</div>}
+      <ToastContainer />
     </div>
   );
 }
-
-export default ClientLogin;
