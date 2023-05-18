@@ -34,15 +34,19 @@ export default function SignupClient() {
       toast.success('Signup completed!', {
         position: toast.POSITION.TOP_CENTER,
       });
+    } else {
+      const errorMessage = data?.error || 'Error creating user';
+      toast.error(errorMessage, {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
 
   return (
-    <div >
+    <div>
       <Header_signup />
       <BgLogin />
-        <FormClient onSubmit={handleSubmit} />
-
+      <FormClient onSubmit={handleSubmit} />
       <ToastContainer />
     </div>
   );
