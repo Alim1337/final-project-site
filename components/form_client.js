@@ -5,22 +5,29 @@ function FormClient({ onSubmit }) {
   const [telephone, setTelephone] = useState("");
   const [email, setEmail] = useState("");
   const [mdps, setMdps] = useState("");
-  const [ date_naissance, setDateNaissance] = useState("");
+ 
+  const [ date_naissance, setDateNaissance] = useState();
 
   const [sex, setSex] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
-    onSubmit( nom ,
-        prenom,
-        email,
-        telephone ,
-        mdps,
-        date_naissance,
-        sex,
-         );
+  
+    // Convert the string date to a DateTime object
+    const formattedDate = date_naissance ? new Date(date_naissance) : null;
+  
+    onSubmit(
+      nom,
+      prenom,
+      email,
+      telephone,
+      mdps,
+      formattedDate,
+      sex
+    );
   }
+  
 
   return (
     <form

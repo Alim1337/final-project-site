@@ -1,102 +1,259 @@
-datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL") // uses connection pooling
-  
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  name  String
-  posts Post[]
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String
-  published Boolean
-  user      User    @relation(fields: [userId], references: [id])
-  userId    Int
-}
-
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
 model Client {
-  id                Int         @id @default(autoincrement())
-  nom               String
-  prenom            String
-  email             String
-  telephone         String
-  mdps              String
-  date_naissance    String?  // update to DateTime type
-  sex               String?
-  date_dinscription String?
-  clientVips        ClientVip[] @relation("ClientToClientVIP")
-  proprietaires     Proprietaire[]
+  id_client             Int                     @id @default(autoincrement())
+  nom                   String                  @db.VarChar(255)
+  prenom                String                  @db.VarChar(255)
+  email                 String                  @unique(map: "U_client_email") @db.VarChar(255)
+  telephone             Decimal                 @unique(map: "U_client_telephone") @db.Decimal
+  mdps                  String                  @db.VarChar(255)
+  date_naissance        DateTime?               @db.Date
+  sex                   String?                 @db.VarChar(255)
+  date_dinscription     DateTime?               @db.Date
+  Client_vip            Client_vip[]
+  Demande_client        Demande_client[]
+  Demande_client_valide Demande_client_valide[]
+  Demande_client_vip_   Demande_client_vip_[]
+  Rdv                   Rdv[]
+  biens_loue            biens_loue[]
 }
 
-model ClientVip {
-  id                Int       @id @default(autoincrement())
-  nom               String?
-  prenom            String?
-  email             String?
-  telephone         String?
-  mdps              String?
-  date_naissance    String?
-  sex               String?
-  date_dinscription String?
-  client            Client    @relation(name: "ClientToClientVIP", fields: [clientId], references: [id])
-  clientId          Int
+model Client_vip {
+  id_client_vip             Int                         @id @default(autoincrement())
+  id_client                 Int
+  nom                       String                      @db.VarChar(255)
+  prenom                    String                      @db.VarChar(255)
+  email                     String                      @db.VarChar(255)
+  telephone                 Decimal                     @db.Decimal
+  mdps                      String                      @db.VarChar(255)
+  date_naissance            DateTime?                   @db.Date
+  sex                       String?                     @db.VarChar(255)
+  date_dinscription         DateTime?                   @db.Date
+  Client                    Client                      @relation(fields: [id_client], references: [id_client], onDelete: Cascade, onUpdate: NoAction)
+  Demande_client_vip_valid_ Demande_client_vip_valid_[]
+  Rdv_Vip_                  Rdv_Vip_[]
 
   @@map("Client vip")
 }
 
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+model Demande_client {
+  id_demande_client     Int                    @id(map: "Demande_client_pkey") @default(autoincrement())
+  id_client             Int
+  type_bien             String?                @map("type bien") @db.VarChar
+  type_de_transaction   String?                @map("type de transaction") @db.VarChar
+  prix_minimum          Decimal?               @map("prix minimum") @db.Decimal
+  prix_maximum          Decimal?               @map("prix maximum") @db.Decimal
+  surface_minimum       Decimal?               @map("surface minimum") @db.Decimal
+  nbr_chambre_minimum   String?                @map("nbr chambre minimum") @db.VarChar
+  date_debut_rechercher DateTime?              @map("date debut rechercher") @db.Date
+  date_fin_recherche    DateTime?              @map("date fin recherche") @db.Date
+  statut_demande        String?                @map("statut demande") @db.VarChar
+  Client                Client                 @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client")
+  Demande_client_valide Demande_client_valide?
+  Demande_client_vip_   Demande_client_vip_?
+
+  @@map("Demande client")
+}
+
+model Demande_client_valide {
+  id_demande_client       Int            @default(autoincrement())
+  id_client               Int
+  type_bien               String?        @map("type bien") @db.VarChar
+  type_de_transaction     String?        @map("type de transaction") @db.VarChar
+  prix_minimum            Decimal?       @map("prix minimum") @db.Decimal
+  prix_maximum            Decimal?       @map("prix maximum") @db.Decimal
+  surface_minimum         Decimal?       @map("surface minimum") @db.Decimal
+  nbr_chambre_minimum     String?        @map("nbr chambre minimum") @db.VarChar
+  date_debut_rechercher   DateTime?      @map("date debut rechercher") @db.Date
+  date_fin_recherche      DateTime?      @map("date fin recherche") @db.Date
+  statut_demande          String?        @map("statut demande") @db.VarChar
+  id_demande_client_valid Int            @id @default(autoincrement())
+  Demande_client          Demande_client @relation(fields: [id_demande_client_valid], references: [id_demande_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_valid")
+  Client                  Client         @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_valid_client")
+
+  @@map("Demande client valide")
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+model Demande_client_vip_ {
+  id_demande_client         Int                         @default(autoincrement())
+  id_client                 Int
+  type_bien                 String?                     @map("type bien") @db.VarChar
+  type_de_transaction       String?                     @map("type de transaction") @db.VarChar
+  prix_minimum              Decimal?                    @map("prix minimum") @db.Decimal
+  prix_maximum              Decimal?                    @map("prix maximum") @db.Decimal
+  surface_minimum           Decimal?                    @map("surface minimum") @db.Decimal
+  nbr_chambre_minimum       String?                     @map("nbr chambre minimum") @db.VarChar
+  date_debut_rechercher     DateTime?                   @map("date debut rechercher") @db.Date
+  date_fin_recherche        DateTime?                   @map("date fin recherche") @db.Date
+  statut_demande            String?                     @map("statut demande") @db.VarChar
+  id_demande_client_vip     Int                         @id @default(autoincrement())
+  Demande_client            Demande_client              @relation(fields: [id_demande_client_vip], references: [id_demande_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_vip")
+  Client                    Client                      @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_vip_client")
+  Demande_client_vip_valid_ Demande_client_vip_valid_[]
+
+  @@map("Demande client vip ")
+}
+
+model Demande_client_vip_valid_ {
+  id_demande_client           Int                 @default(autoincrement())
+  id_client                   Int
+  type_bien                   String?             @map("type bien") @db.VarChar
+  type_de_transaction         String?             @map("type de transaction") @db.VarChar
+  prix_minimum                Decimal?            @map("prix minimum") @db.Decimal
+  prix_maximum                Decimal?            @map("prix maximum") @db.Decimal
+  surface_minimum             Decimal?            @map("surface minimum") @db.Decimal
+  nbr_chambre_minimum         String?             @map("nbr chambre minimum") @db.VarChar
+  date_debut_rechercher       DateTime?           @map("date debut rechercher") @db.Date
+  date_fin_recherche          DateTime?           @map("date fin recherche") @db.Date
+  statut_demande              String?             @map("statut demande") @db.VarChar
+  id_demande_client_vip       Int                 @default(autoincrement())
+  id_demande_client_vip_valid Int                 @id(map: "demande client vip valid _pkey") @default(autoincrement())
+  Demande_client_vip_         Demande_client_vip_ @relation(fields: [id_demande_client], references: [id_demande_client_vip], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_vip")
+  Client_vip                  Client_vip          @relation(fields: [id_client], references: [id_client_vip], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_vip_client")
+
+  @@map("Demande client vip valid ")
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
 model Proprietaire {
-  id                Int         @id @default(autoincrement())
-  nom               String
-  prenom            String
-  email             String
-  ville             String?
-  telephone         String
-  mdps              String
-  date_naissance    String?
-  sex               String?
-  date_dinscription String?
-  proprietaireVip   ProprietaireVip[] @relation("ProprietaireToProprietaireVIP")
-  client            Client?    @relation(fields: [clientId], references: [id])
-  clientId          Int?
-  biens             Biens[]      @relation(name: "ProprietaireToBiens")
+  id_proprietaire   Int                @id @default(autoincrement())
+  nom               String             @db.VarChar(255)
+  prenom            String             @db.VarChar(255)
+  email             String             @unique(map: "U_Proprietaire_email") @db.VarChar(255)
+  ville             String?            @db.VarChar(255)
+  telephone         Decimal            @db.Decimal
+  mdps              String             @db.VarChar(255)
+  date_naissance    DateTime?          @db.Date
+  sex               String?            @db.VarChar(255)
+  date_dinscription DateTime?          @db.Date
+  Proprietaire_vip  Proprietaire_vip[]
+  Rdv               Rdv[]
+  biens             biens[]
+  biens_vip         biens_vip[]
 }
 
-model ProprietaireVip {
-  id                Int         @id @default(autoincrement())
-  nom               String
-  prenom            String
-  email             String
-  ville             String?
-  telephone         String
-  mdps              String
-  date_naissance    String?
-  sex               String?
-  date_dinscription String?
-  proprietaire       Proprietaire @relation(name: "ProprietaireToProprietaireVIP", fields: [proprietaireId], references: [id])
-  proprietaireId     Int
+model Proprietaire_vip {
+  id_proprietaire_vip Int          @id @default(autoincrement())
+  id_proprietaire     Int
+  nom                 String       @db.VarChar(255)
+  prenom              String       @db.VarChar(255)
+  email               String       @db.VarChar(255)
+  ville               String?      @db.VarChar(255)
+  telephone           Decimal      @db.Decimal
+  mdps                String       @db.VarChar(255)
+  date_naissance      DateTime?    @db.Date
+  sex                 String?      @db.VarChar(255)
+  date_dinscription   DateTime?    @db.Date
+  Proprietaire        Proprietaire @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: Cascade, onUpdate: NoAction)
+  Rdv_Vip_            Rdv_Vip_[]
 
-  @@map("ProprietaireVip")
+  @@map("Proprietaire vip")
 }
 
-model Biens {
-  id              Int          @id @default(autoincrement())
-  description     String?
-  type_bien       String?
-  adresse         String
-  ville           String?
-  code_postal     String[]
-  prix_estime     String?
-  etat            String?
-  proprietaire    Proprietaire @relation(name: "ProprietaireToBiens", fields: [id_proprietaire], references: [id])
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+model Rdv {
+  id_rdv                  Int          @id(map: "RDV_pkey") @default(autoincrement())
+  id_demande_client_valid Int
+  date_rdv                DateTime     @db.Date
+  heure_rdv               DateTime?    @db.Time(6)
+  lieu_rdv                String?      @db.VarChar
+  id_client               Int          @default(autoincrement())
+  id_proprietaire         Int          @default(autoincrement())
+  Client                  Client       @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_client")
+  Proprietaire            Proprietaire @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_p")
+  Rdv_Vip_                Rdv_Vip_[]
+}
+
+model Rdv_Vip_ {
+  id_rdv                  Int              @default(autoincrement())
+  id_demande_client_valid Int
+  date_rdv                DateTime         @db.Date
+  heure_rdv               DateTime?        @db.Time(6)
+  lieu_rdv                String?          @db.VarChar
+  id_client               Int              @default(autoincrement())
+  id_proprietaire         Int              @default(autoincrement())
+  id_rdv_vip              Int              @id @default(autoincrement())
+  Rdv                     Rdv              @relation(fields: [id_rdv], references: [id_rdv], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_vip")
+  Client_vip              Client_vip       @relation(fields: [id_client], references: [id_client_vip], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_vip_client_vip")
+  Proprietaire_vip        Proprietaire_vip @relation(fields: [id_proprietaire], references: [id_proprietaire_vip], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_vip_p")
+
+  @@map("Rdv Vip ")
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+model biens {
+  id_biens        Int          @id @default(autoincrement())
+  description     String?      @db.VarChar(255)
+  type_bien       String?      @db.VarChar(255)
+  adresse         String?      @db.VarChar(255)
+  ville           String?      @db.VarChar(255)
+  code_postal     String[]     @db.VarChar(255)
+  prix_estime     Decimal?     @db.Decimal
+  etat            String?      @db.VarChar(255)
   id_proprietaire Int
+  Proprietaire    Proprietaire @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: Cascade, onUpdate: NoAction)
+  biens_loue      biens_loue[]
+  biens_vip       biens_vip?
+}
+
+/// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
+model biens_loue {
+  id_biens_loue   Int               @id @default(autoincrement())
+  id_biens        Int
+  id_client       Int
+  description     String?           @db.VarChar(255)
+  type_bien       String?           @db.VarChar(255)
+  adresse         String?           @db.VarChar(255)
+  ville           String?           @db.VarChar(255)
+  code_postal     String[]          @db.VarChar(255)
+  prix_estime     Decimal?          @db.Decimal
+  etat            String?           @db.VarChar(255)
+  biens           biens             @relation(fields: [id_biens], references: [id_biens], onDelete: Cascade, onUpdate: NoAction)
+  Client          Client            @relation(fields: [id_client], references: [id_client], onDelete: Cascade, onUpdate: NoAction)
+  biens_loue_vip_ biens_loue_vip_[]
+
+  @@map("biens loue")
+}
+
+model biens_loue_vip_ {
+  id_biens_loue    Int        @default(autoincrement())
+  id_biens         Int
+  id_client        Int
+  description      String?    @db.VarChar(255)
+  type_bien        String?    @db.VarChar(255)
+  adresse          String?    @db.VarChar(255)
+  ville            String?    @db.VarChar(255)
+  code_postal      String[]   @db.VarChar(255)
+  prix_estime      Decimal?   @db.Decimal
+  etat             String?    @db.VarChar(255)
+  id_bien_loue_vip Int        @id @default(autoincrement())
+  biens_loue       biens_loue @relation(fields: [id_biens_loue], references: [id_biens_loue], onDelete: NoAction, onUpdate: NoAction, map: "fk_bien_loue_bip")
+
+  @@map("biens loue vip ")
+}
+
+model biens_vip {
+  id_biens        Int          @id @default(autoincrement())
+  description     String?      @db.VarChar(255)
+  type_bien       String?      @db.VarChar(255)
+  adresse         String?      @db.VarChar(255)
+  ville           String?      @db.VarChar(255)
+  code_postal     String[]     @db.VarChar(255)
+  prix_estime     Decimal?     @db.Decimal
+  etat            String?      @db.VarChar(255)
+  id_proprietaire Int
+  biens           biens        @relation(fields: [id_biens], references: [id_biens], onDelete: NoAction, onUpdate: NoAction, map: "fk_bien_vip ")
+  Proprietaire    Proprietaire @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_bien_vip_")
+
+  @@map("biens vip")
 }

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Cookies from "js-cookie";
 import BgLogin from "@/components/bg_login";
 
 function ClientLogin() {
@@ -27,7 +28,11 @@ function ClientLogin() {
     if (response.ok) {
       const result = await response.json();
       if (result.success) {
-        // Client exists, proceed with login
+        // Client exists, proceed with login and save tokens
+        const { token } = result;
+        Cookies.set("token", token); 
+       // Save token in a cookie
+
         router.push("/");
       } else {
         // Client does not exist, prompt for correct information
@@ -71,9 +76,7 @@ function ClientLogin() {
           Se connecter
         </button>
       </form>
-      {errorMessage && (
-        <div className="text-red-500">{errorMessage}</div>
-      )}
+      {errorMessage && <div className="text-red-500">{errorMessage}</div>}
     </div>
   );
 }
