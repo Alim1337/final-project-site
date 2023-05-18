@@ -45,7 +45,6 @@ export default NextAuth({
       from: process.env.EMAIL_FROM,
       adapter: emailAdapter,
     }),
-    
-  ],  adapter: adapter(),
-
+  ],
+  adapter: adapter(),
 });
