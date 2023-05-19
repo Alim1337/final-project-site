@@ -20,6 +20,10 @@ export default function ClientHouses({ exploreData, cardsData }) {
   ];
   const router = useRouter();
 
+  const handleModifierBien = () => {
+    router.push('/ModifierBienProprietaire');
+  };
+
   return (
     <div>
       <Header_signup />
@@ -27,8 +31,7 @@ export default function ClientHouses({ exploreData, cardsData }) {
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
             <FiChevronLeft
-              className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer 
-              -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
+              className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
                 open ? 'rotate-180' : ''
               }`}
               onClick={() => setOpen(!open)}
@@ -38,9 +41,7 @@ export default function ClientHouses({ exploreData, cardsData }) {
               {menus.map((menu, index) => (
                 <li
                   key={index}
-                  className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0
-                   hover:bg-opacity-70 border-opacity-70  border-red-500 active:scale-95 text-s f
-                   lex items-center gap-x-4 cursor-pointer p-2 ${
+                  className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 border-opacity-70  border-red-500 active:scale-95 text-s flex items-center gap-x-4 cursor-pointer p-2 ${
                     !open ? 'transform scaleX(0)' : ''
                   } transition transform duration-300 ease-out`}
                 >
@@ -54,33 +55,27 @@ export default function ClientHouses({ exploreData, cardsData }) {
           </div>
 
           <div className="p-7 text-2xl font-semibold flex-1 h-screen">
-            <h1 className='font-bold text-gray-700 text-4xl'>Devenir Un Proprietaire</h1>
-            <h1>Ajouter au moins un bien pour avoir le statu "Proprietaire" </h1>
-            <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-            font-normal text-black"
-            onClick={() => router.push('/BienFormPage')}>
-              <HouseCards
-                key="Ajouter Un Bien"
-                img={<Image src="/photos/add.jpg" alt="Ajouter Un Bien" width={500} height={300} />}
-                location="Ajouter Un Bien"
-              />
+            <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
+            <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={() => router.push('/BienFormProprietaire')}>
+              <HouseCards key="Ajouter un bien" img={<FiPlus />} location="Ajouter un bien" />
+            </button>
+            <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={handleModifierBien}>
+              <HouseCards key="Modifier un bien" img={<FiPlus />} location="Modifier un bien" />
             </button>
           </div>
         </div>
       </main>
+
       <Footer />
     </div>
   );
 }
 
 export async function getStaticProps() {
-  const exploreData = await fetch("https://www.jsonkeeper.com/b/592I").then((res) => res.json())
-  const cardsData = await fetch("https://www.jsonkeeper.com/b/31MI").then((res) => res.json())
-
+  const exploreData = await fetch('https://www.jsonkeeper.com/b/592I').then((res) => res.json());
   return {
     props: {
       exploreData,
-      cardsData
-    }
-  }
+    },
+  };
 }
