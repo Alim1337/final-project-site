@@ -7,19 +7,23 @@ import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Header_signup from '@/components/Header_signup';
-import jwt from 'jsonwebtoken';
+import { HiOutlineHome } from "react-icons/hi2";
+import { HiUser } from "react-icons/hi2";
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { IoIosHand } from "react-icons/io";
+import jwt from 'jsonwebtoken';import AjoutCard from '@/components/AjoutCard';
 
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 export default function ClientHouses({ exploreData, cardsData }) {
   const [open, setOpen] = useState(true);
   const menus = [
-    { title: 'Gestion de profil', icon: FiArrowLeft },
-    { title: 'Gestion des annonces', icon: FiHome },
-    { title: 'Gestion des biens', icon: FiChevronDown },
+    { title: 'Gestion de profil', icon: HiUser },
+    { title: 'Gestion des annonces', icon: FaChalkboardTeacher },
+    { title: 'Gestion des biens', icon: HiOutlineHome },
     { title: 'Support', icon: FiPlus },
     { title: 'Devenir VIP', icon: FiChevronDown },
-    { title: 'settings', icon: FiChevronLeft },
+    { title: 'settings', icon: IoIosHand },
   ];
   const router = useRouter();
   const [ClientName, setClientName] = useState('');
@@ -75,17 +79,23 @@ export default function ClientHouses({ exploreData, cardsData }) {
             <h1 className='font-bold text-gray-700 text-4xl'>Devenir Un Proprietaire</h1>
             <h1>Ajouter au moins un bien pour avoir le statu "Proprietaire" </h1>
             <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-            font-normal text-black"
+             text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
+            font-mono bg-transparent"
             onClick={() => router.push('/BienFormPage')}>
-              <HouseCards
-                key="Ajouter Un Bien"
-                img={<Image src="/photos/add.jpg" alt="Ajouter Un Bien" width={500} height={300} />}
-                location="Ajouter Un Bien"
-              />
-            </button>
+            <AjoutCard
+           
+           key="gestion" text="Ajouter un bien"    
+            />
+           </button>
+
           </div>
-          <h2 className='font-mono text-gray-500'>Client Connected Name : : {ClientName}</h2>
-            <h2 className='font-mono text-gray-500'>Client Connected Email: : {ClientEmail}</h2>
+          <div className='p-20 py-0'>  <h2 className='font-mono text-green-600'>Client Connected Name:</h2>
+          <h2 className='font-mono text-green-600'>
+           {ClientName}</h2></div>
+        <div className='p-0'>           <h2 className='font-mono text-green-600'>Client Connected Email: </h2>
+
+           <h2 className='font-mono text-green-600'>{ClientEmail}</h2></div>
+
         </div>
       </main>
       <Footer />

@@ -93,9 +93,14 @@ import jwt from 'jsonwebtoken';
               <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
             </button>
           </div>
-          <div>  <h2 className='font-mono text-gray-500'>Proprietaire Connected Name : : {proprietaireName}</h2>
-            <h2 className='font-mono text-gray-500'>Proprietaire Connected Email: : {proprietaireEmail}</h2>
-         </div>
+          <div className='p-20 py-0'>  <h2 className='font-mono text-green-600'>Proprietaire Connected Name:</h2>
+          <h2 className='font-mono text-green-600'>
+           {proprietaireName}</h2></div>
+        <div className='p-0'>           <h2 className='font-mono text-green-600'>Proprietaire Connected Email: </h2>
+
+           <h2 className='font-mono text-green-600'>{proprietaireEmail}</h2></div>
+
+     
         </div>
       </main>
 
