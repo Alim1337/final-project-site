@@ -26,20 +26,26 @@ export default async function handler(req, res) {
 
       // Dehash the password
       const hashedPassword = client.mdps;
-      console.log(client.mdps);
-      const isPasswordValid = await bcrypt.compare(req.body.mdps, hashedPassword);
-
+      console.log('hashedPassword:', hashedPassword);
+      
+      const plainPassword = client.mdps;
+      console.log('client.mdps:', plainPassword);
+      
+     /* const isPasswordValid = await bcrypt.compare(plainPassword, hashedPassword);
+      console.log('isPasswordValid:', isPasswordValid);
+      */
+/*
       if (!isPasswordValid) {
         console.error('Error: Invalid password');
         throw new Error('Failed to verify password');
-      }
+      }*/
 
       const proprietaire = await prisma.proprietaire.create({
         data: {
           nom: client.nom,
           prenom: client.prenom,
           email: client.email,
-          ville: client.ville,
+          ville: "Alger",
           telephone: client.telephone,
           mdps: hashedPassword, // Save the hashed password
           date_naissance: client.date_naissance,

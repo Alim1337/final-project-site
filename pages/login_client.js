@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Header_signup from '@/components/Header_signup';
+import HeaderSignup from '@/components/Header_signup';
+import BgLogin from '@/components/bg_login';
 
 export default function LoginClient() {
   const [email, setEmail] = useState('');
@@ -36,34 +37,41 @@ export default function LoginClient() {
   }
 
   return (
-    <div >
-          <Header_signup/>
+    <div className="bg-gray-100 min-h-screen">
+       <BgLogin/>
 
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <ToastContainer />
+      <HeaderSignup />
+
+      <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-2xl font-semibold mb-6">Login</h2>
+
+        <form onSubmit={handleLogin}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-700">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-gray-700">Password</label>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+            />
+          </div>
+          <button type="submit" className="px-4 py-2 bg-indigo-500 text-white rounded-md shadow-md hover:bg-indigo-600">Login</button>
+        </form>
+        <ToastContainer />
+      </div>
     </div>
   );
 }
