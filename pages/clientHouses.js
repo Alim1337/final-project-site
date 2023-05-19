@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HouseCards from '@/components/HouseCards';
@@ -6,6 +7,8 @@ import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Header_signup from '@/components/Header_signup';
+import jwt from 'jsonwebtoken';
+
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 export default function ClientHouses({ exploreData, cardsData }) {
@@ -19,6 +22,21 @@ export default function ClientHouses({ exploreData, cardsData }) {
     { title: 'settings', icon: FiChevronLeft },
   ];
   const router = useRouter();
+  const [ClientName, setClientName] = useState('');
+  const [ClientEmail, setClientEmail] = useState('');
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.nom) {
+        setClientName(decodedToken.nom);
+        setClientEmail(decodedToken.email);
+      }
+    }
+  }, []);
+
 
   return (
     <div>
@@ -66,6 +84,8 @@ export default function ClientHouses({ exploreData, cardsData }) {
               />
             </button>
           </div>
+          <h2 className='font-mono text-gray-500'>Client Connected Name : : {ClientName}</h2>
+            <h2 className='font-mono text-gray-500'>Client Connected Email: : {ClientEmail}</h2>
         </div>
       </main>
       <Footer />

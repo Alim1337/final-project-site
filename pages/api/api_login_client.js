@@ -1,3 +1,4 @@
+// api/api_login_client.js
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -8,18 +9,36 @@ export default async function handler(req, res) {
   const { email, password } = req.body;
 
   try {
-    const existingClient = await prisma.client.findUnique({
+    let existingUser = await prisma.Proprietaire.findUnique({
       where: {
         email: email,
       },
     });
 
-    if (!existingClient) {
+    let userType = 'client';
+    let existingClient = null;
+
+    if (!existingUser) {
+      existingClient = await prisma.Client.findUnique({
+        where: {
+          email: email,
+        },
+      });
+      if (existingClient) {
+        userType = 'client';
+      }
+    } else {
+      userType = 'proprietaire';
+    }
+
+    console.log('User Type:', userType);
+
+    if (!existingUser && !existingClient) {
       console.log('User not found');
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    const storedPassword = existingClient.mdps;
+    const storedPassword = existingUser ? existingUser.mdps : existingClient.mdps;
 
     // Compare the provided password with the stored hashed password
     const passwordMatch = await bcrypt.compare(password, storedPassword);
@@ -29,18 +48,19 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
-    // Generate a JWT token with all client information as payload
+    // Generate a JWT token with user information as payload
     const token = jwt.sign(
       {
-        id: existingClient.id_client,
-        nom: existingClient.nom,
-        prenom: existingClient.prenom,
-        email: existingClient.email,
-        telephone: existingClient.telephone,
-        mdps:existingClient.mdps,
-        date_naissance: existingClient.date_naissance,
-        sex: existingClient.sex,
-        date_dinscription: existingClient.date_dinscription,
+        id: existingUser ? existingUser.id_proprietaire : existingClient.id_client,
+        nom: existingUser ? existingUser.nom : existingClient.nom,
+        prenom: existingUser ? existingUser.prenom : existingClient.prenom,
+        email: existingUser ? existingUser.email : existingClient.email,
+        telephone: existingUser ? existingUser.telephone : existingClient.telephone,
+        mdps: existingUser ? existingUser.mdps : existingClient.mdps,
+        date_naissance: existingUser ? existingUser.date_naissance : existingClient.date_naissance,
+        sex: existingUser ? existingUser.sex : existingClient.sex,
+        date_dinscription: existingUser ? existingUser.date_dinscription : existingClient.date_dinscription,
+        userType: userType,
       },
       process.env.JWT_SECRET,
       {
@@ -50,9 +70,9 @@ export default async function handler(req, res) {
 
     console.log('Token:', token);
 
-    res.status(200).json({ token });
+    res.status(200).json({ token, userType });
   } catch (error) {
-    console.error(error);
+    console.error('API Error:', error);
     res.status(500).json({ error: 'An error occurred' });
   }
 }

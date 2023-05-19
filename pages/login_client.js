@@ -1,3 +1,4 @@
+// pages/login_client.js
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify';
@@ -6,8 +7,6 @@ import HeaderSignup from '@/components/Header_signup';
 import BgLogin from '@/components/bg_login';
 
 import 'react-toastify/dist/ReactToastify.css';
-
-// Rest of the code...
 
 export default function LoginClient() {
   const [email, setEmail] = useState('');
@@ -29,11 +28,21 @@ export default function LoginClient() {
     });
 
     if (response.ok) {
-      const { token } = await response.json();
+      const { token, userType } = await response.json();
+      console.log('Token:', token);
+      console.log('User Type:', userType);
       localStorage.setItem('token', token);
-      router.push('/clientHouses');
+
+      if (userType === 'proprietaire') {
+        console.log('Redirecting to /proprietaireHouses');
+        router.push('/proprietaireHouses');
+      } else if (userType === 'client') {
+        console.log('Redirecting to /clientHouses');
+        router.push('/clientHouses');
+      }
     } else {
       const error = await response.text();
+      console.error('Login Error:', error);
       toast.error(error, {
         position: toast.POSITION.TOP_CENTER,
       });
@@ -42,8 +51,7 @@ export default function LoginClient() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-       <BgLogin/>
-
+      <BgLogin />
       <HeaderSignup />
 
       <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -51,7 +59,9 @@ export default function LoginClient() {
 
         <form onSubmit={handleLogin}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">Email</label>
+            <label htmlFor="email" className="block text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -62,7 +72,9 @@ export default function LoginClient() {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -72,7 +84,12 @@ export default function LoginClient() {
               className="mt-1 text-black block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
             />
           </div>
-          <button type="submit" className="px-4 py-2 bg-indigo-500 text-white rounded-md shadow-md hover:bg-indigo-600">Login</button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-indigo-500 text-white rounded-md shadow-md hover:bg-indigo-600"
+          >
+            Login
+          </button>
         </form>
         <ToastContainer />
       </div>

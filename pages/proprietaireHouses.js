@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
@@ -7,16 +7,17 @@ import GestionCard from '@/components/CardGestion';
 import Header_signup from '@/components/Header_signup';
 import AjoutCard from '@/components/AjoutCard';
 import DemandeClientCard from '@/components/DemandeClientCard';
-import { HiOutlineHome } from 'react-icons/hi2';
-import { HiUser } from 'react-icons/hi2';
-import { FaChalkboardTeacher } from 'react-icons/fa';
-import { IoIosHand } from 'react-icons/io';
+import { HiOutlineHome } from "react-icons/hi2";
+import { HiUser } from "react-icons/hi2";
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { IoIosHand } from "react-icons/io";
+import jwt from 'jsonwebtoken';
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
-    export default function ClientHouses({ exploreData, cardsData }) {
+        export default function ProprietaireHouses({ exploreData, cardsData }) {
   const [open, setOpen] = useState(true);
   const menus = [
-    { title: 'Gestion de profil', icon: HiUser, route: '/Gestion_Profile_Proprietaire' },
+    { title: 'Gestion de profil', icon: HiUser },
     { title: 'Gestion des annonces', icon: FaChalkboardTeacher },
     { title: 'Gestion des biens', icon: HiOutlineHome },
     { title: 'Support', icon: FiPlus },
@@ -29,9 +30,20 @@ import { IoIosHand } from 'react-icons/io';
     router.push('/ModifierBienProprietaire');
   };
 
-  const handleMenuClick = (route) => {
-    router.push(route);
-  };
+  const [proprietaireName, setProprietaireName] = useState('');
+  const [proprietaireEmail, setProprietaireEmail] = useState('');
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.nom) {
+        setProprietaireName(decodedToken.nom);
+        setProprietaireEmail(decodedToken.email);
+      }
+    }
+  }, []);
 
   return (
     <div>
@@ -55,7 +67,6 @@ import { IoIosHand } from 'react-icons/io';
                   border-opacity-70  border-red-500 active:scale-95 text-s flex items-center gap-x-4 cursor-pointer p-2 ${
                     !open ? 'transform scaleX(0)' : ''
                   } transition transform duration-300 ease-out`}
-                  onClick={() => handleMenuClick(menu.route)}
                 >
                   {React.createElement(menu.icon, { className: 'text-white' })}
                   <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
@@ -68,6 +79,7 @@ import { IoIosHand } from 'react-icons/io';
 
           <div className="p-7 text-2xl font-semibold flex-1 h-screen">
             <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
+          
             <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={() => router.push('/BienFormProprietaire')}>
               <AjoutCard key="gestion" text="Ajouter un bien" />
             </button>
@@ -75,13 +87,15 @@ import { IoIosHand } from 'react-icons/io';
               <GestionCard key="gestion" text="Modifier un bien" />
             </button>
           </div>
-
           <div className="p-7 text-2xl font-semibold flex-1 h-screen">
             <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
             <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={handleModifierBien}>
               <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
             </button>
           </div>
+          <div>  <h2 className='font-mono text-gray-500'>Proprietaire Connected Name : : {proprietaireName}</h2>
+            <h2 className='font-mono text-gray-500'>Proprietaire Connected Email: : {proprietaireEmail}</h2>
+         </div>
         </div>
       </main>
 
