@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { FiTrash2, FiEdit } from 'react-icons/fi';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import BgLogin from '@/components/bg_login';
 
 export default function ModifierBienProprietaire() {
   const [biens, setBiens] = useState([]);
@@ -17,7 +18,7 @@ export default function ModifierBienProprietaire() {
   // Function to fetch biens
   const fetchBiens = async (id_proprietaire) => {
     try {
-      const response = await fetch(`/api/biens?id_proprietaire=${id_proprietaire}`);
+      const response = await fetch(`/api/api_biens?id_proprietaire=${id_proprietaire}`);
       const data = await response.json();
       setBiens(data);
     } catch (error) {
@@ -42,41 +43,48 @@ export default function ModifierBienProprietaire() {
 
   return (
     <div className="flex flex-col min-h-screen">
-  <Header />
+      <Header />
+      <BgLogin />
 
-  <main className="flex-grow py-8">
-    <div className="max-w-xl mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Gestion des biens</h1>
-      {biens.map((bien) => (
-        <div key={bien.id_biens} className="border rounded p-4 mb-4">
-          <p className="mb-2">Description: {bien.description}</p>
-          <p className="mb-2">Type de bien: {bien.type_bien}</p>
-          <p className="mb-2">Adresse: {bien.adresse}</p>
-          <p className="mb-2">Ville: {bien.ville}</p>
-          <p className="mb-2">Code postal: {bien.code_postal.join(', ')}</p>
-          <p className="mb-2">Prix estimé: {bien.prix_estime}</p>
-          <p className="mb-2">État: {bien.etat}</p>
-          <button
-            className="flex items-center bg-red-500 text-white px-4 py-2 rounded mr-2"
-            onClick={() => handleDeleteBien(bien.id_biens)}
-          >
-            <FiTrash2 className="mr-1" />
-            Supprimer
-          </button>
-          <button
-            className="flex items-center bg-blue-500 text-white px-4 py-2 rounded"
-            onClick={() => handleEditBien(bien.id_biens)}
-          >
-            <FiEdit className="mr-1" />
-            Modifier
-          </button>
+      <main className="flex-grow py-8 bg-gray-100">
+        <div className="max-w-xl mx-auto">
+          <h1 className="text-3xl font-bold mb-4 text-red-600">Gestion des biens</h1>
+          {biens.length > 0 ? (
+            biens.map((bien) => (
+              <div
+                key={bien.id_biens}
+                className="border rounded p-4 mb-4 bg-gray-300 text-black font-mono transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+              >
+                <p className="mb-2">Description: {bien.description}</p>
+                <p className="mb-2">Type de bien: {bien.type_bien}</p>
+                <p className="mb-2">Adresse: {bien.adresse}</p>
+                <p className="mb-2">Ville: {bien.ville}</p>
+                <p className="mb-2">Code postal: {bien.code_postal.join(', ')}</p>
+                <p className="mb-2">Prix estimé: {bien.prix_estime}</p>
+                <p className="mb-2">État: {bien.etat}</p>
+                <button
+                  className="flex items-center bg-red-400 text-white px-4 py-2 rounded mr-2 hover:bg-red-800 transition duration-300 ease-in-out"
+                  onClick={() => handleDeleteBien(bien.id_biens)}
+                >
+                  <FiTrash2 className="mr-1" />
+                  Supprimer
+                </button>
+                <button
+                  className="flex items-center bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-800 transition duration-300 ease-in-out"
+                  onClick={() => handleEditBien(bien.id_biens)}
+                >
+                  <FiEdit className="mr-1" />
+                  Modifier
+                </button>
+              </div>
+            ))
+          ) : (
+            <p className="text-center mt-4">Aucun bien trouvé.</p>
+          )}
         </div>
-      ))}
+      </main>
+
+      <Footer />
     </div>
-  </main>
-
-  <Footer />
-</div>
-
   );
 }
