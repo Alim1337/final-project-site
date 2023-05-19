@@ -37,6 +37,7 @@ export default async function handler(req, res) {
         prenom: existingClient.prenom,
         email: existingClient.email,
         telephone: existingClient.telephone,
+        mdps:existingClient.mdps,
         date_naissance: existingClient.date_naissance,
         sex: existingClient.sex,
         date_dinscription: existingClient.date_dinscription,
