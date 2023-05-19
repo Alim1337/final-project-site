@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
@@ -27,6 +26,20 @@ export default async function handler(req, res) {
       res.status(200).end();
     } catch (error) {
       res.status(500).json({ error: `Error deleting bien with ID ${id}` });
+    }
+  } else if (req.method === 'PUT') {
+    try {
+      const { id } = req.query;
+      const updatedBien = req.body;
+      await prisma.biens.update({
+        where: {
+          id_biens: parseInt(id),
+        },
+        data: updatedBien,
+      });
+      res.status(200).json({ message: 'Bien updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: `Error updating bien with ID ${id}` });
     }
   } else {
     res.status(405).json({ error: 'Method Not Allowed' });

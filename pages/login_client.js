@@ -5,6 +5,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import HeaderSignup from '@/components/Header_signup';
 import BgLogin from '@/components/bg_login';
 
+import 'react-toastify/dist/ReactToastify.css';
+
+// Rest of the code...
+
 export default function LoginClient() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
