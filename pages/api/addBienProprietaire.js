@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       const plainPassword = client.mdps;
       console.log('client.mdps:', plainPassword);
       
-     /* const isPasswordValid = await bcrypt.compare(plainPassword, hashedPassword);
+      /* const isPasswordValid = await bcrypt.compare(plainPassword, hashedPassword);
       console.log('isPasswordValid:', isPasswordValid);
       */
 /*
@@ -40,25 +40,23 @@ export default async function handler(req, res) {
         throw new Error('Failed to verify password');
       }*/
 
-      const proprietaire = await prisma.proprietaire.create({
-        data: {
-          nom: client.nom,
-          prenom: client.prenom,
-          email: client.email,
-          ville: "Alger",
-          telephone: client.telephone,
-          mdps: hashedPassword, // Save the hashed password
-          date_naissance: client.date_naissance,
-          sex: client.sex,
-          date_dinscription: new Date(),
-        },
-      });
-
-      console.log('Proprietaire created:', proprietaire); // Log the created proprietaire
-
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const formData = req.body;
       console.log('Form Data:', formData); // Log the form data
 
+      const idClient = decoded.id; // Retrieve the id_client from the token
+
+      const proprietaire = await prisma.proprietaire.findUnique({
+        where: {
+          email: client.email,
+        },
+      });
+      
+      if (!proprietaire) {
+        console.error('Error: Invalid proprietaire');
+        throw new Error('Failed to find proprietaire');
+      }
+      
       const bien = await prisma.biens.create({
         data: {
           description: formData.description,
@@ -68,21 +66,26 @@ export default async function handler(req, res) {
           code_postal: formData.code_postal,
           prix_estime: formData.prix_estime,
           etat: formData.etat,
-          id_proprietaire: proprietaire.id_proprietaire,
+          Proprietaire: {
+            connect: {
+              id_proprietaire: proprietaire.id_proprietaire,
+            },
+          },
         },
       });
+      
 
       console.log('Bien created:', bien); // Log the created bien
 
       res.status(200).json({ success: true, bienId: bien.id_biens });
-     router.push('/clientHouses');
+      router.push('/clientHouses');
 
     } catch (error) {
-      console.error('Error creating Proprietaire and biens:', error);
-      toast.error('Failed to create Proprietaire and biens', {
+      console.error('Error creating biens:', error);
+      toast.error('Failed to create biens', {
         position: toast.POSITION.TOP_CENTER,
       });
-      res.status(500).json({ error: 'Failed to create Proprietaire and biens' });
+      res.status(500).json({ error: 'Failed to create biens' });
     }
   } else {
     res.status(405).json({ error: 'Method Not Allowed' });
@@ -106,7 +109,7 @@ function decodeToken(token) {
       nom: decoded.nom,
       prenom: decoded.prenom,
       email: decoded.email,
-      ville: decoded.ville,
+      ville: "Alger",
       telephone: decoded.telephone,
       mdps: decoded.mdps,
       date_naissance: decoded.date_naissance,
