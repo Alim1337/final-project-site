@@ -4,74 +4,87 @@ import { FiTrash2, FiEdit } from 'react-icons/fi';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BgLogin from '@/components/bg_login';
-
+import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-// Rest of the code...
+import jwt from 'jsonwebtoken';
 
 export default function ModifierBienProprietaire() {
   const [biens, setBiens] = useState([]);
   const [selectedBien, setSelectedBien] = useState(null);
+  const [token, setToken] = useState(null); // Declare the token state variable
   const router = useRouter();
 
   // Fetch biens data
   useEffect(() => {
-    const id_proprietaire = 1; // Replace with the actual id_proprietaire
-    fetchBiens(id_proprietaire);
-  }, []);
+    console.log('Token men la page front:', token);
+
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+      const decodedToken = jwt.decode(storedToken);
+      if (decodedToken && decodedToken.id_proprietaire) {
+        const id_proprietaire = decodedToken.id_proprietaire;
+        fetchBiens(id_proprietaire);
+      }
+    }
+  }, [token]);
 
   // Function to fetch biens
-  // Function to fetch biens
-const fetchBiens = async (id_proprietaire) => {
-  try {
-    const response = await fetch(`/api/api_biens?id_proprietaire=${id_proprietaire}`);
-    const data = await response.json();
-    setBiens(data);
-    console.log('Biens updated:', data); // Remove this line
-  } catch (error) {
-    console.log('Error fetching biens:', error);
-  }
-};
+  const fetchBiens = async (id_proprietaire) => {
+    try {
+      console.log('Fetching biens with id_proprietaire:', id_proprietaire);
 
+      const response = await axios.get('/api/api_biens', {
+        headers: {
+          Authorization: token,
+        },
+        params: {
+          id_proprietaire: id_proprietaire,
+        },
+      });
+
+      const data = response.data;
+      setBiens(data);
+      console.log('Biens updated:', data);
+    } catch (error) {
+      console.log('Error fetching biens:', error);
+    }
+  };
 
   // Function to delete a bien
   const handleDeleteBien = async (id) => {
     try {
-      await fetch(`/api/api_biens?id=${id}`, { method: 'DELETE' });
-      fetchBiens(); // Fetch biens again to update the list
+      await axios.delete(`/api/api_biens?id=${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      fetchBiens(selectedBien.id_proprietaire); // Pass the id_proprietaire
     } catch (error) {
       console.log('Error deleting bien:', error);
     }
   };
 
-  // Function to edit a bien
-  const handleEditBien = (bien) => {
-    setSelectedBien(bien);
+  // Function to save the edited bien
+  const handleSaveBien = async () => {
+    try {
+      await axios.put(`/api/api_biens?id=${selectedBien.id_biens}`, selectedBien, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      });
+      fetchBiens(selectedBien.id_proprietaire); // Pass the id_proprietaire
+      setSelectedBien(null); // Clear selected bien
+
+      toast.success('Bien successfully updated');
+      console.log('Bien updated:', selectedBien);
+    } catch (error) {
+      toast.error('Error updating bien');
+      console.log('Error updating bien:', error);
+    }
   };
-
-  // Function to save the edited bien
-  // Function to save the edited bien
-const handleSaveBien = async () => {
-  try {
-    await fetch(`/api/api_biens?id=${selectedBien.id_biens}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(selectedBien),
-    });
-    fetchBiens(); // Fetch biens again to update the list
-    setSelectedBien(null); // Clear selected bien
-
-    toast.success('Bien successfully updated');
-    console.log('Bien updated:', selectedBien);
-  } catch (error) {
-    toast.error('Error updating bien');
-    console.log('Error updating bien:', error);
-  }
-};
-
 
   // Function to handle input change
   const handleInputChange = (e) => {
@@ -80,6 +93,8 @@ const handleSaveBien = async () => {
       [e.target.name]: e.target.value,
     });
   };
+
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
