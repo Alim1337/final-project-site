@@ -50,9 +50,9 @@ function Header() {
         <div className="flex space-x-4">
           <button  className={`${mode ? 'hidden' : ''} text-red-500 flex-auto visible bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150`}
           onClick={() => router.push({
-            pathname : "clientHouses",
+            pathname : "signup_client",
             mode : false
-          })}> Mode locataire
+          })}> Signup
           </button>
           <button className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
             onClick={() => router.push('/login_client')}>Connexion </button>

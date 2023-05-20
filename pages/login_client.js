@@ -51,13 +51,16 @@ export default function LoginClient() {
 
   return (
     <div className="bg-gray-100 min-h-screen">
-      <BgLogin />
-      <HeaderSignup />
+      <div>
 
+      <HeaderSignup />
+      <BgLogin />
       <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-semibold mb-6">Login</h2>
+        
+        <h2 className="text-2xl text-black font-mono mb-6">Login</h2>
 
         <form onSubmit={handleLogin}>
+
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-700">
               Email
@@ -92,6 +95,7 @@ export default function LoginClient() {
           </button>
         </form>
         <ToastContainer />
+        </div>
       </div>
     </div>
   );

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FiTrash2, FiEdit } from 'react-icons/fi';
-import Header from '@/components/Header';
+import Header_signup from '@/components/Header_signup';
+
 import Footer from '@/components/Footer';
 import BgLogin from '@/components/bg_login';
 import axios from 'axios';
@@ -97,7 +98,7 @@ export default function ModifierBienProprietaire() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
+      <Header_signup/>
       <BgLogin />
       <ToastContainer />
 
