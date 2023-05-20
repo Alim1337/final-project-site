@@ -16,7 +16,7 @@ function Banner() {
             Not sure where to go ? perfect
         </p>
         <button onClick={() => router.push({
-          pathname : "homesList",
+          pathname : "Page_display_bien",
           query : {
             location : "Discover"
           }})}
