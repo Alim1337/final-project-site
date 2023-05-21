@@ -9,7 +9,7 @@ function Header() {
   const {modeReq} = router.query
   const [mode,setMode] = useState(modeReq)
   return (
-    <header className='sticky top-0 z-50 
+    <header className='sticky top-0 z-40 
     grid
      grid-cols-3
       bg-white shadow-md py-3 px-3 md:px-10'>
