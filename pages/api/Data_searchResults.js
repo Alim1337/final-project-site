@@ -1,4 +1,4 @@
-const searchResults = [
+/*const searchResults = [
     {
       id_biens: 1,
       description: "Description 1",
@@ -59,4 +59,4 @@ const searchResults = [
   ];
   
   export default searchResults;
-  
+  */

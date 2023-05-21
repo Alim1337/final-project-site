@@ -1,65 +1,42 @@
-import React, { useState } from 'react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import InfoCard from '@/components/InfoCard'
-import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import CardHouse from '../components/CardHouse';
+import Header_signup from '@/components/Header_signup';
 
-function homesList({searchResults}) {
-  const router = useRouter();
-  const {location} = router.query
-  
+export default function HomesList() {
+  const [searchResults, setSearchResults] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch('/api/api_fetch_all_biens');
+        const data = await res.json();
+        setSearchResults(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
   return (
-    <div className=' bg-slate-50'>
-      <Header />
-      <div>
-        <main className='flex'>
-          <section className='flex-grow pt-14 px-6'>
-            <div className='h-screen text-black text-xs'>
-              <h1 className=' text-3xl font-semibold mb-6 '>{location}</h1>
-              <div className='hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap '>
-                <p className='button'>Type</p>
-                <p className='button'>Price</p>
-                <p className='button'>Filters</p>
-              </div>
-              <div className='flex flex-col'>
-                <InfoCard
-                  key="https://links.papareact.com/xqj"
-                  img = "https://links.papareact.com/xqj"
-                  location = "Private room in center of London"
-                  title = "Stay at this spacious Edwardian House"
-                  description = "1 guest · 1 bedroom · 1 bed · 1.5 shared bthrooms · Wifi · Kitchen · Free parking · Washing Machine"
-                  star = "4.73"
-                  price = "£30 / night"
-                  total = "£117 total"
-                />
-                <InfoCard
-                  key="https://links.papareact.com/xqj"
-                  img = "https://links.papareact.com/xqj"
-                  location = "Private room in center of London"
-                  title = "Stay at this spacious Edwardian House"
-                  description = "1 guest · 1 bedroom · 1 bed · 1.5 shared bthrooms · Wifi · Kitchen · Free parking · Washing Machine"
-                  star = "4.73"
-                  price = "£30 / night"
-                  total = "£117 total"
-                />
-                <InfoCard
-                  key="https://links.papareact.com/xqj"
-                  img = "https://links.papareact.com/xqj"
-                  location = "Private room in center of London"
-                  title = "Stay at this spacious Edwardian House"
-                  description = "1 guest · 1 bedroom · 1 bed · 1.5 shared bthrooms · Wifi · Kitchen · Free parking · Washing Machine"
-                  star = "4.73"
-                  price = "£30 / night"
-                  total = "£117 total"
-                />      
-              </div>
-            </div>
-          </section>
-        </main>
-        </div>
-      <Footer/>
-    </div>
-  )
-}
+    <div className='bg-slate-50'>
+   <Header_signup/>
 
-export default homesList
+    <div className="container mx-auto py-8 ">
+      <h2 className="text-2xl font-bold mb-4">Home Listings</h2>
+      {searchResults.length === 0 ? (
+        <p className="text-gray-500">No search results found.</p>
+      ) : (
+        <div className="grid grid-cols-1  text-black
+        gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {searchResults.map((result) => (
+            <CardHouse key={result.id_biens} {...result} />
+          ))}
+        </div>
+      )}
+    </div>
+    </div>
+
+  );
+}

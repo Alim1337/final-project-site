@@ -1,36 +1,54 @@
-import React from 'react'
-import Image from 'next/image'
-import { HeartIcon } from '@heroicons/react/outline'
-import { StarIcon} from '@heroicons/react/solid'
+import React, { useState } from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import CardHouse from '@/components/CardHouse';
+import { useRouter } from 'next/router';
 
+function HomesList({ searchResults }) {
+  const router = useRouter();
+  const { location } = router.query;
 
-function InfoCard({ img, location, title, description, star, price, total}) {
   return (
-    <div className='flex text-gray-900 px-2 pr-4 py-7 border-b cursor-pointer hover:opacity-80 hover:shadow-lg
-    transition duration-200 ease-out first:border-t'>
-      <div className='relative h-24 w-40 md:h-52 md:w-80 flex-shrink-0'>
-        <Image src={img} layout='fill' objectFit='cover' className='rounded-2xl' />
-      </div>
-      <div className='flex flex-col flex-grow pl-5'>
-        <div className='flex justify-between'>
-            <p>{location}</p>
-            <HeartIcon className='h-7 cursor-pointer' />
-        </div>
-        <h4 className='text-xl '>{title}</h4>
-        <div className='border-b w-10 pt-2'/>
-        <p className='pt-2 text-sm text-gray-500 flex-grow'>{description}</p>
-        <div className='flex justify-between items-end pt-5'>
-            <p className='flex items-center'>
-                <StarIcon className='h-5 text-red-400'/>{star}
-            </p>
-            <div>
-                <p className='text-lg font-semibold pb-2 lg:text-2xl'>{price}</p>
+    <div className="bg-slate-50">
+      <Header />
+      <div>
+        <main className="flex">
+          <section className="flex-grow pt-14 px-6">
+            <div className="h-screen text-black text-xs">
+              <h1 className="text-3xl font-semibold mb-6">{location}</h1>
+              <div className="hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap">
+                <p className="button">Type</p>
+                <p className="button">Price</p>
+                <p className="button">Filters</p>
+              </div>
+              <div className="flex flex-col">
+                {searchResults && searchResults.map(({
+                  id_biens,
+                  description,
+                  type_bien,
+                  adresse,
+                  ville,
+                  prix_estime,
+                  etat,
+                }) => (
+                  <CardHouse
+                    key={id_biens}
+                    description={description}
+                    type_bien={type_bien}
+                    adresse={adresse}
+                    ville={ville}
+                    prix_estime={prix_estime}
+                    etat={etat}
+                  />
+                ))}
+              </div>
             </div>
-        </div>
-
+          </section>
+        </main>
       </div>
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default InfoCard
+export default HomesList;

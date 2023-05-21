@@ -1,23 +1,20 @@
-import React from 'react';
 import Image from 'next/image';
 
-function CardHouse({ description, type_bien, adresse, ville, prix_estime, etat }) {
+function CardHouse({ id_biens, description, type_bien, adresse, ville, code_postal, prix_estime, etat, Proprietaire }) {
   return (
-    <div className="relative cursor-pointer rounded-xl bg-gray-300 hover:bg-slate-600 transform transition duration-300 ease-out group">
-      <div className="group h-80 w-80">
-      
+    <div className="bg-white rounded-lg shadow-md p-6 transition duration-300 ease-out transform hover:scale-105 hover:shadow-lg">
+      <div className="relative h-32 w-full mb-4">
+        <Image src="https://www.designferia.com/sites/default/files/styles/article_images__s640_/public/field/image/petit-appartement-amenage.jpg?itok=GapSYMo3" alt="Property Image" layout="fill" objectFit="cover" className="rounded-lg" />
       </div>
-      <h3 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center opacity-0 group-hover:opacity-100 text-2xl mt-3 transform transition duration-300 ease-out">
-    {description}
-      </h3>
-      <div className="border rounded p-4 absolute bottom-4 left-4 bg-white">
-        <h3 className="text-xl mb-2">{type_bien}</h3>
-        <p className="text-gray-600 mb-2">{description}</p>
-        <h4 className="text-xl font-semibold mb-2">{ville}</h4>
-        <p className="text-gray-500">{adresse}</p>
-        <p className="text-gray-500">{etat}</p>
-        <h4 className="text-xl font-semibold mb-2">${prix_estime}</h4>
-      </div>
+      <h3 className="text-lg font-bold mb-2">ID: {id_biens}</h3>
+      <p className="text-sm mb-2">Description: {description}</p>
+      <p className="text-sm mb-2">Type: {type_bien}</p>
+      <p className="text-sm mb-2">Address: {adresse}</p>
+      <p className="text-sm mb-2">City: {ville}</p>
+      <p className="text-sm mb-2">Postal Code: {code_postal && code_postal.join(', ')}</p>
+      <p className="text-sm mb-2">Estimated Price: {prix_estime}</p>
+      <p className="text-sm mb-2">State: {etat}</p>
+      <p className="text-sm mb-2">Owner: {Proprietaire && Proprietaire.nom}</p>
     </div>
   );
 }

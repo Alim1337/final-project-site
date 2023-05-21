@@ -8,7 +8,7 @@ function FormClient({ onSubmit }) {
  
   const [ date_naissance, setDateNaissance] = useState();
 
-  const [sex, setSex] = useState("");
+  const [sexe, setSexe] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   function handleSubmit(event) {
@@ -24,7 +24,7 @@ function FormClient({ onSubmit }) {
       telephone,
       mdps,
       formattedDate,
-      sex
+      sexe
     );
   }
   
@@ -132,15 +132,15 @@ required
         <label className="block text-gray-700 font-bold mb-2">
          Sex <span className="text-red-500">*</span>:
         </label>
-        <input
-          className="block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
-          id="sex"
-          type="sex"
-          placeholder="sex"
-          value={sex}
-          onChange={(e) => setSex(e.target.value)}
-          required
-        />
+         <select
+        id="sexe"
+        value={sexe}
+        onChange={(e) => setSexe(e.target.value)}
+        className="appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+      >
+        <option value="H">Homme</option>
+        <option value="F">Famme</option>
+      </select>
       </div>
 
   <div className="flex items-center justify-between">
