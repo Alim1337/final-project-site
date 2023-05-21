@@ -145,11 +145,11 @@ required
 
   <div className="flex items-center justify-between">
     <button
-      className=" content-center bg-blue-500 hover:bg-blue-700
+      className=" text-center content-center bg-blue-500 hover:bg-blue-700
        text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       type="submit"
     >
-      Send
+      Inscrire
     </button>
   </div>
 </form>
