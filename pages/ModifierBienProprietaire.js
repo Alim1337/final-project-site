@@ -98,7 +98,7 @@ export default function ModifierBienProprietaire() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header_signup/>
+      <Header />
       <BgLogin />
       <ToastContainer />
 

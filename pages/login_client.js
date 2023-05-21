@@ -53,7 +53,7 @@ export default function LoginClient() {
     <div className="bg-gray-100 min-h-screen">
       <div>
 
-      <HeaderSignup />
+      <Header />
       <BgLogin />
       <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
         

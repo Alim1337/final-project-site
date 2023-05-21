@@ -49,7 +49,7 @@ function DevenirProprietaireForm() {
   return (
    <div>
    <div className="flex flex-col min-h-screen">
-  <Header_signup />
+  <Header />
   <BgLogin />
   <form
     onSubmit={handleSubmit}

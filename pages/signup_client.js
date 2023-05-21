@@ -44,7 +44,7 @@ export default function SignupClient() {
 
   return (
     <div>
-      <Header_signup />
+      <Header />
       <BgLogin />
       <FormClient onSubmit={handleSubmit} />
       <ToastContainer />

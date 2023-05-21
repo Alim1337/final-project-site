@@ -47,7 +47,7 @@ import jwt from 'jsonwebtoken';
 
   return (
     <div>
-      <Header_signup />
+      <Header />
       <main>
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
