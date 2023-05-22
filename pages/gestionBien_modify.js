@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import jwt from 'jsonwebtoken';
 import Header from '@/components/Header';
 import BgLogin from '@/components/bg_login';
+import CardHouse from '@/components/CardHouse';
+import Footer from '@/components/Footer';
 
 export default function GestionBienModify() {
   const [biens, setBiens] = useState([]);
@@ -51,18 +53,26 @@ export default function GestionBienModify() {
   
 
   return (
-    <div>
+    <div className='bg-white'>
       <Header/>
-      <BgLogin/>
-      <h1 className='text-black text-2xl'>Gestion Bien Modify</h1>
-      <ul className='text-black text-xl font-mono'>
+      <h1 className='text-red-900 text-4xl text-center font-mono '>Gestion Bien Modify</h1>
+      <div className="grid grid-cols-3 gap-4 mt-6 text-black ">
         {biens.map((bien) => (
-          <li key={bien.id_biens}>
-            <strong>ID:</strong> {bien.id_biens}<br />
-            <strong>Description:</strong> {bien.description}
-          </li>
+          <CardHouse
+            key={bien.id_biens}
+            id_biens={bien.id_biens}
+            description={bien.description}
+            type_bien={bien.type_bien}
+            adresse={bien.adresse}
+            ville={bien.ville}
+            code_postal={bien.code_postal}
+            prix_estime={bien.prix_estime}
+            etat={bien.etat}
+            Proprietaire={bien.Proprietaire}
+          />
         ))}
-      </ul>
+      </div>
+      <Footer/>
     </div>
   );
 }

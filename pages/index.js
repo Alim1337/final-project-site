@@ -9,6 +9,7 @@ import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
+/** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 export default function Home({ exploreData,cardsData }) {
   return (
     <div className='bg-white'>
