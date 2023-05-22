@@ -3,7 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import FormClient from '../components/form_client';
-import Header_signup from '@/components/Header_signup';
+import Header from '@/components/Header';
 import BgLogin from '@/components/bg_login';
 
 export default function SignupClient() {

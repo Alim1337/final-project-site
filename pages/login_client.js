@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import HeaderSignup from '@/components/Header_signup';
+import Header from '@/components/Header';
 import BgLogin from '@/components/bg_login';
 
 import 'react-toastify/dist/ReactToastify.css';

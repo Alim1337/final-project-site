@@ -27,7 +27,7 @@ import jwt from 'jsonwebtoken';
   const router = useRouter();
 
   const handleModifierBien = () => {
-    router.push('/ModifierBienProprietaire');
+    router.push('/gestionBien_modify');
   };
 
   const [proprietaireName, setProprietaireName] = useState('');
