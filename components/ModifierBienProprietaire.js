@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import jwt from 'jsonwebtoken';
 
 export default function ModifierBienProprietaire() {
-  const [properties, setProperties] = useState([]);
+  const [biens, setBiens] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function ModifierBienProprietaire() {
   
       if (response.ok) {
         const data = await response.json();
-        setProperties(data.properties);
+        setBiens(data.Biens);
       } else {
         console.log('Error fetching properties:', response.status);
       }
@@ -54,11 +54,13 @@ export default function ModifierBienProprietaire() {
     <div>
       <h1>Modifier Bien Proprietaire</h1>
       <button onClick={() => router.push('/BienFormProprietaire')}>Ajouter un bien</button>
+      <div className='bg-white'>
       <ul>
-        {properties.map((property) => (
-          <li key={property.id}>{property.name}</li>
+        {biens.map((bien) => (
+          <li key={bien.id}>{bien.nom}</li>
         ))}
       </ul>
+    </div>
     </div>
   );
 }

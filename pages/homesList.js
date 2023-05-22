@@ -24,7 +24,7 @@ export default function HomesList() {
    <Header_signup/>
 
     <div className="container mx-auto py-8 ">
-      <h2 className="text-2xl font-bold mb-4">Home Listings</h2>
+      <h2 className="text-2xl font-bold mb-4 text-black">Home Listings</h2>
       {searchResults.length === 0 ? (
         <p className="text-gray-500">No search results found.</p>
       ) : (

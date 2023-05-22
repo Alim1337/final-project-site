@@ -1,29 +1,24 @@
 import { PrismaClient } from '@prisma/client';
-import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  const token = req.headers.authorization;
+  const id_proprietaire = req.query.id_proprietaire;
 
-  if (!token) {
-    return res.status(401).json({ error: 'Unauthorized' });
+  if (!id_proprietaire) {
+    return res.status(400).json({ error: 'Missing id_proprietaire' });
   }
 
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-
-    if (decodedToken.userType !== 'proprietaire') {
-      return res.status(403).json({ error: 'Forbidden' });
-    }
-
-    const properties = await prisma.biens.findMany({
+    console.log('Fetching biens for id_proprietaire:', id_proprietaire);
+    const biens = await prisma.biens.findMany({
       where: {
-        id_proprietaire: decodedToken.id,
+        id_proprietaire: parseInt(id_proprietaire),
       },
     });
 
-    return res.status(200).json({ properties });
+    console.log('Biens:', biens);
+    return res.status(200).json({ biens });
   } catch (error) {
     console.error('API Error:', error);
     res.status(500).json({ error: 'An error occurred' });
