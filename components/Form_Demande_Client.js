@@ -99,6 +99,7 @@ const Form_Demande_Client = ({ onSubmit }) => {
             required
             className="border border-gray-300 rounded px-4 py-2 w-full"
             />
+            
             </div>
             <div className="mb-4">
             <label htmlFor="date_fin_recherche" className="block font-medium mb-2">

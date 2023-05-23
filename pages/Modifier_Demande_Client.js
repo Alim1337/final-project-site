@@ -12,10 +12,18 @@ import { HiUser } from "react-icons/hi2";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { IoIosHand } from "react-icons/io";
 import jwt from 'jsonwebtoken';import AjoutCard from '@/components/AjoutCard';
+import Form_Demande_Client from '@/components/Form_Demande_Client';
+import FormInformation from '@/components/Demande_client_card';
 
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
-export default function ClientHouses() {
+export default function ModifierDemandeClient() {
+  const [type_bien, setTypeBien] = useState('');
+  const [prix_minimum, setPrixMinimum] = useState('');
+  const [prix_maximum, setPrixMaximum] = useState('');
+  const [surface_minimum, setSurfaceMinimum] = useState('');
+  const [nbr_chambre_minimum, setNbrChambreMinimum] = useState('');
+  const [date_debut_rechercher, setDateDebutRechercher] = useState('');
   const [open, setOpen] = useState(true);
   const menus = [
     { title: 'Gestion de profil', icon: HiUser },
@@ -76,37 +84,17 @@ export default function ClientHouses() {
           </div>
 
           <div className="p-7 text-2xl font-semibold flex-1 h-screen">
-            <h1 className='font-bold text-gray-700 text-4xl'>Devenir Un Proprietaire</h1>
-            <h1 className='font-semi-bold text-green-500'>Ajouter au moins un bien pour avoir le statu "Proprietaire" </h1>
-            <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-             text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
-            font-mono bg-transparent"
-            onClick={() => router.push('/BienFormPage')}>
-            <AjoutCard
-           
-           key="gestion" text="Ajouter un bien"    
-            />
-           </button>
-           <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-             text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
-            font-mono bg-transparent"
-            onClick={() => router.push('/Demande_Client')}>
-            <AjoutCard
-           
-           key="gestion" text="Faire Une Demande Personnalisée"    
-            />
-           </button>
-           <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-             text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
-            font-mono bg-transparent"
-            onClick={() => router.push('/Modifier_Demande_Client')}>
-            <AjoutCard
-           
-           key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée"    
-            />
-           </button>
+          <FormInformation
+           type_bien={type_bien}
+           prix_minimum={prix_minimum}
+           prix_maximum={prix_maximum}
+           surface_minimum={surface_minimum}
+           nbr_chambre_minimum={nbr_chambre_minimum}
+           date_debut_rechercher={date_debut_rechercher}
+/>
 
-
+      </div>
+           
           </div>
           <div className='p-20 py-0'>  <h2 className='font-mono text-green-600'>Client Connected Name:</h2>
           <h2 className='font-mono text-green-600'>
@@ -115,7 +103,7 @@ export default function ClientHouses() {
 
            <h2 className='font-mono text-green-600'>{ClientEmail}</h2></div>
 
-        </div>
+        
       </main>
       <Footer />
     </div>
