@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from 'react';
-
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import HouseCards from '@/components/HouseCards';
-import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 import Header_signup from '@/components/Header_signup';
-import { HiOutlineHome } from "react-icons/hi2";
-import { HiUser } from "react-icons/hi2";
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { IoIosHand } from "react-icons/io";
-import jwt from 'jsonwebtoken';import AjoutCard from '@/components/AjoutCard';
-import Form_Demande_Client from '@/components/Form_Demande_Client';
-import FormInformation from '@/components/Demande_client_card';
+import { FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
+import { useRouter } from 'next/router';
+import { HiOutlineHome } from 'react-icons/hi';
+import { HiUser } from 'react-icons/hi';
+import { FaChalkboardTeacher } from 'react-icons/fa';
+import { IoIosHand } from 'react-icons/io';
+import jwt from 'jsonwebtoken';
+import Footer from '@/components/Footer';
+import Demande_client_card from '@/components/Demande_client_card';
 
-
-/** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
-export default function ModifierDemandeClient() {
+export default function ModifierDemandeClient(props) {
   const [type_bien, setTypeBien] = useState('');
   const [prix_minimum, setPrixMinimum] = useState('');
   const [prix_maximum, setPrixMaximum] = useState('');
@@ -36,7 +29,7 @@ export default function ModifierDemandeClient() {
   const router = useRouter();
   const [ClientName, setClientName] = useState('');
   const [ClientEmail, setClientEmail] = useState('');
-
+  const [demandeClient, setDemandeClient] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem('token'); // Retrieve the token from local storage
@@ -45,10 +38,31 @@ export default function ModifierDemandeClient() {
       if (decodedToken && decodedToken.nom) {
         setClientName(decodedToken.nom);
         setClientEmail(decodedToken.email);
+        fetchDemandeClient(token);
       }
     }
   }, []);
 
+  const fetchDemandeClient = async (token) => {
+    try {
+      const response = await fetch('/api/api_get_demande_client', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setDemandeClient(data.demandeClient);
+      } else {
+        console.error('Failed to fetch demande client');
+      }
+    } catch (error) {
+      console.error('API Error:', error);
+    }
+  };
 
   return (
     <div>
@@ -57,14 +71,12 @@ export default function ModifierDemandeClient() {
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
             <FiChevronLeft
-              className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer 
+              className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer
               -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
-                open ? 'rotate-180' : ''
+              open ? 'rotate-180' : ''
               }`}
               onClick={() => setOpen(!open)}
-            />
-
-            <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
+              />        <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
               {menus.map((menu, index) => (
                 <li
                   key={index}
@@ -82,42 +94,31 @@ export default function ModifierDemandeClient() {
               ))}
             </ul>
           </div>
+    
+          <div className="p-7 text-2xl text-black font-semibold flex-1 h-screen">
+  {demandeClient.map((demande, index) => (
+    <div key={index}>
+      <h2>Type de bien: {demande.type_bien}</h2>
+      <p>Prix minimum: {demande.prix_minimum}</p>
+      <p>Prix maximum: {demande.prix_maximum}</p>
+      <p>Surface minimum: {demande.surface_minimum}</p>
+      <p>Nombre de chambres minimum: {demande.nbr_chambre_minimum}</p>
+      <p>Date de début de recherche: {demande.date_debut_rechercher}</p>
+    </div>
+  ))}
+</div>
 
-          <div className="p-7 text-2xl font-semibold flex-1 h-screen">
-          <FormInformation
-           type_bien={type_bien}
-           prix_minimum={prix_minimum}
-           prix_maximum={prix_maximum}
-           surface_minimum={surface_minimum}
-           nbr_chambre_minimum={nbr_chambre_minimum}
-           date_debut_rechercher={date_debut_rechercher}
-/>
-
-      </div>
-           
-          </div>
-          <div className='p-20 py-0'>  <h2 className='font-mono text-green-600'>Client Connected Name:</h2>
-          <h2 className='font-mono text-green-600'>
-           {ClientName}</h2></div>
-        <div className='p-0'>           <h2 className='font-mono text-green-600'>Client Connected Email: </h2>
-
-           <h2 className='font-mono text-green-600'>{ClientEmail}</h2></div>
-
-        
+        </div>
+        <div className='p-20 py-0'>
+          <h2 className='font-mono text-green-600'>Client Connected Name:</h2>
+          <h2 className='font-mono text-green-600'>{ClientName}</h2>
+        </div>
+        <div className='p-0'>
+          <h2 className='font-mono text-green-600'>Client Connected Email: </h2>
+          <h2 className='font-mono text-green-600'>{ClientEmail}</h2>
+        </div>
       </main>
       <Footer />
     </div>
-  );
-}
-
-export async function getStaticProps() {
-  const exploreData = await fetch("https://www.jsonkeeper.com/b/592I").then((res) => res.json())
-  const cardsData = await fetch("https://www.jsonkeeper.com/b/31MI").then((res) => res.json())
-
-  return {
-    props: {
-      exploreData,
-      cardsData
-    }
-  }
-}
+);
+}    

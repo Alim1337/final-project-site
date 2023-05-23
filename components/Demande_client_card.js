@@ -1,19 +1,25 @@
-import React from 'react';
-
-const FormInformation = ({ type_bien, prix_minimum, prix_maximum, surface_minimum, nbr_chambre_minimum, date_debut_rechercher }) => {
-  // Component logic and JSX here
-
+const Demande_client_card = ({ demandeClient }) => {
   return (
     <div>
-      <h2 className="text-2xl font-semibold mb-4">Demande Client</h2>
-      <p>Type de bien: {type_bien}</p>
-      <p>Prix minimum: {prix_minimum}</p>
-      <p>Prix maximum: {prix_maximum}</p>
-      <p>Surface minimum: {surface_minimum}</p>
-      <p>Nombre de chambres minimum: {nbr_chambre_minimum}</p>
-      <p>Date de début de recherche: {date_debut_rechercher}</p>
+      <h2>Demande Client:</h2>
+      <ul>
+        {demandeClient.map((demande) => (
+          <li key={demande.id}>
+            {/* Display the relevant data from the demande object */}
+            <p>Type de bien: {demande.type_bien || ''}</p>
+            <p>Prix minimum: {demande.prix_minimum || ''}</p>
+            <p>Prix maximum: {demande.prix_maximum || ''}</p>
+            <p>Surface minimum: {demande.surface_minimum || ''}</p>
+            <p>Nombre de chambres minimum: {demande.nbr_chambre_minimum || ''}</p>
+            <p>Date de début de recherche: {demande.date_debut_rechercher || ''}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default FormInformation;
+
+
+
+export default Demande_client_card;
