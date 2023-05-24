@@ -59,11 +59,13 @@ export default function Home({ exploreData,cardsData }) {
           )}</div>
           
         </section>
-
-        <LargeCard img='https://links.papareact.com/4cj'
+<div className='text-white'>
+        <LargeCard 
+        img='https://cdn.thespaces.com/wp-content/uploads/2023/01/MED439BFB92B97F4F45A30524FFADED34B5.jpeg'
         title="The best place for u "
         description={"take your time"}
-        buttonText="Get inspired" className="text-black"/>
+        buttonText="Get inspired" className="text-white font-bold"/>
+        </div>
       </main>
       <Footer/> 
     </div>
@@ -72,7 +74,7 @@ export default function Home({ exploreData,cardsData }) {
 
 export async function getStaticProps() {
   const exploreData = await fetch("https://www.jsonkeeper.com/b/592I").then((res) => res.json())
-  const cardsData = await fetch("https://www.jsonkeeper.com/b/31MI").then((res) => res.json())
+  const cardsData = await fetch("https://www.jsonkeeper.com/b/GVV2").then((res) => res.json())
   
 
   return {
