@@ -4,7 +4,10 @@ const nextConfig = {
   images: {
     domains: ['img.freepik.com',
     'scontent.falg2-2.fna.fbcdn.net',
+    'static.readytotrip.com',
     'static.wixstatic.com',
+    '1.bp.blogspot.com',
+    'vitaminedz.com',
     'acropole-immo.net',
     'i.pinimg.com',
     'cdn.thespaces.com',
