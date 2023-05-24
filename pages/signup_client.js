@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Header from '@/components/Header';
 import FormClient from '../components/form_client';
 import Header from '@/components/Header';
 import BgLogin from '@/components/bg_login';
+import Footer from '@/components/Footer';
 
 export default function SignupClient() {
   const [signupCompleted, setSignupCompleted] = useState(false);
@@ -46,8 +47,11 @@ export default function SignupClient() {
     <div>
       <Header />
       <BgLogin />
-      <FormClient onSubmit={handleSubmit} />
+      <div className='mt-5 mb-5'>
+        <FormClient onSubmit={handleSubmit} />
+      </div>
       <ToastContainer />
+      <Footer />
     </div>
   );
 }
