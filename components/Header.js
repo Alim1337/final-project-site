@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { SearchIcon, GlobeAltIcon, MenuIcon, UserCircleIcon, UsersIcon } from "@heroicons/react/solid";
 import { useRouter } from 'next/router';
+import jwt from 'jsonwebtoken';
 
 function Header() {
+
+  const [proprietaireName, setProprietaireName] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.nom) {
+        setProprietaireName(decodedToken.nom);
+      }
+    }
+  }, []);
+
   const router = useRouter();
   const [searchInput, setSearchInput] = useState("")
   const {modeReq} = router.query
@@ -48,18 +62,12 @@ function Header() {
       {/* RIGHT SECTION */}
       <div className='flex items-center space-x-4 justify-end text-gray-500'>
         <div className="flex space-x-4">
-          <button  className={`${mode ? 'hidden' : ''} text-red-500 flex-auto visible bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150`}
-          onClick={() => router.push({
-            pathname : "signup_client",
-            mode : false
-          })}> Signup
-          </button>
           <button className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
             onClick={() => router.push('/login_client')}>Connexion </button>
-       
         </div>
         <GlobeAltIcon className='h-6'/>
         <div className='flex items-center space-x-2 border-2 p-2 rounded-full'>
+          <h1>{proprietaireName}</h1>
           <UserCircleIcon className='h-6 cursor-pointer'/>
           <MenuIcon className='h-6 cursor-pointer' />
         </div>
