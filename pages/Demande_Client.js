@@ -21,7 +21,8 @@ export default function DemandeClient() {
     const [ClientName, setClientName] = useState('');
     const [ClientEmail, setClientEmail] = useState('');
     const [decodedToken, setDecodedToken] = useState(null); // State variable to store decoded token
-    
+    const [open, setOpen] = useState(true);
+
     useEffect(() => {
       const token = localStorage.getItem('token');
       console.log("token:",token); // Retrieve the token from local storage
