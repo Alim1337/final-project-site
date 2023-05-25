@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HouseCards from '@/components/HouseCards';
@@ -7,12 +6,12 @@ import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import Header_signup from '@/components/Header_signup';
-import { HiOutlineHome } from "react-icons/hi2";
-import { HiUser } from "react-icons/hi2";
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { IoIosHand } from "react-icons/io";
-import jwt from 'jsonwebtoken';import AjoutCard from '@/components/AjoutCard';
-
+import { HiOutlineHome } from 'react-icons/hi';
+import { HiUser } from 'react-icons/hi';
+import { FaChalkboardTeacher } from 'react-icons/fa';
+import { IoIosHand } from 'react-icons/io';
+import jwt from 'jsonwebtoken';
+import AjoutCard from '@/components/AjoutCard';
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
 export default function ClientHouses() {
@@ -29,7 +28,6 @@ export default function ClientHouses() {
   const [ClientName, setClientName] = useState('');
   const [ClientEmail, setClientEmail] = useState('');
 
-
   useEffect(() => {
     const token = localStorage.getItem('token'); // Retrieve the token from local storage
     if (token) {
@@ -41,7 +39,6 @@ export default function ClientHouses() {
     }
   }, []);
 
-
   return (
     <div>
       <Header_signup />
@@ -49,8 +46,7 @@ export default function ClientHouses() {
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
             <FiChevronLeft
-              className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer 
-              -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
+              className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
                 open ? 'rotate-180' : ''
               }`}
               onClick={() => setOpen(!open)}
@@ -60,9 +56,7 @@ export default function ClientHouses() {
               {menus.map((menu, index) => (
                 <li
                   key={index}
-                  className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0
-                   hover:bg-opacity-70 border-opacity-70  border-red-500 active:scale-95 text-s f
-                   lex items-center gap-x-4 cursor-pointer p-2 ${
+                  className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 border-opacity-70 border-red-500 active:scale-95 text-s flex items-center gap-x-4 cursor-pointer p-2 ${
                     !open ? 'transform scaleX(0)' : ''
                   } transition transform duration-300 ease-out`}
                 >
@@ -76,60 +70,41 @@ export default function ClientHouses() {
           </div>
 
           <div className="p-7 text-2xl font-semibold flex-1 h-screen">
-            <h1 className='font-bold text-gray-700 text-4xl'>Devenir Un Proprietaire</h1>
-            <h1 className='font-semi-bold text-green-500'>Ajouter au moins un bien pour avoir le statu "Proprietaire" </h1>
-            <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-             text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
-            font-mono bg-transparent"
-            onClick={() => router.push('/BienFormPage')}>
-            <AjoutCard
-           
-           key="gestion" text="Ajouter un bien"    
-            />
-           </button>
-           <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-             text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
-            font-mono bg-transparent"
-            onClick={() => router.push('/Demande_Client')}>
-            <AjoutCard
-           
-           key="gestion" text="Faire Une Demande Personnalisée"    
-            />
-           </button>
-           <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-             text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
-            font-mono bg-transparent"
-            onClick={() => router.push('/Modifier_Demande_Client')}>
-            <AjoutCard
-           
-           key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée"    
-            />
-           </button>
-
-
+            <h1 className="font-bold text-gray-700 text-4xl">Devenir Un Proprietaire</h1>
+            <h1 className="font-semi-bold text-green-500">
+              Ajouter au moins un bien pour avoir le statu "Proprietaire"
+            </h1>
+            <button
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              onClick={() => router.push('/BienFormPage')}
+            >
+              <AjoutCard key="gestion" text="Ajouter un bien" />
+            </button>
+            <button
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              onClick={() => router.push('/Demande_Client')}
+            >
+              <AjoutCard key="gestion" text="Faire Une Demande Personnalisée" />
+            </button>
+            <button
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              onClick={() => router.push('/Modifier_Demande_Client')}
+            >
+              <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
+            </button>
           </div>
-          <div className='p-20 py-0'>  <h2 className='font-mono text-green-600'>Client Connected Name:</h2>
-          <h2 className='font-mono text-green-600'>
-           {ClientName}</h2></div>
-        <div className='p-0'>           <h2 className='font-mono text-green-600'>Client Connected Email: </h2>
 
-           <h2 className='font-mono text-green-600'>{ClientEmail}</h2></div>
-
+          <div className="p-20 py-0">
+            <h2 className="font-mono text-green-600">Client Connected Name:</h2>
+            <h2 className="font-mono text-green-600">{ClientName}</h2>
+          </div>
+          <div className="p-0">
+            <h2 className="font-mono text-green-600">Client Connected Email: </h2>
+            <h2 className="font-mono text-green-600">{ClientEmail}</h2>
+          </div>
         </div>
       </main>
       <Footer />
     </div>
   );
-}
-
-export async function getStaticProps() {
-  const exploreData = await fetch("https://www.jsonkeeper.com/b/592I").then((res) => res.json())
-  const cardsData = await fetch("https://www.jsonkeeper.com/b/31MI").then((res) => res.json())
-
-  return {
-    props: {
-      exploreData,
-      cardsData
-    }
-  }
 }
