@@ -5,6 +5,7 @@ import Header from '@/components/Header';
 import BgLogin from '@/components/bg_login';
 import CardHouseModifier from '@/components/CardHouse_Modifier';
 import Footer from '@/components/Footer';
+import DemandeClientLike from '@/components/CardHouse_for_prop';
 
 export default function GestionBienModify() {
   const [biens, setBiens] = useState([]);
@@ -58,7 +59,7 @@ export default function GestionBienModify() {
       <h1 className='text-red-900 text-4xl text-center font-mono '>Gestion Bien Modify</h1>
       <div className="grid grid-cols-3 gap-4 mt-6 text-black ">
         {biens.map((bien) => (
-          <CardHouseModifier
+          <DemandeClientLike
             key={bien.id_biens}
             id_biens={bien.id_biens}
             description={bien.description}

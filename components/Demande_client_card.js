@@ -2,7 +2,8 @@ import React from 'react';
 
 const Demande_client_card = ({ demandeClient, cardIndex }) => {
   return (
-    <div>
+    <div className="bg-white rounded-lg font-mono shadow-md font-medium my-2 mx-1 hover:shadow-2xl 
+    active:scale-90 transition duration-150 p-6 mb-4">
       <h2 className="text-xl font-bold mb-4">Demande Client {cardIndex}:</h2>
       <ul className="list-disc ml-6">
         {demandeClient.map((demande, index) => (
@@ -26,6 +27,20 @@ const Demande_client_card = ({ demandeClient, cardIndex }) => {
             <p className="mb-2">
               <span className="font-semibold">Date de début de recherche:</span> {demande.date_debut_rechercher || ''}
             </p>
+            <button className="text-blue-500 flex-auto bg-white border border-red-100 
+          px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl 
+          active:scale-90 transition duration-150">
+               Modifier
+              </button>
+               <button className="text-red-500 flex-auto bg-white border border-red-100 
+          px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl 
+          active:scale-90 transition duration-150">
+                   Supprimer
+              </button>
+            <div className="flex items-center space-x-4">
+           
+
+            </div>
           </li>
         ))}
       </ul>

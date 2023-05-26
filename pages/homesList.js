@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import CardHouse from '../components/CardHouse';
 import Header_signup from '@/components/Header_signup';
+import Header from '@/components/Header';
 
 export default function HomesList() {
   const [searchResults, setSearchResults] = useState([]);
@@ -21,7 +22,7 @@ export default function HomesList() {
 
   return (
     <div className='bg-slate-50'>
-   <Header_signup/>
+   <Header/>
 
     <div className="container mx-auto py-8 ">
       <h2 className="text-2xl font-bold mb-4 text-black">Home Listings</h2>

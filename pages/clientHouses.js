@@ -41,7 +41,7 @@ export default function ClientHouses() {
 
   return (
     <div>
-      <Header_signup />
+      <Header/>
       <main>
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
@@ -91,6 +91,12 @@ export default function ClientHouses() {
               onClick={() => router.push('/Modifier_Demande_Client')}
             >
               <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
+            </button>
+            <button
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              onClick={() => router.push('/homesList')}
+            >
+              <AjoutCard key="gestion" text="Consulter Les Biens" />
             </button>
           </div>
 
