@@ -11,7 +11,11 @@ export default async function handler(req, res) {
         where: {
           client_id: parseInt(client_id),
         },
-        
+        include: {
+          Proprietaire: true,
+          biens :true ,
+     
+        },
       });
 
       res.status(200).json({ negotiations });
