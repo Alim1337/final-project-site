@@ -6,14 +6,12 @@ function FormNegotiation({ onSubmit }) {
   const [duree, setDuree] = useState('');
   const [commentaire, setCommentaire] = useState('');
 
-  // Retrieve the token from local storage if running in the browser
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-  console.log('Token:', token);
-
+  let decodedToken = null; // Declare decodedToken variable with default value
 
   if (token) {
+    decodedToken = jwt.decode(token);
     try {
-    const  decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       console.log("Decoded token:", decodedToken);
       console.log("Decoded client:", decodedToken.id);
     } catch (error) {
@@ -23,25 +21,24 @@ function FormNegotiation({ onSubmit }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      // Verify the token and retrieve the client ID
-      // ...
-
+      let clientId = decodedToken.id;
+  
       // Prepare the form data
       const formData = {
         prixPropose,
         duree,
         commentaire,
-        clientId,
-        token, 
-        bien_id: bienId,
-        client_id: clientId, // Pass the client ID obtained from the token
+        token,
+        client_id: clientId,
       };
-
+  
+      console.log(formData); // Review the formData in the console
+  
       // Call the onSubmit function provided by the parent component
       onSubmit(formData);
-
+  
       // Reset the form fields
       setPrixPropose('');
       setDuree('');
@@ -53,12 +50,12 @@ function FormNegotiation({ onSubmit }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-4">
+      <div className="mb-4 text-black">
         <label htmlFor="prixPropose" className="block text-gray-700">
           Prix Proposé:
         </label>
         <input
-          type="text"
+          type="number"
           id="prixPropose"
           value={prixPropose}
           onChange={(e) => setPrixPropose(e.target.value)}

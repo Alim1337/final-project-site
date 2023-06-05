@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from '@/components/Header';
 import BgLogin from '@/components/bg_login';
+import Footer from '@/components/Footer';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -97,6 +98,8 @@ export default function LoginClient() {
         <ToastContainer />
         </div>
       </div>
+      <Footer/>
+
     </div>
   );
 }

@@ -1,11 +1,28 @@
-import React from 'react';
-import FormNegotiation from '../components/FormNegotiation';
+import React, { useState, useEffect } from 'react';
+import jwt from 'jsonwebtoken';
 import { useRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import FormNegotiation from '../components/FormNegotiation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 export default function Negotiation() {
   const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      try {
+        console.log("Decoded token:", decodedToken);
+        console.log("Decoded client:", decodedToken.id);
+      } catch (error) {
+        console.error('Failed to verify JWT token:', error);
+      }
+    }
+  }, []);
 
   const handleNegotiationSubmit = async (formData) => {
     try {
@@ -19,10 +36,9 @@ export default function Negotiation() {
       });
 
       if (response.ok) {
-        // If the negotiation was created successfully, redirect to the negotiation details page
-        const data = await response.json();
-        const negotiationId = data.negotiation.id_negotiation;
-        router.push(`/negotiation/${negotiationId}`);
+        // If the negotiation was created successfully, display a notification and redirect to the /ClientHouses page
+        toast.success('Negociation a ete faite');
+        router.push('/homesList');
       } else {
         // Handle the error case
         console.error('Failed to create negotiation');
@@ -42,6 +58,7 @@ export default function Negotiation() {
         </div>
       </div>
       <Footer />
+      <ToastContainer />
     </div>
   );
 }
