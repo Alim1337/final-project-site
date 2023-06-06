@@ -4,9 +4,9 @@ import jwt from 'jsonwebtoken';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-const NegotiationClient = () => {
+const NegotiationProprietaire = () => {
   const [negotiations, setNegotiations] = useState([]);
-  const [clientName, setClientName] = useState('');
+  const [proprietaireName, setProprietaireName] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -15,12 +15,14 @@ const NegotiationClient = () => {
         const token = localStorage.getItem('token');
         if (token) {
           const decodedToken = jwt.decode(token);
-          const clientID = decodedToken.id;
-          const clientName = decodedToken.nom; // Assuming the name is stored in the token
-          console.log("client id ", decodedToken.id);
-          console.log("client name ", decodedToken.nom);
-          setClientName(clientName);
-          const res = await fetch(`/api/api_voir_negotiation_client?client_id=${clientID}`);
+          const proprietaireID = decodedToken.id;
+          const proprietaireName = decodedToken.nom;
+          const proprietaireEmail = decodedToken.email; // Add this line to extract the email from decodedToken
+          console.log("Proprietaire id ", proprietaireID);
+          console.log("Proprietaire name ", proprietaireName);
+          console.log("Proprietaire email ", proprietaireEmail); // Log the email
+          setProprietaireName(proprietaireName);
+          const res = await fetch(`/api/api_voir_negotiation_proprietaire?proprietaire_email=${proprietaireEmail}`); // Pass the email as a query parameter to the API
           const data = await res.json();
           setNegotiations(data.negotiations);
         } else {
@@ -39,11 +41,11 @@ const NegotiationClient = () => {
       <Header />
 
       <div className='container mx-auto px-4 py-8'>
-        <h1 className='text-2xl font-bold mb-4'>Negotiations pour le client: {clientName}</h1>
+        <h1 className='text-2xl font-bold mb-4'>Negotiations pour le Proprietaire: {proprietaireName}</h1>
         {negotiations && negotiations.length > 0 ? (
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {negotiations.map((negotiation) => (
-              <div key={negotiation.id} className='bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-350 transition-shadow duration-500'>
+              <div key={negotiation.id_negotiation} className='bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-350 transition-shadow duration-500'>
                 {/* Display negotiation details */}
                 <p className='font-bold'>Negotiation ID: {negotiation.id_negotiation}</p>
                 {/* Display additional negotiation details */}
@@ -60,7 +62,7 @@ const NegotiationClient = () => {
             ))}
           </div>
         ) : (
-          <p>No negotiations found for the client.</p>
+          <p>No negotiations found for the Proprietaire.</p>
         )}
       </div>
 
@@ -69,4 +71,4 @@ const NegotiationClient = () => {
   );
 };
 
-export default NegotiationClient;
+export default NegotiationProprietaire;

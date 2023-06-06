@@ -4,13 +4,20 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { prixPropose, duree, commentaire, token, client_id } = req.body; // Update variable name to prixPropose
+    const { prixPropose, duree, commentaire, client_id } = req.body;
 
     try {
-      // Find the bien ID using the like model where the client_id matches the client ID from the token
+      // Find the like entry for the client and the corresponding bien
       const like = await prisma.likes.findFirst({
         where: {
           client_id,
+        },
+        include: {
+          biens: {
+            include: {
+              negotiation: true,
+            },
+          },
         },
       });
 
@@ -18,20 +25,20 @@ export default async function handler(req, res) {
         throw new Error('No matching like found for the client');
       }
 
-      const bienId = like.id_bien;
+      const bien = like.biens;
 
-      // Get the proprietaire ID from the bien with the specified bienId
-      const bien = await prisma.biens.findUnique({
-        where: {
-          id_biens: bienId,
-        },
-      });
+      if (!bien) {
+        throw new Error('No matching bien found for the like');
+      }
+
       const proprietaireId = bien.id_proprietaire;
+      const bienId = bien.id_biens;
+
 
       // Create a new negotiation in the database
       const negotiation = await prisma.negotiation.create({
         data: {
-          prix_propose: Number(prixPropose), // Convert prixPropose to a number
+          prix_propose: Number(prixPropose),
           duree,
           commentaire,
           statut: 'waiting',
