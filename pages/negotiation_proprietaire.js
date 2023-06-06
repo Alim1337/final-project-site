@@ -17,16 +17,16 @@ const NegotiationProprietaire = () => {
           const decodedToken = jwt.decode(token);
           const proprietaireID = decodedToken.id;
           const proprietaireName = decodedToken.nom;
-          const proprietaireEmail = decodedToken.email; // Add this line to extract the email from decodedToken
-          console.log("Proprietaire id ", proprietaireID);
-          console.log("Proprietaire name ", proprietaireName);
-          console.log("Proprietaire email ", proprietaireEmail); // Log the email
+          const proprietaireEmail = decodedToken.email;
+          console.log('Proprietaire id ', proprietaireID);
+          console.log('Proprietaire name ', proprietaireName);
+          console.log('Proprietaire email ', proprietaireEmail);
           setProprietaireName(proprietaireName);
-          const res = await fetch(`/api/api_voir_negotiation_proprietaire?proprietaire_email=${proprietaireEmail}`); // Pass the email as a query parameter to the API
+          const res = await fetch(`/api/api_voir_negotiation_proprietaire?proprietaire_email=${proprietaireEmail}`);
           const data = await res.json();
           setNegotiations(data.negotiations);
         } else {
-          router.push('/login'); // Redirect to login page if token is not found
+          router.push('/login');
         }
       } catch (error) {
         console.error('Failed to fetch negotiations:', error);
@@ -37,27 +37,30 @@ const NegotiationProprietaire = () => {
   }, []);
 
   return (
-    <div className='bg-white text-black min-h-screen'>
+    <div className="bg-white text-black min-h-screen">
       <Header />
 
-      <div className='container mx-auto px-4 py-8'>
-        <h1 className='text-2xl font-bold mb-4'>Negotiations pour le Proprietaire: {proprietaireName}</h1>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold mb-4">Negotiations pour le Proprietaire: {proprietaireName}</h1>
         {negotiations && negotiations.length > 0 ? (
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {negotiations.map((negotiation) => (
-              <div key={negotiation.id_negotiation} className='bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-350 transition-shadow duration-500'>
-                {/* Display negotiation details */}
-                <p className='font-bold'>Negotiation ID: {negotiation.id_negotiation}</p>
-                {/* Display additional negotiation details */}
+              <div
+                key={negotiation.id_negotiation}
+                className="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-350 transition-shadow duration-500"
+              >
+                <p className="font-bold">Negotiation ID: {negotiation.id_negotiation}</p>
                 <p>Prix Propose: {negotiation.prix_propose}</p>
                 <p>Duration: {negotiation.duree}</p>
                 <p>Status: {negotiation.statut}</p>
 
-                {/* Display biens information */}
-                <p>Bien Type: {negotiation.biens?.type_bien}</p>
+                {negotiation.Proprietaire && (
+                  <p>
+                    Proprietaire Nom: {negotiation.Proprietaire.nom} ({negotiation.Proprietaire.email})
+                  </p>
+                )}
 
-                {/* Display Proprietaire information */}
-                <p>Proprietaire Nom: {negotiation.Proprietaire?.nom}</p>
+                {negotiation.biens && <p>Bien Type: {negotiation.biens.type_bien}</p>}
               </div>
             ))}
           </div>
