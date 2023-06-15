@@ -25,6 +25,7 @@ export default async function handler(req, res) {
       });
 const formattedNegotiations = negotiations.map((negotiation) => ({
   id_negotiation: negotiation.id_negotiation,
+  client_id : negotiation.client_id ,
   prix_propose: negotiation.prix_propose,
   duree: negotiation.duree,
   statut: negotiation.statut,

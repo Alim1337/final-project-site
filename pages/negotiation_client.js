@@ -34,33 +34,70 @@ const NegotiationClient = () => {
     fetchNegotiations();
   }, []);
 
+  const handleAnnuler = (id) => {
+    // Logic for handling 'Annuler' button click
+  };
+
+  const handleModifier = (id) => {
+    // Logic for handling 'Modifier' button click
+  };
+
+  const handleContacter = (id) => {
+    // Logic for handling 'Contacter' button click
+  };
+
   return (
-    <div className='bg-white text-black min-h-screen'>
+    <div className="bg-white text-black min-h-screen">
       <Header />
 
-      <div className='container mx-auto px-4 py-8'>
-        <h1 className='text-2xl font-bold mb-4'>Negotiations pour le client: {clientName}</h1>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold mb-4">Négociations pour le client: {clientName}</h1>
         {negotiations && negotiations.length > 0 ? (
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {negotiations.map((negotiation) => (
-              <div key={negotiation.id} className='bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-350 transition-shadow duration-500'>
+              <div key={negotiation.id} className="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-300 transition-shadow duration-300">
                 {/* Display negotiation details */}
-                <p className='font-bold'>Negotiation ID: {negotiation.id_negotiation}</p>
+                <p className="font-bold text-lg">Négociation ID: {negotiation.id_negotiation}</p>
                 {/* Display additional negotiation details */}
-                <p>Prix Propose: {negotiation.prix_propose}</p>
-                <p>Duration: {negotiation.duree}</p>
-                <p>Status: {negotiation.statut}</p>
+                <p className="text-sm">Prix Proposé: {negotiation.prix_propose}</p>
+                <p className="text-sm">Durée: {negotiation.duree}</p>
+                <p className="text-sm">Statut: {negotiation.statut}</p>
 
                 {/* Display biens information */}
-                <p>Bien Type: {negotiation.biens?.type_bien}</p>
+                <p className="text-sm">Type de bien: {negotiation.biens?.type_bien}</p>
 
                 {/* Display Proprietaire information */}
-                <p>Proprietaire Nom: {negotiation.Proprietaire?.nom}</p>
+                <p className="text-sm">Nom du propriétaire: {negotiation.Proprietaire?.nom}</p>
+
+                {/* Buttons */}
+                <div className="flex justify-end mt-4 space-x-4">
+                <button
+  onClick={() => handleAnnuler(negotiation.id)}
+  className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+>
+  Annuler
+</button>
+
+<button
+  onClick={() => handleModifier(negotiation.id)}
+  className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+>
+  Modifier
+</button>
+
+<button
+  onClick={() => handleContacter(negotiation.id)}
+  className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+>
+  Contacter
+</button>
+
+                </div>
               </div>
             ))}
           </div>
         ) : (
-          <p>No negotiations found for the client.</p>
+          <p>Aucune négociation trouvée pour le client.</p>
         )}
       </div>
 

@@ -59,7 +59,7 @@ export default function LoginClient() {
       <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
         
         <h2 className="text-2xl text-black font-mono mb-6">Login</h2>
-
+    
         <form onSubmit={handleLogin}>
 
           <div className="mb-4">
