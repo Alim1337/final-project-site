@@ -1,6 +1,9 @@
 import {
-    CloudIcon, DocumentIcon, FolderIcon
-  } from "@heroicons/react/24/solid";
+  CloudIcon,
+  DocumentIcon,
+  FolderIcon
+} from "@heroicons/react/outline"; // or '@heroicons/react/solid' for solid icons
+
   import React, { useEffect, useState } from "react";
   import NavItem from "./NavItem";
   

@@ -1,6 +1,6 @@
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/20/solid';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'; // or '@heroicons/react/solid' for solid icons
 import React, { useEffect, useRef, useState } from "react";
-import OutsideClick from '../../../utils/outsideClick';
+import OutsideClick from '../../outsideClick';
 
 const UserMenu = () => {
   const [userMenuStatus, setUserMenuStatus] = useState(false) ;

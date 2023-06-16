@@ -1,4 +1,4 @@
-import { MoonIcon } from '@heroicons/react/24/solid';
+import { MoonIcon } from '@heroicons/react/solid';
 import React from 'react';
 import LogOutButton from './header/LogOutButton';
 import Notifications from './header/Notifications';

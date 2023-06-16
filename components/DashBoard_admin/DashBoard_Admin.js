@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Dashboard = () => {
+const DashboardAdmin = () => {
     return (
         <>
         <main className="p-6 sm:p-10 space-y-6">
@@ -191,4 +191,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default DashboardAdmin;
