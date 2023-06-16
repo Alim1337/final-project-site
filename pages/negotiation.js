@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Image from 'next/image';
 import FormNegotiation from '../components/FormNegotiation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -50,10 +50,11 @@ export default function Negotiation() {
 
   return (
     <div className='bg-white items-center'>
+       
       <Header />
-      <div className="container mx-auto px-4 py-8 bg-gray-100 rounded-sm">
+      <div className="container mx-auto px-4 py-8 bg-white rounded-sm">
         <div className='bg-white'>
-          <h1 className="text-2xl font-bold text-black mb-4">Negotiation Page</h1>
+          <h1 className="text-2xl text-center font-bold text-black mb-4">Negotiation Page</h1>
           <FormNegotiation onSubmit={handleNegotiationSubmit} />
         </div>
       </div>

@@ -17,8 +17,6 @@ const NegotiationClient = () => {
           const decodedToken = jwt.decode(token);
           const clientID = decodedToken.id;
           const clientName = decodedToken.nom; // Assuming the name is stored in the token
-          console.log("client id ", decodedToken.id);
-          console.log("client name ", decodedToken.nom);
           setClientName(clientName);
           const res = await fetch(`/api/api_voir_negotiation_client?client_id=${clientID}`);
           const data = await res.json();
@@ -42,8 +40,20 @@ const NegotiationClient = () => {
     // Logic for handling 'Modifier' button click
   };
 
-  const handleContacter = (id) => {
-    // Logic for handling 'Contacter' button click
+  const handleContacter = (negotiation) => {
+    const token = localStorage.getItem('token');
+    const decodedToken = jwt.decode(token);
+    const clientID = decodedToken.id;
+    const proprietaireID = negotiation?.proprietaire_id; // Add null check here
+    const negotiationID = negotiation?.id_negotiation; // Add null check here
+    console.log("negotiation id", negotiationID);
+    console.log("proprietaire id", proprietaireID);
+    console.log("client id", clientID);
+    if (proprietaireID && negotiationID) {
+      router.push(`/chat?clientId=${clientID}&proprietaireId=${proprietaireID}&negotiationId=${negotiationID}`);
+    } else {
+      console.error('Invalid negotiation object:', negotiation);
+    }
   };
 
   return (
@@ -55,7 +65,10 @@ const NegotiationClient = () => {
         {negotiations && negotiations.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {negotiations.map((negotiation) => (
-              <div key={negotiation.id} className="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-300 transition-shadow duration-300">
+              <div
+                key={negotiation.id_negotiation}
+                className="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-300 transition-shadow duration-300"
+              >
                 {/* Display negotiation details */}
                 <p className="font-bold text-lg">Négociation ID: {negotiation.id_negotiation}</p>
                 {/* Display additional negotiation details */}
@@ -71,27 +84,26 @@ const NegotiationClient = () => {
 
                 {/* Buttons */}
                 <div className="flex justify-end mt-4 space-x-4">
-                <button
-  onClick={() => handleAnnuler(negotiation.id)}
-  className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
->
-  Annuler
-</button>
+                  <button
+                    onClick={() => handleAnnuler(negotiation.id_negotiation)}
+                    className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  >
+                    Annuler
+                  </button>
 
-<button
-  onClick={() => handleModifier(negotiation.id)}
-  className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
->
-  Modifier
-</button>
+                  <button
+                    onClick={() => handleModifier(negotiation.id_negotiation)}
+                    className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  >
+                    Modifier
+                  </button>
 
-<button
-  onClick={() => handleContacter(negotiation.id)}
-  className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
->
-  Contacter
-</button>
-
+                  <button
+                    onClick={() => handleContacter(negotiation)}
+                    className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  >
+                    Contacter
+                  </button>
                 </div>
               </div>
             ))}

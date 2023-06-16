@@ -49,49 +49,50 @@ function FormNegotiation({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-4 text-black">
-        <label htmlFor="prixPropose" className="block text-gray-700">
-          Prix Proposé:
-        </label>
-        <input
-          type="number"
-          id="prixPropose"
-          value={prixPropose}
-          onChange={(e) => setPrixPropose(e.target.value)}
-          className="border border-gray-300 px-4 py-2 rounded-lg w-full"
-        />
-      </div>
-      <div className="mb-4">
-        <label htmlFor="duree" className="block text-gray-700">
-          Durée:
-        </label>
-        <input
-          type="text"
-          id="duree"
-          value={duree}
-          onChange={(e) => setDuree(e.target.value)}
-          className="border border-gray-300 px-4 py-2 rounded-lg w-full"
-        />
-      </div>
-      <div className="mb-4 text-black">
-        <label htmlFor="commentaire" className="block text-gray-700">
-          Commentaire:
-        </label>
-        <textarea
-          id="commentaire"
-          value={commentaire}
-          onChange={(e) => setCommentaire(e.target.value)}
-          className="border border-gray-300 px-4 py-2 rounded-lg w-full"
-        ></textarea>
-      </div>
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-      >
-        Submit
-      </button>
-    </form>
+<form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+  <div className="mb-4 text-black">
+    <label htmlFor="prixPropose" className="block font-bold text-black">
+      Prix Proposé:
+    </label>
+    <input
+      type="number"
+      id="prixPropose"
+      value={prixPropose}
+      onChange={(e) => setPrixPropose(e.target.value)}
+      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
+    />
+  </div>
+  <div className="mb-4">
+    <label htmlFor="duree" className="block font-bold text-black">
+      Durée:
+    </label>
+    <input
+      type="text"
+      id="duree"
+      value={duree}
+      onChange={(e) => setDuree(e.target.value)}
+      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
+    />
+  </div>
+  <div className="mb-4 font-bold text-black">
+    <label htmlFor="commentaire" className="block text-gray-700">
+      Commentaire:
+    </label>
+    <textarea
+      id="commentaire"
+      value={commentaire}
+      onChange={(e) => setCommentaire(e.target.value)}
+      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
+    ></textarea>
+  </div>
+  <button
+    type="submit"
+    className="bg-blue-500 text-white px-4 py-2 rounded-lg focus:outline-none hover:bg-blue-600"
+  >
+    Submit
+  </button>
+</form>
+
   );
 }
 
