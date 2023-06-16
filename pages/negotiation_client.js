@@ -50,7 +50,7 @@ const NegotiationClient = () => {
     console.log("proprietaire id", proprietaireID);
     console.log("client id", clientID);
     if (proprietaireID && negotiationID) {
-      router.push(`/chat?clientId=${clientID}&proprietaireId=${proprietaireID}&negotiationId=${negotiationID}`);
+      router.push(`/Chat_client?clientId=${clientID}&proprietaireId=${proprietaireID}&negotiationId=${negotiationID}`);
     } else {
       console.error('Invalid negotiation object:', negotiation);
     }

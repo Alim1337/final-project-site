@@ -43,9 +43,22 @@ const NegotiationProprietaire = () => {
     // Logic for handling "Refuser la negotiation" button click
   };
 
-  const handleContacterNegotiation = (id_negotiation) => {
-    setShowInput(true);
+  const handleContacter = (negotiation) => {
+    const token = localStorage.getItem('token');
+    const decodedToken = jwt.decode(token);
+    const proprietaireID = decodedToken.id;
+    const clientID = negotiation?.client_id; // Add null check here
+    const negotiationID = negotiation?.id_negotiation; // Add null check here
+    console.log("negotiation id", negotiationID);
+    console.log("proprietaire id", proprietaireID);
+    console.log("client id", clientID);
+    if (proprietaireID && negotiationID) {
+      router.push(`/Chat_proprietaire?clientId=${clientID}&proprietaireId=${proprietaireID}&negotiationId=${negotiationID}`);
+    } else {
+      console.error('Invalid negotiation object:', negotiation);
+    }
   };
+
 
   const handleSendMessage = async (id_negotiation) => {
     const token = localStorage.getItem('token');
@@ -149,11 +162,11 @@ const NegotiationProprietaire = () => {
                      Anuller la négociation
                     </button>
                     <button
-                      className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-base px-6 py-3 mr-2 mb-2"
-                      onClick={() => handleContacterNegotiation(negotiation.id_negotiation)}
-                    >
-                      Contacter
-                    </button>
+                    onClick={() => handleContacter(negotiation)}
+                    className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  >
+                    Contacter
+                  </button>
                   </div>
                 )}
               </div>
