@@ -19,6 +19,7 @@ const NegotiationProprietaire = () => {
         const res = await fetch('/api/api_voir_negotiation_proprietaire');
         const data = await res.json();
         setNegotiations(data.negotiations);
+        console.log("data:",data);
       } catch (error) {
         console.error('Failed to fetch negotiations:', error);
       }
@@ -29,6 +30,7 @@ const NegotiationProprietaire = () => {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwt.decode(token);
+      console.log(decodedToken);
       if (decodedToken && decodedToken.nom) {
         setProprietaireName(decodedToken.nom);
       }

@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log('Fetching biens for id_proprietaire:', id_proprietaire);
+    console.log('Fetching biens for client:', id_proprietaire);
     const biens = await prisma.biens.findMany({
       where: {
         id_proprietaire: parseInt(id_proprietaire),
@@ -18,6 +18,7 @@ export default async function handler(req, res) {
     });
 
     console.log('Biens:', biens);
+
     return res.status(200).json({ biens });
   } catch (error) {
     console.error('API Error:', error);

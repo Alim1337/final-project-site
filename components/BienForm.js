@@ -1,7 +1,5 @@
-import Footer from './Footer';
 import React, { useState } from 'react';
-
-
+import Footer from './Footer';
 
 export default function BienForm({ onSubmit }) {
   const [description, setDescription] = useState('');
@@ -9,22 +7,23 @@ export default function BienForm({ onSubmit }) {
   const [adresse, setAdresse] = useState('');
   const [ville, setVille] = useState('');
   const [codePostal, setCodePostal] = useState('');
-  const [prixEstime, setPrixEstime] = useState('');
+  const [minPrixEstime, setMinPrixEstime] = useState('');
   const [etat, setEtat] = useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
-  
+
     onSubmit(
       description,
       typeBien,
       adresse,
       ville,
       codePostal,
-      prixEstime,
+      minPrixEstime,
       etat
     );
   }
+  
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -70,7 +69,7 @@ export default function BienForm({ onSubmit }) {
                   <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
                       <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                        Description
+                        Title
                       </label>
                       <div className="mt-1">
                         <textarea
@@ -89,16 +88,19 @@ export default function BienForm({ onSubmit }) {
                         Type of Property
                       </label>
                       <div className="mt-1">
-                        <input
-                          type="text"
+                        <select
                           id="typeBien"
                           name="typeBien"
-                          autoComplete="typeBien"
                           required
                           className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
                           value={typeBien}
                           onChange={(e) => setTypeBien(e.target.value)}
-                        />
+                        >
+                          <option value="">Select a property type</option>
+                          <option value="appartement">Appartement</option>
+                          <option value="villa">Villa</option>
+                          <option value="autre">Autre</option>
+                        </select>
                       </div>
                     </div>
                     <div>
@@ -122,16 +124,16 @@ export default function BienForm({ onSubmit }) {
                         City
                       </label>
                       <div className="mt-1">
-                        <input
-                          type="text"
+                        <select
                           id="ville"
                           name="ville"
-                          autoComplete="ville"
                           required
                           className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
                           value={ville}
                           onChange={(e) => setVille(e.target.value)}
-                        />
+                        >
+                          <option value="Alger">Alger</option>
+                        </select>
                       </div>
                     </div>
                     <div>
@@ -155,48 +157,64 @@ export default function BienForm({ onSubmit }) {
                       <label htmlFor="prixEstime" className="block text-sm font-medium text-gray-700">
                         Estimated Price
                       </label>
-                      <div className="mt-1">
+                      <div className="mt-1 flex">
                         <input
                           type="text"
-                          id="prixEstime"
-                          name="prixEstime"
-                          autoComplete="prixEstime"
+                          id="minPrixEstime"
+                          name="minPrixEstime"
                           required
-                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={prixEstime}
-                          onChange={(e) => setPrixEstime(e.target.value)}
+                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md mr-2"
+                          placeholder="Min Price"
+                          value={minPrixEstime}
+                          onChange={(e) => setMinPrixEstime(e.target.value)}
                         />
+                        <span className="mr-2">to</span>
+                 
+                        <span className="ml-2">DA</span>
                       </div>
                     </div>
+
                     <div>
                       <label htmlFor="etat" className="block text-sm font-medium text-gray-700">
                         Property Status
                       </label>
                       <div className="mt-1">
-                        <input
-                          type="text"
+                        <select
                           id="etat"
                           name="etat"
-                          autoComplete="etat"
                           required
                           className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
                           value={etat}
                           onChange={(e) => setEtat(e.target.value)}
-                        />
+                        >
+                          <option value="">Select a property status</option>
+                          <option value="new">New</option>
+                          <option value="used">Used</option>
+                        </select>
                       </div>
                     </div>
-                    <div className="flex justify-center mt-6">
-                      <button
-                        type="submit"
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Ajouter
-                      </button>
+                    <div className="pt-5">
+                      <div className="flex justify-end">
+                        <button
+                          type="submit"
+                          className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                          Submit
+                        </button>
+                      </div>
                     </div>
                   </form>
                 </div>
               </div>
             </div>
+          </div>
+          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button
+              type="button"
+              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </div>

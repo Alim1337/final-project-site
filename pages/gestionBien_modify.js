@@ -59,7 +59,7 @@ export default function GestionBienModify() {
       <h1 className='text-red-900 text-4xl text-center font-mono '>Gestion Bien Modify</h1>
       <div className="grid grid-cols-3 gap-4 mt-6 text-black ">
         {biens.map((bien) => (
-          <DemandeClientLike
+          <CardHouseModifier
             key={bien.id_biens}
             id_biens={bien.id_biens}
             description={bien.description}
