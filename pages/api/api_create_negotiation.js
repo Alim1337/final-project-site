@@ -15,9 +15,10 @@ export default async function handler(req, res) {
         include: {
           biens: {
             include: {
-              negotiation: true,
+              Proprietaire: true, // Include the proprietaire information
             },
           },
+          Proprietaire: true, // Include the proprietaire information
         },
       });
 
@@ -31,9 +32,8 @@ export default async function handler(req, res) {
         throw new Error('No matching bien found for the like');
       }
 
-      const proprietaireId = bien.id_proprietaire;
+      const proprietaireId = bien.Proprietaire.id_proprietaire; // Access the id of the proprietaire
       const bienId = bien.id_biens;
-
 
       // Create a new negotiation in the database
       const negotiation = await prisma.negotiation.create({

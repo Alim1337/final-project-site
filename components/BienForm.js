@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Footer from './Footer';
+import { useRouter } from 'next/router';
 
 export default function BienForm({ onSubmit }) {
   const [description, setDescription] = useState('');
@@ -9,6 +10,7 @@ export default function BienForm({ onSubmit }) {
   const [codePostal, setCodePostal] = useState('');
   const [minPrixEstime, setMinPrixEstime] = useState('');
   const [etat, setEtat] = useState('');
+  const router = useRouter();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -24,6 +26,13 @@ export default function BienForm({ onSubmit }) {
     );
   }
   
+  function handleCancel(event) {
+    event.preventDefault();
+
+    if (window.confirm('Are you sure you want to cancel?')) {
+      router.push('/proprietaireHouses');
+    }
+  }
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -69,7 +78,7 @@ export default function BienForm({ onSubmit }) {
                   <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
                       <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                        Title
+                        Nombre de chambres
                       </label>
                       <div className="mt-1">
                         <textarea
@@ -85,7 +94,7 @@ export default function BienForm({ onSubmit }) {
                     </div>
                     <div>
                       <label htmlFor="typeBien" className="block text-sm font-medium text-gray-700">
-                        Type of Property
+                        Type de bien
                       </label>
                       <div className="mt-1">
                         <select
@@ -96,7 +105,7 @@ export default function BienForm({ onSubmit }) {
                           value={typeBien}
                           onChange={(e) => setTypeBien(e.target.value)}
                         >
-                          <option value="">Select a property type</option>
+                          <option value="">Select type de bien</option>
                           <option value="appartement">Appartement</option>
                           <option value="villa">Villa</option>
                           <option value="autre">Autre</option>
@@ -105,7 +114,7 @@ export default function BienForm({ onSubmit }) {
                     </div>
                     <div>
                       <label htmlFor="adresse" className="block text-sm font-medium text-gray-700">
-                        Address
+                        Adresse
                       </label>
                       <div className="mt-1">
                         <textarea
@@ -121,7 +130,7 @@ export default function BienForm({ onSubmit }) {
                     </div>
                     <div>
                       <label htmlFor="ville" className="block text-sm font-medium text-gray-700">
-                        City
+                        Ville
                       </label>
                       <div className="mt-1">
                         <select
@@ -138,7 +147,7 @@ export default function BienForm({ onSubmit }) {
                     </div>
                     <div>
                       <label htmlFor="codePostal" className="block text-sm font-medium text-gray-700">
-                        Postal Code
+                        Code Postal 
                       </label>
                       <div className="mt-1">
                         <input
@@ -155,7 +164,7 @@ export default function BienForm({ onSubmit }) {
                     </div>
                     <div>
                       <label htmlFor="prixEstime" className="block text-sm font-medium text-gray-700">
-                        Estimated Price
+                        Prix Estimé
                       </label>
                       <div className="mt-1 flex">
                         <input
@@ -169,37 +178,60 @@ export default function BienForm({ onSubmit }) {
                           onChange={(e) => setMinPrixEstime(e.target.value)}
                         />
                         <span className="mr-2">to</span>
-                 
-                        <span className="ml-2">DA</span>
+                        {/* Add more input fields here */}
+                       
                       </div>
                     </div>
-
                     <div>
-                      <label htmlFor="etat" className="block text-sm font-medium text-gray-700">
-                        Property Status
-                      </label>
-                      <div className="mt-1">
-                        <select
-                          id="etat"
-                          name="etat"
-                          required
-                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={etat}
-                          onChange={(e) => setEtat(e.target.value)}
-                        >
-                          <option value="">Select a property status</option>
-                          <option value="new">New</option>
-                          <option value="used">Used</option>
-                        </select>
-                      </div>
-                    </div>
+  <label htmlFor="etat" className="block text-sm font-medium text-gray-700">
+    État du bien
+  </label>
+  <div className="mt-1">
+    <select
+      id="etat"
+      name="etat"
+      required
+      className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
+      value={etat}
+      onChange={(e) => setEtat(e.target.value)}
+    >
+      <option value="">Select a property status</option>
+      <option value="neuf">Neuf (New)</option>
+      <option value="bonne_condition">Bonne condition (Good condition)</option>
+      <option value="rénové">Rénové (Renovated)</option>
+      <option value="à_rénover">À rénover (To renovate)</option>
+      <option value="partiellement_rénové">Partiellement rénové (Partially renovated)</option>
+      <option value="en_construction">En construction (Under construction)</option>
+      {/* Add more options here */}
+    </select>
+  </div>
+</div>
+
+
                     <div className="pt-5">
                       <div className="flex justify-end">
-                        <button
+                      <button
                           type="submit"
-                          className="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                          className="relative inline-flex items-center justify-center
+                           p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+                            text-gray-900 rounded-lg group bg-gradient-to-br
+                             from-purple-600 to-blue-500 group-hover:from-purple-600
+                              group-hover:to-blue-500 hover:text-white dark:text-white 
+                              focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
                         >
                           Submit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleCancel}
+                          className="relative inline-flex items-center justify-center
+                           p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium
+                            text-gray-900 rounded-lg group bg-gray-200 group-hover:bg-gray-300 
+                            hover:text-gray-800 dark:bg-gray-800 dark:text-gray-200 
+                            dark:hover:text-white focus:ring-4 focus:outline-none 
+                            focus:ring-gray-300 dark:focus:ring-gray-600"
+                        >
+                          Anuller
                         </button>
                       </div>
                     </div>
@@ -209,13 +241,7 @@ export default function BienForm({ onSubmit }) {
             </div>
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button
-              type="button"
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-            >
-              Cancel
-            </button>
-          </div>
+        </div>
         </div>
       </div>
       <Footer />

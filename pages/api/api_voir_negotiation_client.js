@@ -18,7 +18,11 @@ export default async function handler(req, res) {
         prix_propose: true,
         duree: true,
         statut: true,
-        proprietaire_id :true,
+        biens: {
+          select: {
+            type_bien: true,
+          },
+        },
         Proprietaire: {
           select: {
             nom: true,
@@ -27,22 +31,7 @@ export default async function handler(req, res) {
       },
     });
 
-    const negotiationsWithBiens = await Promise.all(
-      negotiations.map(async (negotiation) => {
-        const biens = await prisma.biens.findUnique({
-          where: {
-            id_biens : negotiation.id_negotiation,
-          },
-          select: {
-            type_bien: true,
-          },
-        });
-
-        return { ...negotiation, biens };
-      })
-    );
-
-    res.status(200).json({ negotiations: negotiationsWithBiens });
+    res.status(200).json({ negotiations });
   } catch (error) {
     console.error('Failed to fetch negotiations:', error);
     res.status(500).json({ error: 'Failed to fetch negotiations' });

@@ -18,6 +18,7 @@ export default async function handler(req, res) {
             select: {
               nom: true,
               email: true,
+
             },
           },
           biens: true,
@@ -29,6 +30,7 @@ const formattedNegotiations = negotiations.map((negotiation) => ({
   prix_propose: negotiation.prix_propose,
   duree: negotiation.duree,
   statut: negotiation.statut,
+  commentaire : negotiation.commentaire,
   Proprietaire: {
     nom: negotiation.Proprietaire?.nom, // Use the optional chaining operator "?." to avoid errors if Proprietaire is null or undefined
     email: negotiation.Proprietaire?.email,

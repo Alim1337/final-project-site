@@ -113,7 +113,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
             </button>
             <button
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-              onClick={() => router.push('/Modifier_Demande_Client')}
+              onClick={() => router.push('/negotiation_proprietaire')}
             >
               <AjoutCard key="gestion" text="Voir Les Negotiations" />
             </button>
