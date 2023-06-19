@@ -3,13 +3,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  const { content, receiverId, senderId, negotiationId } = req.query;
-  console.log("content:", content);
-  console.log("senderId:", senderId);
-  console.log("receiverId:", receiverId);
-  console.log("negotiationId:", negotiationId);
-
   if (req.method === "GET") {
+    const { negotiationId } = req.query;
+
     try {
       const messages = await prisma.message.findMany({
         where: {
@@ -30,13 +26,18 @@ export default async function handler(req, res) {
       res.status(500).json({ error: "Failed to fetch messages" });
     }
   } else if (req.method === "POST") {
+    const { content, clientId, proprietaireId, negotiationId } = req.body;
+    console.log("content:", content);
+    console.log("senderId:", proprietaireId);
+    console.log("receiverId:", clientId);
+    console.log("negotiationId:", negotiationId);
     try {
       const createdMessage = await prisma.message.create({
         data: {
           content: content,
           negotiation_id: parseInt(negotiationId),
-          sender_id: parseInt(senderId),
-          receiver_id: parseInt(receiverId),
+          sender_id: parseInt(clientId),
+          receiver_id: parseInt(proprietaireId),
         },
         include: {
           negotiation: true,
@@ -46,7 +47,6 @@ export default async function handler(req, res) {
       });
 
       res.json(createdMessage);
-      console.log(createdMessage);
     } catch (error) {
       res.status(500).json({ error: "Failed to create message" });
     }

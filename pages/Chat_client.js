@@ -9,16 +9,11 @@ const ChatClient = () => {
 
   const router = useRouter();
   const { clientId, proprietaireId, negotiationId } = router.query;
-  console.log("negotiationId", negotiationId);
-  console.log("proprietaireId", proprietaireId);
-  console.log("clientId", clientId);
-
   const fetchMessages = async () => {
     try {
       const res = await fetch(`/api/api_messages_modul?negotiationId=${negotiationId}`);
       const data = await res.json();
       setMessages(data);
-      console.log('data:', data);
     } catch (error) {
       console.error('Failed to fetch messages:', error);
     }
@@ -33,34 +28,39 @@ const ChatClient = () => {
   const handleBackClick = () => {
     router.push(`/negotiation_client`);
   };
+
   const handleSendMessage = async () => {
     try {
-      const url = `/api/api_messages_modul?content=${encodeURIComponent(content)}&senderId=${proprietaireId}&receiverId=${clientId}&negotiationId=${negotiationId}`;
+      const url = `/api/api_messages_modul`;
       const res = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          content,
+          proprietaireId,
+          clientId,
+          negotiationId,
+        }),
       });
       const data = await res.json();
       console.log('Message sent:', data);
       // Clear message input
-      setContent('');
+      setContent();
       // Fetch updated messages
       fetchMessages();
     } catch (error) {
       console.error('Failed to send message:', error);
     }
   };
-  
-  
-  
-
-  const getSenderName = (senderId, receiverId, currentUserId) => {
-    if (receiverId === currentUserId) {
-      return 'Proprietaire';
+  let  currentUserId = clientId;
+  console.log(currentUserId);
+  const getSenderName = (clientId, proprietaireId, currentUserId) => {
+    if (clientId || proprietaireId === currentUserId) {
+      return 'You';
     }
-    return senderId === proprietaireId ? 'You' : 'Client';
+    return clientId === proprietaireId ? 'Proprietaire' : 'Client';
   };
 
   return (
