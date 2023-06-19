@@ -4,22 +4,16 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { id_negotiation, senderId, receiverId, content } = req.body;
+    const { negotiationId, clientId, proprietaireId, content } = req.body;
 
     try {
       // Create a new message in the database
       const message = await prisma.message.create({
         data: {
           content,
-          negotiation: {
-            connect: { id_negotiation }, // Connect the message to the negotiation using the negotiation ID
-          },
-          Proprietaire: {
-            connect: { id_proprietaire: senderId }, // Connect the message to the Proprietaire using the sender's ID
-          },
-          Client: {
-            connect: { id_client: receiverId }, // Connect the message to the Client using the receiver's ID
-          },
+          negotiation_id: negotiationId,
+          sender_id: clientId,
+          receiver_id: proprietaireId,
         },
       });
 

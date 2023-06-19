@@ -7,6 +7,8 @@ import Footer from '@/components/Footer';
 const NegotiationClient = () => {
   const [negotiations, setNegotiations] = useState([]);
   const [clientName, setClientName] = useState('');
+  const [proprietaireID, setProprietaireID] = useState('');
+
   const router = useRouter();
 
   useEffect(() => {
@@ -20,10 +22,11 @@ const NegotiationClient = () => {
           setClientName(clientName);
           const res = await fetch(`/api/api_voir_negotiation_client?client_id=${clientID}`);
           const data = await res.json();
+          setProprietaireID(data.negotiations[0]?.Proprietaire?.id_proprietaire); // Access the first negotiation object and get the id_proprietaire
           setNegotiations(data.negotiations);
-          console.log('data:',data);
+          console.log('data:', data);
         } else {
-          router.push('/login'); // Redirect to login page if token is not found
+          router.push('/login'); // Redirect to the login page if the token is not found
         }
       } catch (error) {
         console.error('Failed to fetch negotiations:', error);
@@ -45,17 +48,21 @@ const NegotiationClient = () => {
     const token = localStorage.getItem('token');
     const decodedToken = jwt.decode(token);
     const clientID = decodedToken.id;
-    const proprietaireID = negotiation?.proprietaire_id; // Add null check here
-    const negotiationID = negotiation?.id_negotiation; // Add null check here
+    const proprietaireID = negotiation.Proprietaire?.id_proprietaire;
+    const negotiationID = negotiation.id_negotiation;
+  
+    console.log("this is negotiation object", negotiation);
     console.log("negotiation id", negotiationID);
     console.log("proprietaire id", proprietaireID);
     console.log("client id", clientID);
+  
     if (proprietaireID && negotiationID) {
       router.push(`/Chat_client?clientId=${clientID}&proprietaireId=${proprietaireID}&negotiationId=${negotiationID}`);
     } else {
       console.error('Invalid negotiation object:', negotiation);
     }
   };
+  
 
   const handleBackClick = () => {
     router.push('/clientHouses');
