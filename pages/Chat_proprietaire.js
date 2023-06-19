@@ -1,123 +1,122 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import Header from "@/components/Header";
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
 const ChatProprietaire = () => {
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
+  const [messageText, setMessageText] = useState('');
+
   const router = useRouter();
-  const { negotiationId, clientId, proprietaireId } = router.query;
+  const { clientId, proprietaireId, negotiationId } = router.query;
 
   useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const res = await fetch(`/api/api_messages_modul_proprietaire?negotiation_id=${negotiationId}`);
+        const data = await res.json();
+        setMessages(data);
+        console.log('data:', data);
+      } catch (error) {
+        console.error('Failed to fetch messages:', error);
+      }
+    };
+
     if (negotiationId) {
       fetchMessages();
     }
   }, [negotiationId]);
 
-  const fetchMessages = async () => {
+  const handleBackClick = () => {
+    router.push(`/negotiation_proprietaire`);
+  };
+
+  const handleSendMessage = async () => {
     try {
-      const response = await fetch(
-        `/api/api_messages_modul?negotiationId=${negotiationId}&clientId=${clientId}&proprietaireId=${proprietaireId}`
-      );
-      const data = await response.json();
-      setMessages(data);
-    } catch (error) {
-      console.log(error);
+      const url = `/api/api_messages_modul_proprietaire?negotiation_id=${negotiationId}&sender_id=${proprietaireId}&receiver_id=${clientId}&content=${encodeURIComponent(messageText)}`;
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      console.log('Message sent:', data);
+      // Clear message input
+      setMessageText('');
+      // Fetch updated messages
+      const fetchMessages = async () => {
+        try {
+          const response = await fetch(`/api/api_messages_modul_proprietaire?negotiationId=${negotiationId}&clientId=${clientId}&proprietaireId=${proprietaireId}`);
+          const data = await response.json();
+          setMessages(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };    } catch (error) {
+      console.error('Failed to send message:', error);
     }
   };
 
-  const sendMessage = async () => {
-    try {
-      const response = await fetch(
-        `/api/api_messages_modul?negotiationId=${negotiationId}&clientId=${clientId}&proprietaireId=${proprietaireId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            content: newMessage,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      setMessages([...messages, data]);
-      setNewMessage("");
-    } catch (error) {
-      console.log(error);
+  const getSenderName = (sender_Id, receiver_Id, currentUser_Id) => {
+    if (receiver_Id === currentUser_Id) {
+      return 'Client';
     }
+    return sender_Id === proprietaireId ? 'you' : 'You';
   };
 
   return (
-    <div className="bg-gray-200 min-h-screen">
+    <div className="bg-white text-black min-h-screen">
       <Header />
-      <div className="flex flex-col justify-between mx-auto h-full max-w-md">
-        {/* Header */}
-        <div className="py-4 px-6 border-b-2 border-gray-300 bg-white">
-          {/* Header content */}
+
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex justify-start mb-4">
+          <button
+            onClick={handleBackClick}
+            className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          >
+            Retourner à Négociations
+          </button>
         </div>
-  
-        {/* Messages */}
-        <div className="flex bg-gray-50 flex-col flex-1 p-4 overflow-y-auto">
-          {messages.map((message) => (
-            <div
-              className={`chat-message ${
-                message.sender_id === parseInt(proprietaireId) ? "proprietor-message" : "client-message"
-              }`}
-              key={message.id_message}
-              style={{ border: "1px solid black" }} // Added border style
-            >
-              {/* Message content */}
-              <div className="message-content text-black">{message.content}</div>
-              <span className="message-sender text-gray-600">
-                {message.sender_id === parseInt(proprietaireId) ? "Proprietaire" : "Client"}
-              </span>
-            </div>
-          ))}
-        </div>
-  
-        {/* Message input */}
-        <div className="border-t-2 border-gray-300 px-4 py-2 bg-white">
-          <div className="relative flex">
-            <input
-              type="text"
-              placeholder="Write your message!"
-              className="w-full focus:outline-none focus:placeholder-gray-500 text-black placeholder-gray-500 pl-4 pr-12 py-3 border border-gray-400 rounded-full shadow-sm"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-            />
-            <div className="absolute right-0 inset-y-0 hidden sm:flex">
-              <a
-                href="#_"
-                className="relative inline-flex items-center px-12 py-3 overflow-hidden text-lg font-medium text-indigo-600 border-2 border-indigo-600 rounded-full hover:text-white group hover:bg-gray-50"
-                onClick={sendMessage}
-              >
-                <span className="absolute left-0 block w-full h-0 transition-all bg-indigo-600 opacity-100 group-hover:h-full top-1/2 group-hover:top-0 duration-400 ease"></span>
-                <span className="absolute right-0 flex items-center justify-start w-10 h-10 duration-300 transform translate-x-full group-hover:translate-x-0 ease">
-                  <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M14 5l7 7m0 0l-7 7m7-7H3"
-                    ></path>
-                  </svg>
-                </span>
-                <span className="relative">Send</span>
-              </a>
-            </div>
+        <h1 className="text-2xl font-bold mb-4">Négociation ID: {negotiationId}</h1>
+        {messages && messages.length > 0 ? (
+          <div className="space-y-4">
+            {messages.map((message) => (
+              <div key={message.id_message}>
+                <p className="text-sm font-bold">
+                  {getSenderName(message.sender_id, message.receiver_id, proprietaireId)}
+                </p>
+                <p className="text-sm">{message.content}</p>
+                <p className="text-xs text-gray-500">{message.timestamp}</p>
+              </div>
+            ))}
           </div>
+        ) : (
+          <p>Aucun message trouvé.</p>
+        )}
+
+        <div className="mt-4">
+          <textarea
+            value={messageText}
+            onChange={(e) => setMessageText(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-lg"
+            placeholder="Écrire un message..."
+            rows={4}
+          ></textarea>
+        </div>
+        <div className="mt-2">
+          <button
+            onClick={handleSendMessage}
+            className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          >
+            Envoyer
+          </button>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
-            }  
+};
 
 export default ChatProprietaire;

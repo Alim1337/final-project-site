@@ -52,14 +52,14 @@ const NegotiationProprietaire = () => {
   const handleContacter = (negotiation) => {
     const token = localStorage.getItem('token');
     const decodedToken = jwt.decode(token);
-    const clientID = decodedToken.id;
-    const proprietaireID = negotiation?.biens?.id_proprietaire; // Update the property name
+    const proprietaireID = decodedToken.id;
+    const clientID = negotiation?.client_id; // Update the property name
     const negotiationID = negotiation?.id_negotiation; // Add null check here
     console.log("negotiation id", negotiationID);
     console.log("proprietaire id", proprietaireID);
     console.log("client id", clientID);
     if (proprietaireID && negotiationID) {
-      router.push(`/Chat_client?clientId=${clientID}&proprietaireId=${proprietaireID}&negotiationId=${negotiationID}`);
+      router.push(`/Chat_proprietaire?clientId=${clientID}&proprietaireId=${proprietaireID}&negotiationId=${negotiationID}`);
     } else {
       console.error('Invalid negotiation object:', negotiation);
     }
