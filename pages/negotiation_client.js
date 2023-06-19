@@ -93,7 +93,7 @@ const NegotiationClient = () => {
                 <p className="text-sm">Type de bien: {negotiation.biens?.type_bien}</p>
 
                 {/* Display Proprietaire information */}
-                <p className="text-sm">Nom du propriétaire: {negotiation.Proprietaire?.nom}</p>
+               <p className="text-sm">Nom du propriétaire: {negotiation.Proprietaire?.nom}</p>
 
                 {/* Buttons */}
                 <div className="flex justify-end mt-4 space-x-4">

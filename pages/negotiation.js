@@ -10,6 +10,10 @@ import Footer from '@/components/Footer';
 
 export default function Negotiation() {
   const router = useRouter();
+  const { query } = router;
+  const idLikes = query.id_likes || null; // Assign null as the default value if id_likes is not available
+  const idBien = query.bien_id || null;
+  const idProprietaire = query.proprietaire_id || null;
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -26,6 +30,11 @@ export default function Negotiation() {
 
   const handleNegotiationSubmit = async (formData) => {
     try {
+      // Add the idLikes, idBien, and idProprietaire to the form data
+      formData.id_likes = idLikes;
+      formData.bien_id = idBien;
+      formData.proprietaire_id = idProprietaire;
+
       // Make an API request to create the negotiation
       const response = await fetch('/api/api_create_negotiation', {
         method: 'POST',
@@ -36,7 +45,7 @@ export default function Negotiation() {
       });
 
       if (response.ok) {
-        // If the negotiation was created successfully, display a notification and redirect to the /ClientHouses page
+        // If the negotiation was created successfully, display a notification and redirect to the /homesList page
         toast.success('Negociation a ete faite');
         router.push('/homesList');
       } else {
@@ -50,7 +59,6 @@ export default function Negotiation() {
 
   return (
     <div className='bg-white items-center'>
-       
       <Header />
       <div className="container mx-auto px-4 py-8 bg-white rounded-sm">
         <div className='bg-white'>

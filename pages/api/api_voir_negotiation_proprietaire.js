@@ -4,41 +4,44 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
-    const { proprietaire_email } = req.query;
+    const proprietaireID = req.query.proprietaireID; // Accessing the proprietaireID from req.query
+    console.log(proprietaireID);
 
     try {
       const negotiations = await prisma.negotiation.findMany({
         where: {
-          Proprietaire: {
-            email: proprietaire_email,
-          },
+          proprietaire_id: parseInt(proprietaireID),
         },
         include: {
           Proprietaire: {
             select: {
               nom: true,
-              email: true,
-
             },
           },
-          biens: true,
+          biens: {
+            select: {
+              type_bien: true,
+            },
+          },
         },
       });
-const formattedNegotiations = negotiations.map((negotiation) => ({
-  id_negotiation: negotiation.id_negotiation,
-  client_id : negotiation.client_id ,
-  prix_propose: negotiation.prix_propose,
-  duree: negotiation.duree,
-  statut: negotiation.statut,
-  commentaire : negotiation.commentaire,
-  Proprietaire: {
-    nom: negotiation.Proprietaire?.nom, // Use the optional chaining operator "?." to avoid errors if Proprietaire is null or undefined
-    email: negotiation.Proprietaire?.email,
-  },
-  biens: {
-    type_bien: negotiation.biens?.type_bien, // Use the optional chaining operator "?." to avoid errors if biens is null or undefined
-  },
-}));
+
+      const formattedNegotiations = negotiations.map((negotiation) => ({
+        id_negotiation: negotiation.id_negotiation,
+        client_id: negotiation.client_id,
+        prix_propose: negotiation.prix_propose,
+        duree: negotiation.duree,
+        statut: negotiation.statut,
+        commentaire: negotiation.commentaire,
+        Proprietaire: {
+          nom: negotiation.Proprietaire?.nom,
+        },
+        biens: {
+          type_bien: negotiation.biens?.type_bien,
+        },
+      }));
+
+      console.log(formattedNegotiations.map((negotiation) => negotiation.Proprietaire?.nom));
 
       res.status(200).json({ negotiations: formattedNegotiations });
     } catch (error) {

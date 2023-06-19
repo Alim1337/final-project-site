@@ -1,31 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
 import jwt from 'jsonwebtoken';
+
+import { useRouter } from 'next/router';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-const NegotiationClient = () => {
+const NegotiationProprietaire = () => {
   const [negotiations, setNegotiations] = useState([]);
-  const [clientName, setClientName] = useState('');
+  const [proprietaireID, setProprietaireID] = useState([]);
+  const [proprietaireNom, setProprietaireNom] = useState([]);
   const router = useRouter();
+
+
 
   useEffect(() => {
     const fetchNegotiations = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          const decodedToken = jwt.decode(token);
-          const clientID = decodedToken.id;
-          const clientName = decodedToken.nom; // Assuming the name is stored in the token
-          setClientName(clientName);
-          const res = await fetch(`/api/api_voir_negotiation_client?client_id=${clientID}`);
-          const data = await res.json();
+      const token = localStorage.getItem('token');
+      const decodedToken = jwt.decode(token);
+      const proprietaireID = decodedToken.id;
+      console.log("proprietaire id", proprietaireID);
+      if (proprietaireID) {
+        try {
+          const response = await fetch(`/api/api_voir_negotiation_proprietaire?proprietaireID=${proprietaireID}`);
+          const data = await response.json();
           setNegotiations(data.negotiations);
-        } else {
-          router.push('/login'); // Redirect to login page if token is not found
+          setProprietaireID(proprietaireID);
+          setProprietaireNom(decodedToken.nom);
+
+        } catch (error) {
+          console.error('Failed to fetch negotiations:', error);
         }
-      } catch (error) {
-        console.error('Failed to fetch negotiations:', error);
+      } else {
+        console.error('Invalid negotiation object:', proprietaireID);
       }
     };
 
@@ -39,12 +45,15 @@ const NegotiationClient = () => {
   const handleModifier = (id) => {
     // Logic for handling 'Modifier' button click
   };
+  const handleBackClick = () => {
+    router.push('/proprietaireHouses');
+  };
 
   const handleContacter = (negotiation) => {
     const token = localStorage.getItem('token');
     const decodedToken = jwt.decode(token);
     const clientID = decodedToken.id;
-    const proprietaireID = negotiation?.proprietaire_id; // Add null check here
+    const proprietaireID = negotiation?.biens?.id_proprietaire; // Update the property name
     const negotiationID = negotiation?.id_negotiation; // Add null check here
     console.log("negotiation id", negotiationID);
     console.log("proprietaire id", proprietaireID);
@@ -69,16 +78,15 @@ const NegotiationClient = () => {
       <Header />
 
       <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-start mb-4">
           <button
-            onClick={handleBackToProprietaireHousesClick}
+            onClick={handleBackClick}
             className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
           >
-            Retourner à Proprietaire DashBoard
+            Retourner à proprietaire DashBoard
           </button>
-    
         </div>
-        <h1 className="text-2xl font-bold mb-4">Négociations pour le client: {clientName}</h1>
+        <h1 className="text-2xl font-bold mb-4">Négociations pour le proprietaire: {proprietaireNom}</h1>
         {negotiations && negotiations.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {negotiations.map((negotiation) => (
@@ -134,5 +142,4 @@ const NegotiationClient = () => {
     </div>
   );
 };
-
-export default NegotiationClient;
+export default NegotiationProprietaire;

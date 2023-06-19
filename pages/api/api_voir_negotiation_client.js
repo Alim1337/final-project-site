@@ -1,39 +1,54 @@
-// Import the PrismaClient
 import { PrismaClient } from '@prisma/client';
 
-// Create an instance of PrismaClient
 const prisma = new PrismaClient();
 
-// Define the API endpoint handler
 export default async function handler(req, res) {
-  const { client_id } = req.query;
+  if (req.method === 'GET') {
+    const clientID = req.query.client_id; // Accessing the client_id from req.query
+    console.log(clientID);
 
-  try {
-    const negotiations = await prisma.negotiation.findMany({
-      where: {
-        client_id: parseInt(client_id),
-      },
-      select: {
-        id_negotiation: true,
-        prix_propose: true,
-        duree: true,
-        statut: true,
-        biens: {
-          select: {
-            type_bien: true,
+    try {
+      const negotiations = await prisma.negotiation.findMany({
+        where: {
+          client_id: parseInt(clientID),
+        },
+        include: {
+          Proprietaire: {
+            select: {
+              nom: true,
+            },
+          },
+          biens: {
+            select: {
+              type_bien: true,
+            },
           },
         },
+      });
+      const formattedNegotiations = negotiations.map((negotiation) => ({
+        id_negotiation: negotiation.id_negotiation,
+        client_id: negotiation.client_id,
+        prix_propose: negotiation.prix_propose,
+        duree: negotiation.duree,
+        statut: negotiation.statut,
+        commentaire: negotiation.commentaire,
         Proprietaire: {
-          select: {
-            nom: true,
-          },
+          nom: negotiation.Proprietaire?.nom,
         },
-      },
-    });
+        biens: {
+          type_bien: negotiation.biens?.type_bien,
+        },
+      }));
+      
+      console.log(formattedNegotiations.map((negotiation) => negotiation.Proprietaire?.nom));
+      
 
-    res.status(200).json({ negotiations });
-  } catch (error) {
-    console.error('Failed to fetch negotiations:', error);
-    res.status(500).json({ error: 'Failed to fetch negotiations' });
+      res.status(200).json({ negotiations: formattedNegotiations });
+    } catch (error) {
+      console.error('Failed to fetch negotiations:', error);
+      res.status(500).json({ error: 'Failed to fetch negotiations' });
+    }
+  } else {
+    res.status(405).json({ error: 'Method not allowed' });
   }
 }

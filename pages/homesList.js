@@ -23,7 +23,7 @@ export default function HomesList() {
     fetchData();
   }, []);
 
-  const handleInterestedClick = async (bienId) => {
+  const handleInterestedClick = async (bienId, proprietaireId) => {
     try {
       const res = await fetch('/api/api_create_like', {
         method: 'POST',
@@ -33,13 +33,14 @@ export default function HomesList() {
         body: JSON.stringify({
           decodedToken: token,
           bien_id: bienId,
+          proprietaire_id: proprietaireId,
         }),
       });
-
+  
       if (res.ok) {
         const like = await res.json();
-        // Redirect to the negotiation page
-        router.push('/negotiation');
+        // Redirect to the negotiation page with the like ID, bien ID, and proprietaire ID
+        router.push(`/negotiation?id_likes=${like.id_likes}&bien_id=${bienId}&proprietaire_id=${proprietaireId}`);
       } else {
         console.error('Failed to create like');
       }
@@ -47,6 +48,8 @@ export default function HomesList() {
       console.error(error);
     }
   };
+  
+  
 
   const handleBackClick = () => {
     try {
