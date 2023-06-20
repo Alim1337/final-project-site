@@ -19,7 +19,7 @@ if (!token) {
         id_client:token.id,
         type_bien,
         type_de_transaction:"location",
-        prix_minimum,
+        prix_minimum : 0,
         prix_maximum,
         surface_minimum,
         nbr_chambre_minimum,

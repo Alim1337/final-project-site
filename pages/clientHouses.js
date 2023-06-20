@@ -39,9 +39,13 @@ export default function ClientHouses() {
     }
   }, []);
 
+  const handleGoBack = () => {
+    router.push('/');
+  };
+
   return (
     <div>
-      <Header/>
+      <Header />
       <main>
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
@@ -72,7 +76,7 @@ export default function ClientHouses() {
           <div className="p-7 text-2xl font-semibold flex-1 h-screen">
             <h1 className="font-bold text-gray-700 text-4xl">Devenir Un Proprietaire</h1>
             <h1 className="font-semi-bold text-green-500">
-              Ajouter au moins un bien pour avoir le statu Proprietaire
+              Ajouter au moins un bien pour avoir le statut Proprietaire
             </h1>
             <button
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
@@ -104,7 +108,6 @@ export default function ClientHouses() {
             >
               <AjoutCard key="gestion" text="Voir Les Negotiations" />
             </button>
-            
           </div>
 
           <div className="p-20 py-0">
@@ -114,6 +117,15 @@ export default function ClientHouses() {
           <div className="p-0">
             <h2 className="font-mono text-green-600">Client Connected Email: </h2>
             <h2 className="font-mono text-green-600">{ClientEmail}</h2>
+          </div>
+
+          <div className="flex-grow-0 flex-shrink-0">
+            <button
+              className="border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200"
+              onClick={handleGoBack}
+            >
+              Go back
+            </button>
           </div>
         </div>
       </main>

@@ -16,17 +16,21 @@ import jwt from 'jsonwebtoken';
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
   
 export default function ProprietaireHouses({ exploreData, cardsData }) {
-  
   const [open, setOpen] = useState(true);
+  const [showVIPWindow, setShowVIPWindow] = useState(false);
   const menus = [
     { title: 'Gestion de profil', icon: HiUser },
     { title: 'Gestion des annonces', icon: FaChalkboardTeacher },
     { title: 'Gestion des biens', icon: HiOutlineHome },
     { title: 'Support', icon: FiPlus },
-    { title: 'Devenir VIP', icon: FiChevronDown },
+    {
+      title: 'Devenir VIP',
+      icon: FiChevronDown,
+      button: true,
+    },
     { title: 'settings', icon: IoIosHand },
   ];
-  
+
   const router = useRouter();
 
   const handleModifierBien = () => {
@@ -37,7 +41,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
   const [proprietaireEmail, setProprietaireEmail] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem('token'); // Retrieve the token from local storage
+    const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwt.decode(token);
       if (decodedToken && decodedToken.nom) {
@@ -47,6 +51,15 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
     }
   }, []);
 
+  const handleDevenirVIP = () => {
+    setShowVIPWindow(true);
+  };
+
+  const handleJaipaye = () => {
+    // Handle "J'ai payé" button click
+    router.push('/Vip');
+  };
+  
   return (
     <div>
       <Header />
@@ -62,20 +75,35 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 onClick={() => setOpen(!open)}
               />
               <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
-                {menus.map((menu, index) => (
-                  <li
-                    key={index}
-                    className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
-                    border-opacity-70  border-red-500 active:scale-95 text-s flex items-center gap-x-4 cursor-pointer p-2 ${
-                      !open ? 'transform scaleX(0)' : ''
-                    } transition transform duration-300 ease-out`}
-                  >
-                    {React.createElement(menu.icon, { className: 'text-white' })}
-                    <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-                      {menu.title}
-                    </span>
-                  </li>
-                ))}
+              {menus.map((menu, index) => (
+  <li
+    key={index}
+    className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
+    border-opacity-70  border-red-500 active:scale-95 text-s flex items-center gap-x-4 cursor-pointer p-2 ${
+      !open ? 'transform scaleX(0)' : ''
+    } transition transform duration-300 ease-out`}
+  >
+    {menu.button ? (
+      <button
+        className="flex items-center gap-x-2"
+        onClick={handleDevenirVIP} // Call the function when the button is clicked
+      >
+        {React.createElement(menu.icon, { className: 'text-white' })}
+        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+          {menu.title}
+        </span>
+      </button>
+    ) : (
+      <>
+        {React.createElement(menu.icon, { className: 'text-white' })}
+        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+          {menu.title}
+        </span>
+      </>
+    )}
+  </li>
+))}
+
               </ul>
             </div>
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">
@@ -129,6 +157,61 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
           </div>
         </main>
       </div>
+      <div>
+       {/* VIP Window */}
+       {showVIPWindow && (
+  <div className="fixed inset-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-75">
+    <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg">
+      <div className="p-3 mr-4 text-yellow-500 bg-yellow-100 rounded-full">
+        <svg
+          className="w-5 h-5"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <circle cx="12" cy="8" r="7"></circle>
+          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+        </svg>
+      </div>
+      <div className="text-center">
+        <p className="mb-2 text-sm font-medium text-gray-600">DevienirVIP</p>
+      </div>
+      <div className="flex justify-between mt-4">
+        <button
+          className="text-white bg-gradient-to-r from-green-400 via-green-500
+          to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
+           focus:ring-green-300 dark:focus:ring-green-800 shadow-lg
+            shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80
+             font-medium rounded-lg 
+            text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          onClick={() => {
+            // Handle "J'ai payé" button click
+          }}
+        >
+          J'ai payé
+        </button>
+        <button
+          className="text-white bg-gradient-to-r from-red-400 via-red-500
+           to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
+            focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg
+             dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          onClick={() => {
+            setShowVIPWindow(false);
+          }}
+        >
+          J'ai pas payé encore
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+       </div>
+
       <Footer />
     </div>
   );

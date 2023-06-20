@@ -20,9 +20,9 @@ function Header() {
   }, []);
 
   const router = useRouter();
-  const [searchInput, setSearchInput] = useState("")
-  const { modeReq } = router.query
-  const [mode, setMode] = useState(modeReq)
+  const [searchInput, setSearchInput] = useState("");
+  const { modeReq } = router.query;
+  const [mode, setMode] = useState(modeReq);
 
   const handleConnexionClick = () => {
     router.push('/login_client');
@@ -39,6 +39,21 @@ function Header() {
     setProprietaireName('');
     setShowDisconnectButton(false);
   };
+  const handleDashboardClick = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.userType) {
+        const userType = decodedToken.userType;
+        if (userType === 'client') {
+          router.push('/clientHouses');
+        } else if (userType === 'proprietaire') {
+          router.push('/proprietaireHouses');
+        }
+      }
+    }
+  };
+  
 
   return (
     <header className='sticky top-0 z-40 grid grid-cols-3 bg-white shadow-md py-3 px-3 md:px-10'>
@@ -74,10 +89,18 @@ function Header() {
             <UserCircleIcon className='h-6 cursor-pointer' />
             <MenuIcon className='h-6 cursor-pointer' />
             <button
-              className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
+              className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono 
+              shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
               onClick={handleDisconnectClick}
             >
               Disconnect
+            </button>
+            <button
+              className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono 
+              shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
+              onClick={handleDashboardClick}
+            >
+              Dashboard
             </button>
           </div>
         ) : (

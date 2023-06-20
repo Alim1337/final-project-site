@@ -49,19 +49,6 @@ const Form_Demande_Client = ({ onSubmit }) => {
             <option value="autre">Autre</option>
           </select>
         </div>
-        <div className="mb-4">
-          <label htmlFor="prix_minimum" className="block font-medium mb-2">
-            Prix minimum
-          </label>
-          <input
-            type="number"
-            id="prix_minimum"
-            value={prix_minimum}
-            onChange={(e) => setPrixMinimum(e.target.value)}
-            required
-            className="border border-gray-300 rounded px-4 py-2 w-full"
-            />
-            </div>
             <div className="mb-4">
             <label htmlFor="prix_maximum" className="block font-medium mb-2">
             Prix maximum
