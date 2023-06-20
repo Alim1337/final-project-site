@@ -12,6 +12,7 @@ const nextConfig = {
     'i.pinimg.com',
     'cdn.thespaces.com',
     'www.designferia.com',
+    'img.uxwing.com',
      'links.papareact.com' ,'preview.redd.it', 'c4.wallpaperflare.com' , 'jsonkeeper.com','a0.muscache.com','www.ouedkniss.com','cdn9.ouedkniss.com','images.unsplash.com'],
   },
 };
