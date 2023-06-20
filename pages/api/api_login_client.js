@@ -1,4 +1,3 @@
-// api/api_login_client.js
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -7,6 +6,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   const { email, password } = req.body;
+  let statusVIP = false; // Initialize statusVIP as false
 
   try {
     let existingUser = await prisma.Proprietaire.findUnique({
@@ -14,6 +14,7 @@ export default async function handler(req, res) {
         email: email,
       },
     });
+
 
     let userType = 'client';
     let existingClient = null;
@@ -48,6 +49,23 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid email or password' });
     }
 
+    // Check if the connected user exists in Client_vip or Proprietaire_vip
+    if (userType === 'client') {
+      const clientVIP = await prisma.Client_vip.findUnique({
+        where: {
+          id_client: existingClient.id_client,
+        },
+      });
+      statusVIP = !!clientVIP; // Set statusVIP based on the existence of clientVIP
+    } else {
+      const proprietaireVIP = await prisma.Proprietaire_vip.findUnique({
+        where: {
+          id_proprietaire: existingUser.id_proprietaire,
+        },
+      });
+      statusVIP = !!proprietaireVIP; // Set statusVIP based on the existence of proprietaireVIP
+    }
+console.log(statusVIP);
     // Generate a JWT token with user information as payload
     const token = jwt.sign(
       {
@@ -61,6 +79,7 @@ export default async function handler(req, res) {
         sex: existingUser ? existingUser.sex : existingClient.sex,
         date_dinscription: existingUser ? existingUser.date_dinscription : existingClient.date_dinscription,
         userType: userType,
+        statusVIP: statusVIP, // Set the statusVIP field
       },
       process.env.JWT_SECRET,
       {
@@ -70,7 +89,7 @@ export default async function handler(req, res) {
 
     console.log('Token:', token);
 
-    res.status(200).json({ token, userType });
+    res.status(200).json({ token, userType ,statusVIP});
   } catch (error) {
     console.error('API Error:', error);
     res.status(500).json({ error: 'An error occurred' });

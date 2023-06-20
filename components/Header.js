@@ -114,7 +114,7 @@ function Header() {
                 >
                   Logout
                 </button>
-                {router.pathname !== '/proprietaireHouses' && router.pathname !== '/clientHouses' && (
+                {router.pathname !== '/proprietaireHouses' && router.pathname !== '/clientHouses' &&router.pathname !== '/Vip' &&  (
                   <button
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
                     onClick={handleDashboardClick}

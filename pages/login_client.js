@@ -24,12 +24,16 @@ export default function LoginClient() {
     });
 
     if (response.ok) {
-      const { token, userType } = await response.json();
+      const { token, userType, statusVIP } = await response.json();
       console.log('Token:', token);
       console.log('User Type:', userType);
       localStorage.setItem('token', token);
+      console.log(statusVIP)
 
-      if (userType === 'proprietaire') {
+      if (statusVIP) {
+        console.log('Redirecting to /Vip');
+        router.push('/Vip');
+      } else if (userType === 'proprietaire') {
         console.log('Redirecting to /proprietaireHouses');
         router.push('/proprietaireHouses');
       } else if (userType === 'client') {
@@ -44,6 +48,7 @@ export default function LoginClient() {
       });
     }
   }
+
   function handleSignup(event) {
     event.preventDefault();
     router.push('/signup_client');
@@ -51,7 +56,7 @@ export default function LoginClient() {
 
   return (
     <section>
-      <BgLogin/>
+      <BgLogin />
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-gray-900">
           <img className="w-8 h-8 mr-2" src="https://img.uxwing.com/wp-content/themes/uxwing/download/buildings-architecture-real-estate/property-icon.svg" alt="logo" />
@@ -111,16 +116,16 @@ export default function LoginClient() {
                 Sign in
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-            Don’t have an account yet?{' '}
-            <a
-              href="#"
-              onClick={handleSignup}
-              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-            >
-              Sign up
-            </a>
-          </p>
-        </form>
+                Don’t have an account yet?{' '}
+                <a
+                  href="#"
+                  onClick={handleSignup}
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
+                  Sign up
+                </a>
+              </p>
+            </form>
           </div>
         </div>
       </div>

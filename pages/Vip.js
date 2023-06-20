@@ -30,24 +30,19 @@ export default function VipPnel({ exploreData, cardsData }) {
   };
 
   const [decodedToken, setDecodedToken] = useState(null);
+  const [userType, setUserType] = useState(null); // Added userType state
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       const decoded = jwt.decode(token);
-      if (decoded && decoded.userType === 'proprietaire') {
+
         setDecodedToken(decoded);
-      }
+        setUserType(decoded.userType); // Set userType based on decoded token
+
+    
     }
   }, []);
-
-  const handleDevenirVIP = () => {
-    setShowVIPWindow(true);
-  };
-
-  const handleJaipaye = () => {
-    router.push('/Vip');
-  };
 
   const handleVoirNegotiation = () => {
     const token = localStorage.getItem('token');
@@ -60,7 +55,7 @@ export default function VipPnel({ exploreData, cardsData }) {
       }
     }
   };
-
+console.log(userType);
   const handleVoirDemandes = () => {
     router.push('/Voir_Demandes');
   };
@@ -70,6 +65,10 @@ export default function VipPnel({ exploreData, cardsData }) {
       <Header />
       <div>
         <main>
+        <div className="bg-gray-100  hover:bg-gray-200  shadow-md p-4 transition duration-300">
+  <h2 className="text-black text-xl font-bold">Vous êtes un utilisateur VIP</h2>
+</div>
+
           <div className="flex bg-gray-100 text-gray-700">
             <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
               <FiChevronLeft
@@ -112,35 +111,56 @@ export default function VipPnel({ exploreData, cardsData }) {
             </div>
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
-              {decodedToken && decodedToken.userType === 'proprietaire' && (
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={() => router.push('/BienFormProprietaire')}>
-                  <AjoutCard key="gestion" text="Ajouter un bien" />
+              
+              {userType=== 'client' && (
+                
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+                 xl:grid-cols-4 font-normal text-black" 
+                 onClick={() => router.push('/devenir_proprietaire')}>
+                <AjoutCard key="gestion" text="Ajouter au moins un bien pour devenir un proprietaire
+" />
+
+              
                 </button>
+                
               )}
-              {decodedToken && decodedToken.userType === 'client' && (
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={() => router.push('/devenir_proprietaire')}>
-                  Devenir propriétaire
+               {userType=== 'proprietaire' && (
+                
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+                 xl:grid-cols-4 font-normal text-black" 
+                 onClick={() => router.push('/addBienProprietaire')}>
+                <AjoutCard key="gestion" text="Ajouter un bien
+" />
+
+              
                 </button>
+                
               )}
-              {decodedToken && decodedToken.userType === 'proprietaire' && (
+              {userType === 'proprietaire' && (
                 <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={handleModifierBien}>
                   <GestionCard key="gestion" text="Modifier un bien" />
                 </button>
               )}
-              {decodedToken && decodedToken.userType === 'client' && (
+              {userType === 'proprietaire' && (
                 <button
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-                  onClick={() => router.push('/Modifier_Demande_Client')}
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690
+                   transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
+                    font-mono bg-transparent"
+                  onClick={() => router.push('/api/api_fetch_all_biens')}
                 >
                   <AjoutCard key="gestion" text="Voir Votre Biens Aimé" />
                 </button>
               )}
             </div>
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">
+            
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
-              <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={handleVoirDemandes}>
+              {userType === 'proprietaire' && (
+              <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
+              font-normal text-black" onClick={handleVoirDemandes}>
                 <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
-              </button>
+              </button> 
+               )}
                 <button
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => router.push('/Demande_Client')}
@@ -155,14 +175,16 @@ export default function VipPnel({ exploreData, cardsData }) {
                   <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
                 </button>
               
-              {decodedToken && (
+          
                 <button
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => handleVoirNegotiation()}
                 >
                   <AjoutCard key="gestion" text="Voir Les Negotiations" />
                 </button>
-              )}
+         
             </div>
           </div>
         </main>
