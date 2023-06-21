@@ -70,6 +70,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
   const handleJaipaye = () => {
     setShowConfirmationWindow(true); // Show the confirmation window
   };
+  const handleVoirbienliked = () => {
+   // Show the confirmation window
+  };
 
   const handleConfirmation = () => {
     const token = localStorage.getItem('token');
@@ -218,8 +221,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               {userType === 'proprietaire' && (
               <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
               font-normal text-black"
-              onClick={() => router.push('/Modifier_Demande_Client')}
-              >
+              onClick={() => handleVoirbienliked()}              >
                 <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
               </button> 
                )}
