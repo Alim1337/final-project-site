@@ -65,7 +65,7 @@ const NegotiationClient = () => {
   
 
   const handleBackClick = () => {
-    router.push('/clientHouses');
+    router.push('/panel');
   };
 
   return (

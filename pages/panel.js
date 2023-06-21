@@ -22,7 +22,10 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
   const [showConfirmationWindow, setShowConfirmationWindow] = useState(false); // New state variable
 
   const menus = [
-    { title: 'Gestion de profil', icon: HiUser },
+    { title: 'Gestion de profil', 
+      icon: HiUser ,
+       button1 : true,  
+      },
     { title: 'Gestion des annonces', icon: FaChalkboardTeacher },
     { title: 'Gestion des biens', icon: HiOutlineHome },
     { title: 'Support', icon: FiPlus },
@@ -39,6 +42,10 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
   const handleModifierBien = () => {
     router.push('/gestionBien_modify');
   };
+  const handleModifierProfil= () => {
+    router.push('/Gestion_Profile_Proprietaire');
+  };
+
 
   const [proprietaireName, setProprietaireName] = useState('');
   const [proprietaireEmail, setProprietaireEmail] = useState('');
@@ -141,37 +148,42 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 }`}
                 onClick={() => setOpen(!open)}
               />
-              <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
-              {menus.map((menu, index) => (
-  <li
-    key={index}
-    className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
-    border-opacity-70  border-red-500 active:scale-95 text-s flex items-center gap-x-4 cursor-pointer p-2 ${
-      !open ? 'transform scaleX(0)' : ''
-    } transition transform duration-300 ease-out`}
-  >
-    {menu.button ? (
-      <button
-        className="flex items-center gap-x-2"
-        onClick={handleDevenirVIP} // Call the function when the button is clicked
-      >
-        {React.createElement(menu.icon, { className: 'text-white' })}
-        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-          {menu.title}
-        </span>
-      </button>
-    ) : (
-      <>
-        {React.createElement(menu.icon, { className: 'text-white' })}
-        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-          {menu.title}
-        </span>
-      </>
-    )}
-  </li>
-))}
+             <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
+  {menus.map((menu, index) => (
+    <li
+      key={index}
+      className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
+      border-opacity-70  border-red-500 active:scale-95 text-s flex items-center gap-x-4 cursor-pointer p-2 ${
+        !open ? 'transform scaleX(0)' : ''
+      } transition transform duration-300 ease-out`}
+    >
+      {menu.button ? (
+        <button className="flex items-center gap-x-2" onClick={handleDevenirVIP}>
+          {React.createElement(menu.icon, { className: 'text-white' })}
+          <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+            {menu.title}
+          </span>
+        </button>
+      ) : (
+        <>
+          {React.createElement(menu.icon, { className: 'text-white' })}
+          <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+            {menu.title}
+          </span>
+        </>
+      )}
+      {menu.button1 && (
+        <button className="flex items-center gap-x-2" onClick={handleModifierProfil}>
+          {React.createElement(menu.icon, { className: 'text-white' })}
+          <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+            {menu.title}
+          </span>
+        </button>
+      )}
+    </li>
+  ))}
+</ul>
 
-              </ul>
             </div>
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
@@ -191,7 +203,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 
                 <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
                  xl:grid-cols-4 font-normal text-black" 
-                 onClick={() => router.push('/addBienProprietaire')}>
+                 onClick={() => router.push('/BienFormProprietaire')}>
                 <AjoutCard key="gestion" text="Ajouter un bien
 " />
 

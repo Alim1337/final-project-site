@@ -30,7 +30,7 @@ export default function BienForm({ onSubmit }) {
     event.preventDefault();
 
     if (window.confirm('Are you sure you want to cancel?')) {
-      router.push('/proprietaireHouses');
+      router.push('/panel');
     }
   }
 
