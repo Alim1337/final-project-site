@@ -2,7 +2,7 @@
 import Head from 'next/head'
 import BgLogin from '@/components/bg_login'
 import HeaderCDash from '@/components/HeaderCDash'
-import Sidebar from '@/components/Sidebar'
+import SidebarAdmin from '@/components/DashBoard_admin/layout/Sidebar_admin'
 import TopCards from '@/components/TopCards'
 
 export default function CDashBoard() {
@@ -19,7 +19,7 @@ export default function CDashBoard() {
       <main className='max-w-7xl mx-auto px-8 sm:px-16 bg-white w-full'>
         
         <div className='ml- 0'>
-        <Sidebar className ='ml-0'/>
+        <SidebarAdmin className ='ml-0'/>
         </div>
         <div>
             <TopCards/>

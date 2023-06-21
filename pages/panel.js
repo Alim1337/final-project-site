@@ -42,6 +42,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
 
   const [proprietaireName, setProprietaireName] = useState('');
   const [proprietaireEmail, setProprietaireEmail] = useState('');
+  const [ClientName, setClientName] = useState('');
+  const [ClientEmail, setClientEmail] = useState('');
+  const [userType, setUserType] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -50,12 +53,18 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
       if (decodedToken && decodedToken.nom) {
         setProprietaireName(decodedToken.nom);
         setProprietaireEmail(decodedToken.email);
+        setUserType(decodedToken.userType);
+        setClientName(decodedToken.nom);
+        setClientEmail(decodedToken.nom);
       }
     }
   }, []);
 
   const handleDevenirVIP = () => {
     setShowVIPWindow(true);
+  };
+  const handleGoBack = () => {
+    router.push('/');
   };
 
   const handleJaipaye = () => {
@@ -102,8 +111,19 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
       }
     }
   };
-  
-  
+  const handleVoirNegotiation = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.userType === 'client') {
+        router.push('/negotiation_client');
+      } else if (decodedToken && decodedToken.userType === 'proprietaire') {
+        router.push('/negotiation_proprietaire');
+      }
+    }
+  };
+  console.log(userType);
+
   return (
     <div>
       <Header />
@@ -152,45 +172,86 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
             </div>
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
-              <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={() => router.push('/BienFormProprietaire')}>
-                <AjoutCard key="gestion" text="Ajouter un bien" />
-              </button>
-              <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={handleModifierBien}>
-                <GestionCard key="gestion" text="Modifier un bien" />
-              </button>
-              <button
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-              onClick={() => router.push('/Modifier_Demande_Client')}
-            >
-              <AjoutCard key="gestion" text="Voir Votre Biens Aimé" />
-            </button>
-             
+              {userType=== 'client' && (
+                
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+                 xl:grid-cols-4 font-normal text-black" 
+                 onClick={() => router.push('/devenir_proprietaire')}>
+                <AjoutCard key="gestion" text="Ajouter au moins un bien pour devenir un proprietaire
+" />
+
+              
+                </button>
+                
+              )}
+               {userType=== 'proprietaire' && (
+                
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+                 xl:grid-cols-4 font-normal text-black" 
+                 onClick={() => router.push('/addBienProprietaire')}>
+                <AjoutCard key="gestion" text="Ajouter un bien
+" />
+
+              
+                </button>
+                
+              )}
+              {userType === 'proprietaire' && (
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={handleModifierBien}>
+                  <GestionCard key="gestion" text="Modifier un bien" />
+                </button>
+              )}
+              {userType === 'proprietaire' && (
+                <button
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690
+                   transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
+                    font-mono bg-transparent"
+                  onClick={() => router.push('/api/api_fetch_all_biens')}
+                >
+                  <AjoutCard key="gestion" text="Voir Votre Biens Aimé" />
+                </button>
+              )}
             </div>
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">
+            
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
-              <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={handleModifierBien}>
-                <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
-              </button>
-              <button
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-              onClick={() => router.push('/Demande_Client')}
-            >
-              <AjoutCard key="gestion" text="Faire Une Demande Personnalisée" />
-            </button>
-            <button
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              {userType === 'proprietaire' && (
+              <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
+              font-normal text-black"
               onClick={() => router.push('/Modifier_Demande_Client')}
-            >
-              <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
-            </button>
-            <button
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-              onClick={() => router.push('/negotiation_proprietaire')}
-            >
-              <AjoutCard key="gestion" text="Voir Les Negotiations" />
-            </button>
+              >
+                <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
+              </button> 
+               )}
+                <button
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+                   text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 
+                   hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => router.push('/Demande_Client')}
+                >
+                  <AjoutCard key="gestion" text="Faire Une Demande Personnalisée" />
+                </button>
+              
+                <button
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => router.push('/Modifier_Demande_Client')}
+                >
+                  <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
+                </button>
+              
+          
+                <button
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiation()}
+                >
+                  <AjoutCard key="gestion" text="Voir Les Negotiations" />
+                </button>
             
             </div>
+            {userType === 'proprietaire' && (
+            <button>
             <div className='p-20 py-0'>  <h2 className='font-mono text-green-600'>Proprietaire Connected Name:</h2>
               <h2 className='font-mono text-green-600'>{proprietaireName}</h2>
             </div>
@@ -198,6 +259,19 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               <h2 className='font-mono text-green-600'>Proprietaire Connected Email: </h2>
               <h2 className='font-mono text-green-600'>{proprietaireEmail}</h2>
             </div>
+            </button>
+             )}
+               {userType === 'client' && (
+            <button>
+            <div className='p-20 py-0'>  <h2 className='font-mono text-green-600'>Client Connected Name:</h2>
+              <h2 className='font-mono text-green-600'>{ClientName}</h2>
+            </div>
+            <div className='p-0'>           
+              <h2 className='font-mono text-green-600'>Client Connected Email: </h2>
+              <h2 className='font-mono text-green-600'>{ClientEmail}</h2>
+            </div>
+            </button>
+             )}
           </div>
         </main>
       </div>

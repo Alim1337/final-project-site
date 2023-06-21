@@ -35,11 +35,11 @@ export default function LoginClient() {
         console.log('Redirecting to /Vip');
         router.push('/Vip');
       } else if (userType === 'proprietaire') {
-        console.log('Redirecting to /proprietaireHouses');
-        router.push('/proprietaireHouses');
+        console.log('Redirecting to /panel');
+        router.push('/panel');
       } else if (userType === 'client') {
-        console.log('Redirecting to /clientHouses');
-        router.push('/clientHouses');
+        console.log('Redirecting to /panel');
+        router.push('/panel');
       }
     } else {
       const error = await response.text();
