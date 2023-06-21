@@ -9,7 +9,6 @@ import { Menu, Transition } from '@headlessui/react'
 function Header() {
   const [proprietaireName, setProprietaireName] = useState('');
   const [showDisconnectButton, setShowDisconnectButton] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -23,9 +22,9 @@ function Header() {
   }, []);
 
   const router = useRouter();
-  const [searchInput, setSearchInput] = useState("");
-  const { modeReq } = router.query;
-  const [mode, setMode] = useState(modeReq);
+  const [searchInput, setSearchInput] = useState("")
+  const { modeReq } = router.query
+  const [mode, setMode] = useState(modeReq)
 
   const handleConnexionClick = () => {
     router.push('/login_client');
@@ -44,55 +43,14 @@ function Header() {
     router.push("/");
   };
 
-  const handleDashboardClick = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = jwt.decode(token);
-      if (decodedToken && decodedToken.userType) {
-        const userType = decodedToken.userType;
-        if (userType === 'client') {
-          router.push('/clientHouses');
-        } else if (userType === 'proprietaire') {
-          router.push('/proprietaireHouses');
-        }
-      }
-    }
-  };
-
-  const handleDropdownToggle = () => {
-    setShowDropdown((prevState) => !prevState);
-  };
-
-  const handleLogoutClick = () => {
-    handleDisconnectClick();
-    handleDropdownToggle();
-  };
-
-  const handleSupportClick = () => {
-    // Add your support functionality here
-    handleDropdownToggle();
-  };
-
   return (
     <header className='sticky top-0 z-40 grid grid-cols-3 bg-white shadow-md py-3 px-3 md:px-10'>
       {/* LEFT SECTION */}
-<<<<<<< Updated upstream
-      <div onClick={() => router.push({ pathname: "/", mode: true })} className='relative flex items-center h-16 my-auto'>
-
-        <Image
-        src="https://img.uxwing.com/wp-content/themes/uxwing/download/buildings-architecture-real-estate/property-icon.png"
-          layout="fill"
-          objectFit="contain"
-          objectPosition="left"
-          className='cursor-pointer'
-        />
-=======
       <div  onClick={() => router.push({ pathname: "/", mode: true })} className='relative flex items-center top-2 h-16 my-auto'>
       <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-gray-900">
             <img className="w-8 h-8 mr-2" src="https://img.uxwing.com/wp-content/themes/uxwing/download/buildings-architecture-real-estate/property-icon.svg" alt="logo" />
             Ekrili
           </a>
->>>>>>> Stashed changes
       </div>
       {/* MIDDLE SECTION SEARCH BAR */}
       <div className='flex items-center md:border-2 rounded-full py-2 md:shadow-sm'>
@@ -113,38 +71,6 @@ function Header() {
       <div className='flex items-center space-x-4 justify-end text-gray-500'>
       <GlobeAltIcon className='h-6' />
         {showDisconnectButton ? (
-<<<<<<< Updated upstream
-          <div className='relative'>
-            <div className='flex items-center space-x-2 border-2 p-2 rounded-full'>
-              <h1>{proprietaireName}</h1>
-              <UserCircleIcon className='h-6 cursor-pointer' />
-              <MenuIcon className='h-6 cursor-pointer' onClick={handleDropdownToggle} />
-            </div>
-            {showDropdown && (
-              <div className='absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg'>
-                <button
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                  onClick={handleLogoutClick}
-                >
-                  Logout
-                </button>
-                {router.pathname !== '/proprietaireHouses' && router.pathname !== '/clientHouses' &&router.pathname !== '/Vip' &&  (
-                  <button
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                    onClick={handleDashboardClick}
-                  >
-                    Dashboard
-                  </button>
-                )}
-                <button
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-                  onClick={handleSupportClick}
-                >
-                  Support
-                </button>
-              </div>
-            )}
-=======
           <div className='flex items-center space-x-2 border-2 p-2 rounded-full'>
             <h1 className=' pl-2'>{proprietaireName}</h1>
             <UserCircleIcon className='h-6 cursor-pointer' />
@@ -221,7 +147,6 @@ function Header() {
             </Transition>
           </Menu>
             
->>>>>>> Stashed changes
           </div>
         ) : (
           <div className="flex space-x-4">
