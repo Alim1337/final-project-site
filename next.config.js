@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: ['img.freepik.com',
+    'www.img.freepik.com',
     'scontent.falg2-2.fna.fbcdn.net',
     'static.readytotrip.com',
     'static.wixstatic.com',
