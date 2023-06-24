@@ -12,19 +12,6 @@ export default async function handler(req, res) {
         where: {
           client_id: parseInt(clientID),
         },
-        include: {
-          Proprietaire: {
-            select: {
-              id_proprietaire: true, // Include the id_proprietaire field
-              nom: true,
-            },
-          },
-          biens: {
-            select: {
-              type_bien: true,
-            },
-          },
-        },
       });
 
       const formattedNegotiations = negotiations.map((negotiation) => ({
@@ -34,16 +21,11 @@ export default async function handler(req, res) {
         duree: negotiation.duree,
         statut: negotiation.statut,
         commentaire: negotiation.commentaire,
-        Proprietaire: {
-          id_proprietaire: negotiation.Proprietaire?.id_proprietaire,
-          nom: negotiation.Proprietaire?.nom,
-        },
-        biens: {
-          type_bien: negotiation.biens?.type_bien,
-        },
+        Proprietaire: { id_proprietaire: negotiation.proprietaire_id, nom: null },
+        biens: { type_bien: null },
       }));
 
-      console.log(formattedNegotiations.map((negotiation) => negotiation.Proprietaire?.nom));
+      console.log(formattedNegotiations);
 
       res.status(200).json({ negotiations: formattedNegotiations });
     } catch (error) {

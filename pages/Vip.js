@@ -119,7 +119,14 @@ console.log(userType);
                  onClick={() => router.push('/devenir_proprietaire')}>
                 <AjoutCard key="gestion" text="Ajouter au moins un bien pour devenir un proprietaire
 " />
+  <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+                 xl:grid-cols-4 font-normal text-black" 
+                 onClick={() => router.push('/homesList')}>
+                <AjoutCard key="gestion" text="Consulter les biens"/>
 
+              
+                </button>
+                
               
                 </button>
                 
@@ -134,6 +141,7 @@ console.log(userType);
 
               
                 </button>
+                
                 
               )}
               {userType === 'proprietaire' && (
@@ -167,12 +175,18 @@ console.log(userType);
                 >
                   <AjoutCard key="gestion" text="Faire Une Demande Personnalisée" />
                 </button>
-              
+                <button
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => router.push('/Demande_Client')}
+                >
+                  <AjoutCard key="gestion" text="Faire Une Demande Vip Personnalisée" />
+                </button>
+                  
                 <button
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => router.push('/Modifier_Demande_Client')}
                 >
-                  <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
+                  <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée et les Demandes VIP" />
                 </button>
               
           
@@ -184,6 +198,8 @@ console.log(userType);
                 >
                   <AjoutCard key="gestion" text="Voir Les Negotiations" />
                 </button>
+
+                
          
             </div>
           </div>

@@ -4,21 +4,21 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   try {
-    const searchResults = await prisma.biens.findMany({
-      include: {
-        Proprietaire: true,
-        biens_loue: true,
-        biens_vip: true,
-      },
-    });
-
-    if (searchResults) {
-      res.status(200).json(searchResults);
-    } else {
-      res.status(404).json({ message: 'No search results found' });
-    }
+    const biens = await prisma.biens.findMany();
+    const biensWithProprietaire = await Promise.all(
+      biens.map(async (bien) => {
+        const proprietaire = await prisma.proprietaire.findUnique({
+          where: { id_proprietaire: bien.id_proprietaire },
+          select: { 
+            id_proprietaire:true,
+              nom: true }
+        });
+        return { ...bien, Proprietaire: proprietaire };
+      })
+    );
+    res.status(200).json(biensWithProprietaire);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Failed to fetch biens from the database.' });
   }
 }

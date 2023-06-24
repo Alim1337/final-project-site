@@ -42,11 +42,14 @@ const NegotiationProprietaire = () => {
     // Logic for handling 'Annuler' button click
   };
 
-  const handleModifier = (id) => {
+  const handleValider = (id) => {
     // Logic for handling 'Modifier' button click
   };
   const handleBackClick = () => {
     router.push('/panel');
+  };
+  const handleRdv = () => {
+
   };
 
   const handleContacter = (negotiation) => {
@@ -118,10 +121,10 @@ const NegotiationProprietaire = () => {
                   </button>
 
                   <button
-                    onClick={() => handleModifier(negotiation.id_negotiation)}
+                    onClick={() => handleValider(negotiation.id_negotiation)}
                     className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                   >
-                    Modifier
+                    Valider
                   </button>
 
                   <button
@@ -129,6 +132,12 @@ const NegotiationProprietaire = () => {
                     className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                   >
                     Contacter
+                  </button>
+                  <button
+                    onClick={() => handleRdv(negotiation)}
+                    className="text-white bg-gradient-to-r from-gray-400 via-green-200 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                  >
+                    Proposer un rendezvous
                   </button>
                 </div>
               </div>

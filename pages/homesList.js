@@ -8,21 +8,21 @@ export default function HomesList() {
   const [searchResults, setSearchResults] = useState([]);
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null; // Retrieve the token from local storage if running in the browser
   const router = useRouter();
-
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch('/api/api_fetch_all_biens');
-        const data = await res.json();
+        const response = await fetch('/api/api_fetch_all_biens');
+        const data = await response.json();
         setSearchResults(data);
+        console.log("searchResults",searchResults);
       } catch (error) {
         console.error(error);
       }
     }
-
+  
     fetchData();
   }, []);
-
+  
   const handleInterestedClick = async (bienId, proprietaireId) => {
     try {
       const res = await fetch('/api/api_create_like', {
@@ -56,10 +56,8 @@ export default function HomesList() {
       const decodedToken = jwt.decode(token);
       const userType = decodedToken ? decodedToken.userType : null;
 
-      if (userType === 'client') {
-        router.push('/clientHouses');
-      } else if (userType === 'proprietaire') {
-        router.push('/proprietaireHouses');
+      if (userType ) {
+        router.push('/panel');
       }
     } catch (error) {
       console.error('Failed to decode token:', error);
@@ -79,14 +77,18 @@ export default function HomesList() {
           </button>
         </div>
         <div className="grid grid-cols-1 text-black gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-          {searchResults.map((result) => (
-            <CardHouse
-              key={result.id_biens}
-              {...result}
-              token={token}
-              onInterestedClick={handleInterestedClick}
-            />
-          ))}
+          {Array.isArray(searchResults) ? (
+            searchResults.map((result) => (
+              <CardHouse
+                key={result.id_biens}
+                {...result}
+                token={token}
+                onInterestedClick={handleInterestedClick}
+              />
+            ))
+          ) : (
+            <p>No search results found.</p>
+          )}
         </div>
       </div>
     </div>

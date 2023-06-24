@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header_signup from '@/components/Header_signup';
+import Header from '@/components/Header';
 import { FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import { HiOutlineHome } from 'react-icons/hi';
@@ -66,7 +66,7 @@ export default function ModifierDemandeClient(props) {
 
   return (
     <div>
-      <Header_signup />
+      <Header/>
       <main>
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>

@@ -69,7 +69,7 @@ export default function DemandeClient() {
           toast.success('Demande_client submitted successfully');
           // Optionally, you can navigate to another page after successful submission
           setTimeout(() => {
-            router.push('/clientHouses');
+            router.push('/panel');
           }, 0);
                   } else {
           // Handle error

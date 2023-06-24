@@ -211,21 +211,24 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 </button>
                 
               )}
+                       
+                
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+                 xl:grid-cols-4 font-normal text-black" 
+                 onClick={() => router.push('/homesList')}>
+                <AjoutCard key="gestion" text="Consulter les biens"/>
+
+              
+                </button>
+                
+              
               {userType === 'proprietaire' && (
                 <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={handleModifierBien}>
                   <GestionCard key="gestion" text="Modifier un bien" />
                 </button>
               )}
-              {userType === 'proprietaire' && (
-                <button
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690
-                   transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer
-                    font-mono bg-transparent"
-                  onClick={() => router.push('/api/api_fetch_all_biens')}
-                >
-                  <AjoutCard key="gestion" text="Voir Votre Biens Aimé" />
-                </button>
-              )}
+         
+             
             </div>
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">
             

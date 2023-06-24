@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { toast, ToastContainer } from 'react-toastify';
-import Header from '@/components/Header';
 import 'react-toastify/dist/ReactToastify.css';
+import Header from '@/components/Header';
 import BgLogin from '@/components/bg_login';
 
 export default function LoginClient() {
@@ -30,6 +30,9 @@ export default function LoginClient() {
       console.log('User Type:', userType);
       localStorage.setItem('token', token);
       console.log(statusVIP)
+      toast.success('Login Successful!', {
+        position: toast.POSITION.TOP_CENTER,
+      })
 
       if (statusVIP) {
         console.log('Redirecting to /Vip');
@@ -54,7 +57,6 @@ export default function LoginClient() {
     event.preventDefault();
     router.push('/signup_client');
   }
-
   return (
     <div>
       <section>
@@ -133,6 +135,8 @@ export default function LoginClient() {
             </div>
           </div>
         </div>
+        <ToastContainer />
+
       </section>
     </div>
   );
