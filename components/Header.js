@@ -50,11 +50,10 @@ function Header() {
       const decodedToken = jwt.decode(token);
       if (decodedToken && decodedToken.userType) {
         const userType = decodedToken.userType;
-        if (userType === 'client') {
-          router.push('/clientHouses');
-        } else if (userType === 'proprietaire') {
-          router.push('/proprietaireHouses');
-        }
+     
+          router.push('/panel');
+      
+      
       }
     }
   };
@@ -132,6 +131,18 @@ function Header() {
                       >
                         Account settings
                       </a>
+                    )}
+                  </Menu.Item>
+                  <Menu.Item>
+                  {({ active }) => (
+                        <button
+                          onClick={handleDashboardClick}
+                          className={`${
+                            active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
+                          } block px-4 py-2 text-sm`}
+                        >
+                  DashBoard      
+                  </button>             
                     )}
                   </Menu.Item>
                   <Menu.Item>

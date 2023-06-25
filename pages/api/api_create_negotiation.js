@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { prixPropose, duree, commentaire, client_id, id_likes, bien_id, proprietaire_id } = req.body;
+    const { prixPropose, duree, commentaire, client_id,idClient, id_likes, bien_id, proprietaire_id } = req.body;
 
     console.log("prix propose: ", prixPropose);
     console.log("bien_id: ", bien_id);

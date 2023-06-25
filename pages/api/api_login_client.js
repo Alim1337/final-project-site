@@ -15,9 +15,9 @@ export default async function handler(req, res) {
       },
     });
 
-
     let userType = 'client';
     let existingClient = null;
+    let id_client = null; // Initialize id_client as null
 
     if (!existingUser) {
       existingClient = await prisma.Client.findUnique({
@@ -30,6 +30,14 @@ export default async function handler(req, res) {
       }
     } else {
       userType = 'proprietaire';
+      const matchingClient = await prisma.Client.findFirst({
+        where: {
+          email: email,
+        },
+      });
+      if (matchingClient) {
+        id_client = matchingClient.id_client; // Assign the id_client from the client table
+      }
     }
 
     console.log('User Type:', userType);
@@ -65,11 +73,12 @@ export default async function handler(req, res) {
       });
       statusVIP = !!proprietaireVIP; // Set statusVIP based on the existence of proprietaireVIP
     }
-console.log(statusVIP);
+
     // Generate a JWT token with user information as payload
     const token = jwt.sign(
       {
         id: existingUser ? existingUser.id_proprietaire : existingClient.id_client,
+        id_client: id_client, // Assign the id_client to the token
         nom: existingUser ? existingUser.nom : existingClient.nom,
         prenom: existingUser ? existingUser.prenom : existingClient.prenom,
         email: existingUser ? existingUser.email : existingClient.email,
@@ -89,7 +98,7 @@ console.log(statusVIP);
 
     console.log('Token:', token);
 
-    res.status(200).json({ token, userType ,statusVIP});
+    res.status(200).json({ token, userType, statusVIP });
   } catch (error) {
     console.error('API Error:', error);
     res.status(500).json({ error: 'An error occurred' });

@@ -1,5 +1,5 @@
 import BgLogin from "../components/bg_login";
-import Header_signup from "@/components/Header_signup";
+import Header from "@/components/Header";
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -45,7 +45,7 @@ export default function Page() {
   return (
     <div>
       <ToastContainer />
-      <Header_signup/>
+      <Header/>
       <BgLogin />
       <BienForm onSubmit={handleSubmit} />
     </div>

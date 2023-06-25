@@ -13,43 +13,44 @@ export default async function handler(req, res) {
 
       const decodedTokenVrai = jwt.verify(decodedToken, process.env.JWT_SECRET);
       console.log('decoded token:', decodedTokenVrai);
+      console.log('decoded UserType:', decodedTokenVrai.userType);
       console.log('decoded client:', decodedTokenVrai.id);
 
-      // Extract the id_client from the decoded token
-      const { id_client } = decodedTokenVrai.id;
-
-      // Get the bien instance by bien_id
-      const bien = await prisma.biens.findUnique({
-        where: {
-          id_biens: bien_id,
-        },
-      });
-
-      console.log('bien clicked id', bien.id_biens);
-      console.log('id proptietaire de bien ', bien.id_proprietaire);
-
-      if (!bien) {
-        return res.status(404).json({ error: 'Bien not found' });
-      }
-
-      const i = id_client;
+      const i = decodedTokenVrai.id_client;
       const b = bien_id;
-      const p = bien.id_proprietaire;
-      console.log('client_id ', i);
-      console.log('id_bien ', b);
+      const p = proprietaire_id;
+      console.log('client_id', i);
+      console.log('id_bien', b);
+      console.log('proprietaire_id p', p);
 
-      console.log('proprietaire_id', p);
+      // Check the userType
+      if (decodedTokenVrai.userType === 'client') {
+        // Create the like for a client
+        const like = await prisma.likes.create({
+          data: {
+            client_id: i,
+            id_bien: b,
+            proprietaire_id: p,
+          },
+        });
 
-      // Create the like
-      const like = await prisma.likes.create({
-        data: {
-          client_id:  decodedTokenVrai.id,
-          id_bien: b,
-          proprietaire_id: p,
-        },
-      });
+        res.status(200).json(like);
+      } else if (decodedTokenVrai.userType === 'proprietaire') {
+        console.log('inside of else if');
+        // Create the like for a proprietaire
+        // Switch the values of id_bien and proprietaire_id
+        const like = await prisma.likes.create({
+          data: {
+            client_id: i,
+            id_bien: b, // Switched value
+            proprietaire_id: p, // Switched value
+          },
+        });
 
-      res.status(200).json(like);
+        res.status(200).json(like);
+      } else {
+        res.status(400).json({ error: 'Invalid userType' });
+      }
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Failed to create like' });

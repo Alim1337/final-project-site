@@ -14,6 +14,8 @@ export default function Negotiation() {
   const idLikes = query.id_likes || null; // Assign null as the default value if id_likes is not available
   const idBien = query.bien_id || null;
   const idProprietaire = query.proprietaire_id || null;
+  const [idClient, setidClient] = useState('');
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -22,6 +24,8 @@ export default function Negotiation() {
       try {
         console.log("Decoded token:", decodedToken);
         console.log("Decoded client:", decodedToken.id);
+        setidClient(decodedToken.id_client);
+
       } catch (error) {
         console.error('Failed to verify JWT token:', error);
       }
@@ -34,6 +38,7 @@ export default function Negotiation() {
       formData.id_likes = idLikes;
       formData.bien_id = idBien;
       formData.proprietaire_id = idProprietaire;
+      formData.client_id=idClient;
 
       // Make an API request to create the negotiation
       const response = await fetch('/api/api_create_negotiation', {

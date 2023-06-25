@@ -132,6 +132,14 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
       }
     }
   };
+  const handleVoirNegotiationP = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      } else if (decodedToken && decodedToken.userType === 'proprietaire') {
+        router.push('/negotiation_client');}
+      
+  };
   console.log(userType);
 
   return (
@@ -191,7 +199,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 
                 <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
                  xl:grid-cols-4 font-normal text-black" 
-                 onClick={() => router.push('/devenir_proprietaire')}>
+                 onClick={() => router.push('/BienFormPage')}>
                 <AjoutCard key="gestion" text="Ajouter au moins un bien pour devenir un proprietaire
 " />
 
@@ -210,9 +218,18 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               
                 </button>
                 
-              )}
-                       
                 
+              )}
+                {userType === 'proprietaire' && (
+                     <button
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiation()}
+                >
+                  <AjoutCard key="gestion" text="Negotiations sur votre biens" />
+                </button>       
+                    )}
                 <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
                  xl:grid-cols-4 font-normal text-black" 
                  onClick={() => router.push('/homesList')}>
@@ -257,15 +274,15 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 </button>
               
           
+           
                 <button
                   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
                   xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-                  onClick={() => handleVoirNegotiation()}
+                  onClick={() => handleVoirNegotiationP()}
                 >
-                  <AjoutCard key="gestion" text="Voir Les Negotiations" />
+                  <AjoutCard key="gestion" text="Negotiations avec les proprietaires" />
                 </button>
-            
             </div>
             {userType === 'proprietaire' && (
             <button>

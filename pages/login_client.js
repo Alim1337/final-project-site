@@ -122,7 +122,7 @@ export default function LoginClient() {
                 </div>
                 
                 <p className="text-sm font-light">
-              Vous n avez pas un compte?{' '}
+              Vous n avez pas un compte?{}
               <a
                 href="#"
                 onClick={handleSignup}

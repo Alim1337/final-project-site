@@ -22,6 +22,7 @@ model Client {
   Demande_client        Demande_client[]
   Demande_client_valide Demande_client_valide[]
   Demande_client_vip_   Demande_client_vip_[]
+  Proprietaire          Proprietaire[]
   Rdv                   Rdv[]
   biens_loue            biens_loue[]
   likes                 likes[]
@@ -139,6 +140,8 @@ model Proprietaire {
   date_naissance    DateTime?         @db.Date
   sex               String?           @db.VarChar(255)
   date_dinscription DateTime?         @db.Date
+  id_client         Int?
+  Client            Client?           @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "id_client_in_proprietaire_fk")
   Proprietaire_vip  Proprietaire_vip?
   Rdv               Rdv[]
   biens             biens[]
@@ -160,6 +163,7 @@ model Proprietaire_vip {
   date_naissance      DateTime?    @db.Date
   sex                 String?      @db.VarChar(255)
   date_dinscription   DateTime?    @db.Date
+  id_client           Int?
   Proprietaire        Proprietaire @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: Cascade, onUpdate: NoAction)
   Rdv_Vip_            Rdv_Vip_[]
 
