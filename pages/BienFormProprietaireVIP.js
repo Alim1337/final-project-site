@@ -9,22 +9,52 @@ import BienFormVIP from "@/components/BienFormVIP";
 export default function Page() {
   const [BienCompleted, setBienCompleted] = useState(false);
 
-  async function handleSubmit(description, type_bien, adresse, ville, code_postal, prix_estime, etat) {  
+  async function handleSubmit(
+    type_bien,
+    adresse,
+    ville,
+    code_postal,
+    prix_estime,
+    etat,
+    nbrChambre,
+    type_location_vip
+  ) {
     const token = localStorage.getItem('token'); // Retrieve the token from storage
 
     try {
+      console.log('Submitting form...');
+      console.log('Form data:', {
+        type_bien,
+        adresse,
+        ville,
+        code_postal,
+        prix_estime,
+        etat,
+        nbrChambre,
+        type_location_vip
+      });
+
       const response = await fetch('/api/addBienProprietaireVIP', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ description, type_bien, adresse, ville, code_postal, prix_estime, etat }),
+        body: JSON.stringify({
+          type_bien,
+          adresse,
+          ville,
+          code_postal,
+          prix_estime,
+          etat,
+          nbrChambre,
+          type_location_vip
+        }),
       });
-      
+
       const data = await response.json();
-      console.log('Result:', data);
-      
+      console.log('Server response:', data);
+
       if (response.ok) {
         setBienCompleted(true);
         toast.success('Bien ajouté!', {
@@ -37,11 +67,11 @@ export default function Page() {
         });
       }
     } catch (error) {
-      console.error(error);
+      console.error('An error occurred:', error);
       // Handle the error
     }
   }
-  
+
   return (
     <div>
       <ToastContainer />

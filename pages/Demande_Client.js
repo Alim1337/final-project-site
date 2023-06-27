@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import HouseCards from '@/components/HouseCards';
 import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import Header_signup from '@/components/Header_signup';
+import Header from '@/components/Header';
 import { HiOutlineHome } from 'react-icons/hi2';
 import { HiUser } from 'react-icons/hi2';
 import { FaChalkboardTeacher } from 'react-icons/fa';
@@ -90,7 +89,7 @@ export default function DemandeClient() {
     ];
     return (
       <div className="flex flex-col min-h-screen">
-        <Header_signup />
+        <Header />
         <main className="flex-grow">
           <div className="flex bg-gray-100 text-gray-700">
             

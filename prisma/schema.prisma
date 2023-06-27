@@ -166,6 +166,7 @@ model Proprietaire_vip {
   id_client           Int?
   Proprietaire        Proprietaire @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: Cascade, onUpdate: NoAction)
   Rdv_Vip_            Rdv_Vip_[]
+  biens_vip           biens_vip[]
 
   @@map("Proprietaire vip")
 }
@@ -265,18 +266,21 @@ model biens_loue_vip_ {
 }
 
 model biens_vip {
-  id_biens        Int          @id @default(autoincrement())
-  description     String?      @db.VarChar(255)
-  type_bien       String?      @db.VarChar(255)
-  adresse         String?      @db.VarChar(255)
-  ville           String?      @db.VarChar(255)
-  code_postal     String[]     @db.VarChar(255)
-  prix_estime     Decimal?     @db.Decimal
-  etat            String?      @db.VarChar(255)
-  id_proprietaire Int
-  nbrChambre      String?      @db.VarChar(255)
-  biens           biens        @relation(fields: [id_biens], references: [id_biens], onDelete: NoAction, onUpdate: NoAction, map: "fk_bien_vip ")
-  Proprietaire    Proprietaire @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_bien_vip_")
+  id_biens            Int               @id @default(autoincrement())
+  description         String?           @db.VarChar(255)
+  type_bien           String?           @db.VarChar(255)
+  adresse             String?           @db.VarChar(255)
+  ville               String?           @db.VarChar(255)
+  code_postal         String[]          @db.VarChar(255)
+  prix_estime         Decimal?          @db.Decimal
+  etat                String?           @db.VarChar(255)
+  id_proprietaire     Int
+  nbrChambre          String?           @db.VarChar(255)
+  type_location_vip   String?           @db.VarChar
+  id_proprietaire_vip Int?
+  biens               biens             @relation(fields: [id_biens], references: [id_biens], onDelete: NoAction, onUpdate: NoAction, map: "fk_bien_vip ")
+  Proprietaire        Proprietaire      @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_bien_vip_")
+  Proprietaire_vip    Proprietaire_vip? @relation(fields: [id_proprietaire_vip], references: [id_proprietaire_vip], onDelete: NoAction, onUpdate: NoAction, map: "fk_proprietaire_vip_to_biens_vip")
 
   @@map("biens vip")
 }

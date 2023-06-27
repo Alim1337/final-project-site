@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import Footer from './Footer';
 import { useRouter } from 'next/router';
 
-export default function BienFormVIP({ onSubmit }) {
+export default function BienFormVip({ onSubmit }) {
   const [description, setDescription] = useState('');
-  const [nbreChambre ,setNbreChambre] = useState('');
-  const [typeBien, setTypeBien] = useState('');
-  const [typeLocation , setTypeLocation] = useState('');
   const [adresse, setAdresse] = useState('');
   const [ville, setVille] = useState('');
-  const [codePostal, setCodePostal] = useState('');
+  const [nbrChambre, setNbrChambre] = useState('');
+  const [type_location_vip,setType_location_vip] = useState();
+  const [type_bien, setType_Bien] = useState('');
+  const [prix_estime,setPrix_estime] = useState();
+  const [code_postal, setCode_postal] = useState('');
   const [minPrixEstime, setMinPrixEstime] = useState('');
   const [etat, setEtat] = useState('');
   const router = useRouter();
@@ -18,13 +19,17 @@ export default function BienFormVIP({ onSubmit }) {
     event.preventDefault();
 
     onSubmit(
-      description,
-      typeBien,
-      adresse,
-      ville,
-      codePostal,
-      minPrixEstime,
-      etat
+      description ,  
+ type_bien    ,
+  adresse    ,
+  ville       ,  
+  code_postal  ,   
+  prix_estime   , 
+  etat           , 
+  nbrChambre    ,
+type_location_vip   
+  
+
     );
   }
   
@@ -32,7 +37,7 @@ export default function BienFormVIP({ onSubmit }) {
     event.preventDefault();
 
     if (window.confirm('Are you sure you want to cancel?')) {
-      router.push('/vip');
+      router.push('/panel');
     }
   }
 
@@ -48,16 +53,14 @@ export default function BienFormVIP({ onSubmit }) {
         </span>
 
         <div
-          className="inline-block align-bottom bg-gray-600 rounded-lg text-left
-           overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          className="inline-block align-bottom bg-gray-600 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12
-               rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                 <svg
                   className="h-6 w-6 text-blue-600"
                   xmlns="http://www.w3.org/2000/svg"
@@ -76,44 +79,38 @@ export default function BienFormVIP({ onSubmit }) {
               </div>
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                  Ajouter un bien 
+                  Add a new house
                 </h3>
                 <div className="mt-2">
                   <form className="space-y-6" onSubmit={handleSubmit}>
-                    <div>
-                    <label htmlFor="nombre chambre" className="block text-sm font-medium text-gray-700">
-  Nombre de chambres
-</label>
-<select
-  id="nbreChambre"
-  name="nbreChambre"
-  required
-  className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-  value={typeBien}
-  onChange={(e) => setNbreChambre(e.target.value)}
->
-<option value="F3">F3</option>
-                          <option value="F4">F4</option>
-                          <option value="F5">F5</option>
-                          <option value="F6">F6</option>
-  ))
-</select>
-<label htmlFor="Type de location VIP" className="block text-sm font-medium text-gray-700">
-Type de location VIP</label>
-                      <div className="mt-1">
-                      <select
+                  <div className="mt-1">
+                        <select
                           id="typeLocation"
                           name="typeLocation"
                           required
                           className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={typeLocation}
-                          onChange={(e) => setTypeLocation(e.target.value)}
+                          value={type_location_vip}
+                          onChange={(e) => setType_location_vip(e.target.value)}
                         >
-                          <option value=""></option>
-                          <option value="Vacances">Vacances</option>
-                          <option value="Evenement">Evenement</option>
-                          <option value="courte terme">courte terme</option>
+                      <option value="">Select type de location</option>
+                          <option value="vacances">vacances</option>
+                          <option value="évènement">évènement</option>
+                          <option value="location courte durée">location courte durée</option>
                         </select>
+                      </div>
+                    <div>
+                      <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                      Description                      </label>
+                      <div className="mt-1">
+                        <textarea
+                          id="description"
+                          name="description"
+                          rows="3"
+                          className="border-gray-400 shadow-sm text-black focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
+                          required
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
+                        ></textarea>
                       </div>
                     </div>
                     <div>
@@ -126,13 +123,27 @@ Type de location VIP</label>
                           name="typeBien"
                           required
                           className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={typeBien}
-                          onChange={(e) => setTypeBien(e.target.value)}
+                          value={type_bien}
+                          onChange={(e) => setType_Bien(e.target.value)}
                         >
                           <option value="">Select type de bien</option>
-                          <option value="appartement">Appartement</option>
-                          <option value="villa">Villa</option>
-                          <option value="autre">Autre</option>
+                          <option value="vacances">Appartement</option>
+                          <option value="évènement">Villa</option>
+                          <option value="location courte durée">Autre</option>
+                        </select>
+                      </div>
+                      <div className="mt-1">
+                        <select
+                          id="nbrChambre"
+                          name="nbrChambre"
+                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
+                          value={nbrChambre}
+                          onChange={(e) => setNbrChambre(e.target.value)}
+                        >
+                          <option value="F3">F3</option>
+                          <option value="F4">F4</option>
+                          <option value="F5">F5</option>
+                          <option value="F6">F6</option>
                         </select>
                       </div>
                     </div>
@@ -169,6 +180,7 @@ Type de location VIP</label>
                         </select>
                       </div>
                     </div>
+                    
                     <div>
                       <label htmlFor="codePostal" className="block text-sm font-medium text-gray-700">
                         Code Postal 
@@ -181,8 +193,8 @@ Type de location VIP</label>
                           autoComplete="codePostal"
                           required
                           className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={codePostal}
-                          onChange={(e) => setCodePostal(e.target.value)}
+                          value={code_postal}
+                          onChange={(e) => setCode_postal(e.target.value)}
                         />
                       </div>
                     </div>
@@ -192,14 +204,14 @@ Type de location VIP</label>
                       </label>
                       <div className="mt-1 flex">
                         <input
-                          type="text"
-                          id="minPrixEstime"
-                          name="minPrixEstime"
+                          type="number"
+                          id="prixestime"
+                          name="prixestime"
                           required
                           className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md mr-2"
                           placeholder="Min Price"
-                          value={minPrixEstime}
-                          onChange={(e) => setMinPrixEstime(e.target.value)}
+                          value={prix_estime}
+                          onChange={(e) => setPrix_estime(e.target.value)}
                         />
                         <span className="mr-2">to</span>
                         {/* Add more input fields here */}
@@ -219,12 +231,13 @@ Type de location VIP</label>
       value={etat}
       onChange={(e) => setEtat(e.target.value)}
     >
-      <option value=""></option>
+      <option value="">Select a property status</option>
       <option value="neuf">Neuf (New)</option>
       <option value="bonne_condition">Bonne condition (Good condition)</option>
       <option value="rénové">Rénové (Renovated)</option>
       <option value="à_rénover">À rénover (To renovate)</option>
-    
+      <option value="partiellement_rénové">Partiellement rénové (Partially renovated)</option>
+      <option value="en_construction">En construction (Under construction)</option>
       {/* Add more options here */}
     </select>
   </div>

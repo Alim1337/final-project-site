@@ -27,14 +27,14 @@ export default async function handler(req, res) {
       // Dehash the password
       const hashedPassword = ProprietaireVIP.mdps;
       console.log('hashedPassword:', hashedPassword);
-      
+
       const plainPassword = ProprietaireVIP.mdps;
       console.log('client.mdps:', plainPassword);
-      
+
       /* const isPasswordValid = await bcrypt.compare(plainPassword, hashedPassword);
       console.log('isPasswordValid:', isPasswordValid);
       */
-/*
+      /*
       if (!isPasswordValid) {
         console.error('Error: Invalid password');
         throw new Error('Failed to verify password');
@@ -51,44 +51,56 @@ export default async function handler(req, res) {
           email: ProprietaireVIP.email,
         },
       });
-      
+
       if (!proprietaire) {
         console.error('Error: Invalid proprietaire');
         throw new Error('Failed to find proprietaire');
       }
-      
-      const bienVIP = await prisma.biens_vip.create({
+
+      const bien = await prisma.biens.create({
         data: {
-            id_biens:1,
           description: formData.description,
-          nbrChambre : '4',
+          nbrChambre: formData.nbrChambre,
           type_bien: formData.type_bien,
           adresse: formData.adresse,
           ville: "Alger",
           code_postal: formData.code_postal,
-          prix_estime: formData.prix_estime,
+          prix_estime: parseInt(formData.prix_estime),
           etat: formData.etat,
-          Proprietaire: {
-            connect: {
-              id_proprietaire: proprietaire.id_proprietaire,
-            },
+          id_proprietaire: proprietaire.id_proprietaire,
+        },
+      });
+
+      const bienVIP = await prisma.biens_vip.create({
+        data: {
+          description: bien.description,
+          type_bien: bien.type_bien,
+          adresse: bien.adresse,
+          ville: bien.ville,
+          code_postal: bien.code_postal,
+          prix_estime: formData.prix_estime,
+          etat: bien.etat,
+          nbrChambre: bien.nbrChambre,
+          type_location_vip: formData.type_location_vip,
+          biens: {
+            connect: { id_biens: bien.id_biens },
           },
-          
+          Proprietaire: {
+            connect: { id_proprietaire: proprietaire.id_proprietaire },
+          },
         },
       });
       
-
-      console.log('Bien created:', bien); // Log the created bien
+      console.log('Bien VIP created:', bienVIP); // Log the created bienVIP
 
       res.status(200).json({ success: true, bienVIPId: bienVIP.id_biens });
       router.push('/vip');
-
     } catch (error) {
-      console.error('Error creating biens:', error);
-      toast.error('Failed to create biens', {
+      console.error('Error creating bienVIP:', error);
+      toast.error('Failed to create bienVIP', {
         position: toast.POSITION.TOP_CENTER,
       });
-      res.status(500).json({ error: 'Failed to create biens' });
+      res.status(500).json({ error: 'Failed to create bienVIP' });
     }
   } else {
     res.status(405).json({ error: 'Method Not Allowed' });

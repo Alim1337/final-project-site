@@ -173,7 +173,7 @@ console.log(userType);
     </button>
 
     <button className="text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={() => router.push('/Modifier_Demande_Client')}>
-      <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée et les Demandes VIP" />
+      <AjoutCard key="gestion" text="Modifier Votre Demandes Personnalisée et les Demandes VIP" />
     </button>
 
     <button className="text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={() => handleVoirNegotiation()}>
