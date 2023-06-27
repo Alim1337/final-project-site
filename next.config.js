@@ -5,6 +5,7 @@ const nextConfig = {
     domains: ['img.freepik.com',
     'www.img.freepik.com',
     'scontent.falg2-2.fna.fbcdn.net',
+    'images.unsplash.com',
     'static.readytotrip.com',
     'static.wixstatic.com',
     '1.bp.blogspot.com',

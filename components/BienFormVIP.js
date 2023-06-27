@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Footer from './Footer';
 import { useRouter } from 'next/router';
 
-export default function BienForm({ onSubmit }) {
+export default function BienFormVIP({ onSubmit }) {
   const [description, setDescription] = useState('');
+  const [nbreChambre ,setNbreChambre] = useState('');
   const [typeBien, setTypeBien] = useState('');
+  const [typeLocation , setTypeLocation] = useState('');
   const [adresse, setAdresse] = useState('');
   const [ville, setVille] = useState('');
-  const [nbrChambre, setNbrChambre] = useState('');
-
   const [codePostal, setCodePostal] = useState('');
   const [minPrixEstime, setMinPrixEstime] = useState('');
   const [etat, setEtat] = useState('');
@@ -19,7 +19,6 @@ export default function BienForm({ onSubmit }) {
 
     onSubmit(
       description,
-      nbrChambre,
       typeBien,
       adresse,
       ville,
@@ -33,7 +32,7 @@ export default function BienForm({ onSubmit }) {
     event.preventDefault();
 
     if (window.confirm('Are you sure you want to cancel?')) {
-      router.push('/panel');
+      router.push('/vip');
     }
   }
 
@@ -49,14 +48,16 @@ export default function BienForm({ onSubmit }) {
         </span>
 
         <div
-          className="inline-block align-bottom bg-gray-600 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          className="inline-block align-bottom bg-gray-600 rounded-lg text-left
+           overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"
         >
           <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12
+               rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                 <svg
                   className="h-6 w-6 text-blue-600"
                   xmlns="http://www.w3.org/2000/svg"
@@ -75,23 +76,44 @@ export default function BienForm({ onSubmit }) {
               </div>
               <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                  Add a new house
+                  Ajouter un bien 
                 </h3>
                 <div className="mt-2">
                   <form className="space-y-6" onSubmit={handleSubmit}>
                     <div>
-                      <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                      Description                      </label>
+                    <label htmlFor="nombre chambre" className="block text-sm font-medium text-gray-700">
+  Nombre de chambres
+</label>
+<select
+  id="nbreChambre"
+  name="nbreChambre"
+  required
+  className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
+  value={typeBien}
+  onChange={(e) => setNbreChambre(e.target.value)}
+>
+<option value="F3">F3</option>
+                          <option value="F4">F4</option>
+                          <option value="F5">F5</option>
+                          <option value="F6">F6</option>
+  ))
+</select>
+<label htmlFor="Type de location VIP" className="block text-sm font-medium text-gray-700">
+Type de location VIP</label>
                       <div className="mt-1">
-                        <textarea
-                          id="description"
-                          name="description"
-                          rows="3"
-                          className="border-gray-400 shadow-sm text-black focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
+                      <select
+                          id="typeLocation"
+                          name="typeLocation"
                           required
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                        ></textarea>
+                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
+                          value={typeLocation}
+                          onChange={(e) => setTypeLocation(e.target.value)}
+                        >
+                          <option value=""></option>
+                          <option value="Vacances">Vacances</option>
+                          <option value="Evenement">Evenement</option>
+                          <option value="courte terme">courte terme</option>
+                        </select>
                       </div>
                     </div>
                     <div>
@@ -111,20 +133,6 @@ export default function BienForm({ onSubmit }) {
                           <option value="appartement">Appartement</option>
                           <option value="villa">Villa</option>
                           <option value="autre">Autre</option>
-                        </select>
-                      </div>
-                      <div className="mt-1">
-                        <select
-                          id="nbrChambre"
-                          name="nbrChambre"
-                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={nbrChambre}
-                          onChange={(e) => setNbrChambre(e.target.value)}
-                        >
-                          <option value="F3">F3</option>
-                          <option value="F4">F4</option>
-                          <option value="F5">F5</option>
-                          <option value="F6">F6</option>
                         </select>
                       </div>
                     </div>
@@ -211,13 +219,12 @@ export default function BienForm({ onSubmit }) {
       value={etat}
       onChange={(e) => setEtat(e.target.value)}
     >
-      <option value="">Select a property status</option>
+      <option value=""></option>
       <option value="neuf">Neuf (New)</option>
       <option value="bonne_condition">Bonne condition (Good condition)</option>
       <option value="rénové">Rénové (Renovated)</option>
       <option value="à_rénover">À rénover (To renovate)</option>
-      <option value="partiellement_rénové">Partiellement rénové (Partially renovated)</option>
-      <option value="en_construction">En construction (Under construction)</option>
+    
       {/* Add more options here */}
     </select>
   </div>

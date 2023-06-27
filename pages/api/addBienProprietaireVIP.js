@@ -14,21 +14,21 @@ export default async function handler(req, res) {
       const token = req.headers.authorization.split('Bearer ')[1];
       console.log('Token:', token); // Log the token
 
-      const client = decodeToken(token);
-      console.log('Decoded Client:', client); // Log the decoded client
+      const ProprietaireVIP = decodeToken(token);
+      console.log('Decoded ProprietaireVIP:', ProprietaireVIP); // Log the decoded client
 
-      if (!client || !client.nom) {
+      if (!ProprietaireVIP || !ProprietaireVIP.nom) {
         console.error('Error: Invalid client object');
         throw new Error('Failed to decode client object');
       }
 
-      console.log('Client:', client); // Log the client information
+      console.log('ProprietaireVIP:', ProprietaireVIP); // Log the client information
 
       // Dehash the password
-      const hashedPassword = client.mdps;
+      const hashedPassword = ProprietaireVIP.mdps;
       console.log('hashedPassword:', hashedPassword);
       
-      const plainPassword = client.mdps;
+      const plainPassword = ProprietaireVIP.mdps;
       console.log('client.mdps:', plainPassword);
       
       /* const isPasswordValid = await bcrypt.compare(plainPassword, hashedPassword);
@@ -48,7 +48,7 @@ export default async function handler(req, res) {
 
       const proprietaire = await prisma.proprietaire.findUnique({
         where: {
-          email: client.email,
+          email: ProprietaireVIP.email,
         },
       });
       
@@ -57,10 +57,11 @@ export default async function handler(req, res) {
         throw new Error('Failed to find proprietaire');
       }
       
-      const bien = await prisma.biens.create({
+      const bienVIP = await prisma.biens_vip.create({
         data: {
+            id_biens:1,
           description: formData.description,
-          nbrChambre:'4',
+          nbrChambre : '4',
           type_bien: formData.type_bien,
           adresse: formData.adresse,
           ville: "Alger",
@@ -72,14 +73,15 @@ export default async function handler(req, res) {
               id_proprietaire: proprietaire.id_proprietaire,
             },
           },
+          
         },
       });
       
 
       console.log('Bien created:', bien); // Log the created bien
 
-      res.status(200).json({ success: true, bienId: bien.id_biens });
-      router.push('/clientHouses');
+      res.status(200).json({ success: true, bienVIPId: bienVIP.id_biens });
+      router.push('/vip');
 
     } catch (error) {
       console.error('Error creating biens:', error);
@@ -106,7 +108,7 @@ function decodeToken(token) {
       throw new Error('Failed to decode token');
     }
 
-    const client = {
+    const ProprietaireVIP = {
       nom: decoded.nom,
       prenom: decoded.prenom,
       email: decoded.email,
@@ -117,7 +119,7 @@ function decodeToken(token) {
       sex: decoded.sex,
     };
 
-    return client;
+    return ProprietaireVIP;
   } catch (error) {
     console.error('Error decoding token:', error);
     throw new Error('Failed to decode token');

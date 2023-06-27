@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import BienForm from "@/components/BienForm";
+import BienFormVIP from "@/components/BienFormVIP";
 
 export default function Page() {
   const [BienCompleted, setBienCompleted] = useState(false);
@@ -13,13 +13,13 @@ export default function Page() {
     const token = localStorage.getItem('token'); // Retrieve the token from storage
 
     try {
-      const response = await fetch('/api/addBienProprietaire', {
+      const response = await fetch('/api/addBienProprietaireVIP', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ description, type_bien, adresse, ville, code_postal, prix_estime, etat,nbrChambre }),
+        body: JSON.stringify({ description, type_bien, adresse, ville, code_postal, prix_estime, etat }),
       });
       
       const data = await response.json();
@@ -47,7 +47,7 @@ export default function Page() {
       <ToastContainer />
       <Header/>
       <BgLogin />
-      <BienForm onSubmit={handleSubmit} />
+      <BienFormVIP onSubmit={handleSubmit} />
     </div>
   );
 }

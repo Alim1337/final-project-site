@@ -36,7 +36,8 @@ export default async function handler(req, res) {
         },
       });
       if (matchingClient) {
-        id_client = matchingClient.id_client; // Assign the id_client from the client table
+        id_client = matchingClient.id_client;
+        console.log("matching client:",matchingClient.id_client); // Assign the id_client from the client table
       }
     }
 
@@ -78,7 +79,7 @@ export default async function handler(req, res) {
     const token = jwt.sign(
       {
         id: existingUser ? existingUser.id_proprietaire : existingClient.id_client,
-        id_client: id_client, // Assign the id_client to the token
+        id_client:existingUser?existingUser.id_client : existingClient.id, // Assign the id_client to the token
         nom: existingUser ? existingUser.nom : existingClient.nom,
         prenom: existingUser ? existingUser.prenom : existingClient.prenom,
         email: existingUser ? existingUser.email : existingClient.email,
@@ -97,6 +98,8 @@ export default async function handler(req, res) {
     );
 
     console.log('Token:', token);
+    const decodedToken = jwt.decode(token);
+    console.log('decoded',decodedToken);
 
     res.status(200).json({ token, userType, statusVIP });
   } catch (error) {

@@ -12,7 +12,7 @@ export default function Negotiation() {
   const router = useRouter();
   const { query } = router;
   const idLikes = query.id_likes || null; // Assign null as the default value if id_likes is not available
-  const idBien = query.bien_id || null;
+  const bien_id = query.bien_id || null;
   const idProprietaire = query.proprietaire_id || null;
   const [idClient, setidClient] = useState('');
 
@@ -24,19 +24,26 @@ export default function Negotiation() {
       try {
         console.log("Decoded token:", decodedToken);
         console.log("Decoded client:", decodedToken.id);
-        setidClient(decodedToken.id_client);
-
+  
+        if (decodedToken.userType === 'proprietaire') {
+          setidClient(decodedToken.id_client);
+        } else if (decodedToken.userType === 'client') {
+          setidClient(decodedToken.id);
+          console.log("id_client",idClient);
+        }
+  
       } catch (error) {
         console.error('Failed to verify JWT token:', error);
       }
     }
   }, []);
+  
 
   const handleNegotiationSubmit = async (formData) => {
     try {
       // Add the idLikes, idBien, and idProprietaire to the form data
       formData.id_likes = idLikes;
-      formData.bien_id = idBien;
+      formData.bien_id = bien_id;
       formData.proprietaire_id = idProprietaire;
       formData.client_id=idClient;
 

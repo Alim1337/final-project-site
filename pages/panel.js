@@ -133,11 +133,13 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
     }
   };
   const handleVoirNegotiationP = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = jwt.decode(token);
-      } else if (decodedToken && decodedToken.userType === 'proprietaire') {
-        router.push('/negotiation_client');}
+    
+   
+  
+          router.push('/negotiation_client');
+        
+        
+        
       
   };
   console.log(userType);

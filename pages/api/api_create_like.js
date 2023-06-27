@@ -15,10 +15,20 @@ export default async function handler(req, res) {
       console.log('decoded token:', decodedTokenVrai);
       console.log('decoded UserType:', decodedTokenVrai.userType);
       console.log('decoded client:', decodedTokenVrai.id);
+      console.log('decoded usertype:', decodedTokenVrai.userType);
+      const u = decodedTokenVrai.userType;
 
-      const i = decodedTokenVrai.id_client;
-      const b = bien_id;
-      const p = proprietaire_id;
+      let i, b, p;
+      if (decodedToken.userType === 'proprietaire') {
+        i = decodedTokenVrai.id_client;
+        b = bien_id;
+        p = proprietaire_id;
+      } else {
+        i = decodedTokenVrai.id;
+        b = bien_id;
+        p = proprietaire_id;
+      }
+
       console.log('client_id', i);
       console.log('id_bien', b);
       console.log('proprietaire_id p', p);
