@@ -199,8 +199,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
               {userType=== 'client' && (
                 
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
-                 xl:grid-cols-4 font-normal text-black" 
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
                  onClick={() => router.push('/BienFormPage')}>
                 <AjoutCard key="gestion" text="Ajouter au moins un bien pour devenir un proprietaire
 " />
@@ -211,8 +212,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               )}
                {userType=== 'proprietaire' && (
                 
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
-                 xl:grid-cols-4 font-normal text-black" 
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
                  onClick={() => router.push('/BienFormProprietaire')}>
                 <AjoutCard key="gestion" text="Ajouter un bien
 " />
@@ -232,8 +234,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                   <AjoutCard key="gestion" text="Negotiations sur votre biens" />
                 </button>       
                     )}
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
-                 xl:grid-cols-4 font-normal text-black" 
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
                  onClick={() => router.push('/homesList')}>
                 <AjoutCard key="gestion" text="Consulter les biens"/>
 
@@ -242,7 +245,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 
               
               {userType === 'proprietaire' && (
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 font-normal text-black" onClick={handleModifierBien}>
+                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={handleModifierBien}>
                   <GestionCard key="gestion" text="Modifier un bien" />
                 </button>
               )}
@@ -253,8 +258,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
             
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
               {userType === 'proprietaire' && (
-              <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 
-              font-normal text-black"
+              <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+              xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+               transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
               onClick={() => handleVoirbienliked()}              >
                 <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
               </button> 
@@ -269,7 +275,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 </button>
               
                 <button
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => router.push('/Modifier_Demande_Client')}
                 >
                   <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />

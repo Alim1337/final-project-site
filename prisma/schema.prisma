@@ -180,7 +180,9 @@ model Rdv {
   lieu_rdv                String?      @db.VarChar
   id_client               Int          @default(autoincrement())
   id_proprietaire         Int          @default(autoincrement())
+  id_negotiation          Int?
   Client                  Client       @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_client")
+  negotiation             negotiation? @relation(fields: [id_negotiation], references: [id_negotiation], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_negotiation")
   Proprietaire            Proprietaire @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_p")
   Rdv_Vip_                Rdv_Vip_[]
 }
@@ -194,6 +196,7 @@ model Rdv_Vip_ {
   id_client               Int              @default(autoincrement())
   id_proprietaire         Int              @default(autoincrement())
   id_rdv_vip              Int              @id @default(autoincrement())
+  id_negotiation          Int?
   Rdv                     Rdv              @relation(fields: [id_rdv], references: [id_rdv], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_vip")
   Client_vip              Client_vip       @relation(fields: [id_client], references: [id_client_vip], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_vip_client_vip")
   Proprietaire_vip        Proprietaire_vip @relation(fields: [id_proprietaire], references: [id_proprietaire_vip], onDelete: NoAction, onUpdate: NoAction, map: "fk_rdv_vip_p")
@@ -319,6 +322,7 @@ model negotiation {
   created_at        DateTime?    @default(now()) @db.Timestamp(6)
   duree             String?      @db.VarChar
   id_like           Int?
+  Rdv               Rdv[]
   message           message[]
   biens             biens        @relation(fields: [bien_id], references: [id_biens], onDelete: NoAction, onUpdate: NoAction)
   Client            Client       @relation(fields: [client_id], references: [id_client], onDelete: NoAction, onUpdate: NoAction)

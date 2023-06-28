@@ -4,9 +4,8 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
-  const { token ,demandeClient} = req.body;
-const demandeId = demandeClient.id_demande_client
-console.log("id_demande_client",demandeId);
+  const { token, demandeClient } = req.body;
+  console.log("id_demande_client", demandeClient.id_demande_client);
 
   console.log(demandeClient);
 
@@ -42,19 +41,7 @@ console.log("id_demande_client",demandeId);
 
       console.log('Demande deleted successfully');
       return res.status(200).json({ message: 'Demande deleted successfully' });
-    } else {
-      console.log('Fetching demande client for id_client:', id_client);
-      const demandeClient = await prisma.demande_client.findMany({
-        where: {
-          id_client: id_client,
-        },
-      });
-
-      console.log('Demande Client:', demandeClient);
-
-      // Return the demandeClient data for GET requests
-      return res.status(200).json({ demandeClient });
-    }
+    } 
   } catch (error) {
     console.error('API Error:', error);
     res.status(500).json({ error: 'An error occurred' });

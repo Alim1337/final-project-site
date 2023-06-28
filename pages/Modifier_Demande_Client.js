@@ -11,12 +11,6 @@ import Footer from '@/components/Footer';
 import Demande_client_card from '@/components/Demande_client_card';
 
 export default function ModifierDemandeClient(props) {
-  const [type_bien, setTypeBien] = useState('');
-  const [prix_minimum, setPrixMinimum] = useState('');
-  const [prix_maximum, setPrixMaximum] = useState('');
-  const [surface_minimum, setSurfaceMinimum] = useState('');
-  const [nbr_chambre_minimum, setNbrChambreMinimum] = useState('');
-  const [date_debut_rechercher, setDateDebutRechercher] = useState('');
   const [open, setOpen] = useState(true);
   const menus = [
     { title: 'Gestion de profil', icon: HiUser },
@@ -30,6 +24,8 @@ export default function ModifierDemandeClient(props) {
   const [ClientName, setClientName] = useState('');
   const [ClientEmail, setClientEmail] = useState('');
   const [demandeClient, setDemandeClient] = useState([]);
+  const [demandeClient_id, setDemandeClient_id] = useState([]);
+
 
   useEffect(() => {
     const token = localStorage.getItem('token'); // Retrieve the token from local storage
@@ -50,12 +46,17 @@ export default function ModifierDemandeClient(props) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token,demandeClient}),
       });
 
       if (response.ok) {
         const data = await response.json();
         setDemandeClient(data.demandeClient);
+setDemandeClient_id(data.demandeClient[0].id_demande_client);
+
+        console.log("i am demandeClient",demandeClient);
+        console.log("i am demandeClient id",demandeClient_id);
+
       } else {
         console.error('Failed to fetch demande client');
       }
@@ -63,8 +64,40 @@ export default function ModifierDemandeClient(props) {
       console.error('API Error:', error);
     }
   };
+  const handleModifier = async (demandeId) => {
+    console.log('Modifier clicked for demande ID:', demandeId);
+    // Implement your logic to modify the demande with the specified ID
+    // Call your API endpoint to handle the modification
+  };
 
+  const handleSupprimer = async (demandeId) => {
+    console.log('Supprimer clicked for demande ID:', demandeId);
+    // Implement your logic to delete the demande with the specified ID
+    // Call your API endpoint to handle the deletion
+    try {
+      const response = await fetch('/api/api_modifier_demande_client', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ demandeId , demandeClient  }),
+      });
+
+      if (response.ok) {
+        console.log('Demande deleted successfully');
+        // Perform any necessary actions after deletion
+        // Fetch updated demande clients
+        fetchDemandeClient(localStorage.getItem('token'));
+      } else {
+        console.log('Failed to delete demande');
+        // Perform any necessary error handling
+      }
+    } catch (error) {
+      console.error('API Error:', error);
+    }
+  };
   return (
+
     <div>
       <Header/>
       <main>
@@ -99,12 +132,17 @@ export default function ModifierDemandeClient(props) {
           <div className="p-7 text-2xl text-black font-semibold flex-1 h-screen overflow-auto">
             <h2 className="text-3xl font-mono mb-4">Tu As  {demandeClient.length ? demandeClient.length : ''} Demande Client:</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {demandeClient.map((demande, index) => (
+            {demandeClient.map((demandeClient, index) => (
   <div key={index} className="mb-4">
-    <Demande_client_card demandeClient={[demande]} cardIndex={index + 1} className="hover:scale-105
-     transition-all duration-300" />
+    <Demande_client_card demandeClient={[demandeClient]} cardIndex={index + 1} className="hover:scale-105
+ transition-all duration-300"
+ handleModifier={handleModifier}
+ handleSupprimer={handleSupprimer} />
+
+    
   </div>
 ))}
+
 
             </div>
           </div>

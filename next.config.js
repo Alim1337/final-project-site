@@ -11,6 +11,7 @@ const nextConfig = {
     '1.bp.blogspot.com',
     'vitaminedz.com',
     'acropole-immo.net',
+    'www.livehome3d.com',
     'i.pinimg.com',
     'cdn.thespaces.com',
     'www.designferia.com',
