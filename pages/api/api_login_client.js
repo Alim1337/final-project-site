@@ -79,7 +79,7 @@ export default async function handler(req, res) {
     const token = jwt.sign(
       {
         id: existingUser ? existingUser.id_proprietaire : existingClient.id_client,
-        id_client:existingUser?existingUser.id_client : existingClient.id, // Assign the id_client to the token
+        id_client:id_client, // Assign the id_client to the token
         nom: existingUser ? existingUser.nom : existingClient.nom,
         prenom: existingUser ? existingUser.prenom : existingClient.prenom,
         email: existingUser ? existingUser.email : existingClient.email,

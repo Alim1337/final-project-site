@@ -17,7 +17,8 @@ const NegotiationClient = () => {
         const token = localStorage.getItem('token');
         if (token) {
           const decodedToken = jwt.decode(token);
-          const clientID = decodedToken.id;
+          const userType = decodedToken.userType;
+          const clientID = userType === 'proprietaire' ? decodedToken.id_client : decodedToken.id;
           const clientName = decodedToken.nom; // Assuming the name is stored in the token
           setClientName(clientName);
           const res = await fetch(`/api/api_voir_negotiation_client?client_id=${clientID}`);
@@ -32,9 +33,10 @@ const NegotiationClient = () => {
         console.error('Failed to fetch negotiations:', error);
       }
     };
-
+  
     fetchNegotiations();
   }, []);
+  
 
   const handleAnnuler = (id) => {
     // Logic for handling 'Annuler' button click
@@ -47,22 +49,23 @@ const NegotiationClient = () => {
   const handleContacter = (negotiation) => {
     const token = localStorage.getItem('token');
     const decodedToken = jwt.decode(token);
-    const clientID = decodedToken.id;
+    const userType = decodedToken.userType;
+    const clientID = userType === 'proprietaire' ? decodedToken.id_client : decodedToken.id;
     const proprietaireID = negotiation.Proprietaire?.id_proprietaire;
     const negotiationID = negotiation.id_negotiation;
-  
+
     console.log("this is negotiation object", negotiation);
     console.log("negotiation id", negotiationID);
     console.log("proprietaire id", proprietaireID);
     console.log("client id", clientID);
-  
+
     if (proprietaireID && negotiationID) {
       router.push(`/Chat_client?clientId=${clientID}&proprietaireId=${proprietaireID}&negotiationId=${negotiationID}`);
     } else {
       console.error('Invalid negotiation object:', negotiation);
     }
   };
-  
+
 
   const handleBackClick = () => {
     router.push('/panel');
@@ -100,7 +103,17 @@ const NegotiationClient = () => {
                 <p className="text-sm">Type de bien: {negotiation.biens?.type_bien}</p>
 
                 {/* Display Proprietaire information */}
-               <p className="text-sm">Nom du propriétaire: {negotiation.Proprietaire?.nom}</p>
+                <p className="text-sm">Nom du propriétaire: {negotiation.Proprietaire?.nom}</p>
+
+                {/* Display rdv details */}
+                {negotiation.rdv && (
+                  <div>
+                    <p className="font-bold text-lg mt-4">Rdv Details</p>
+                    <p className="text-sm">Date: {negotiation.rdv.date_rdv}</p>
+                    <p className="text-sm">Heure: {negotiation.rdv.heure_rdv}</p>
+                    {/* Display more rdv details as needed */}
+                  </div>
+                )}
 
                 {/* Buttons */}
                 <div className="flex justify-end mt-4 space-x-4">

@@ -41,33 +41,38 @@ export default function Negotiation() {
 
   const handleNegotiationSubmit = async (formData) => {
     try {
-      // Add the idLikes, idBien, and idProprietaire to the form data
-      formData.id_likes = idLikes;
-      formData.bien_id = bien_id;
-      formData.proprietaire_id = idProprietaire;
-      formData.client_id=idClient;
-
-      // Make an API request to create the negotiation
-      const response = await fetch('/api/api_create_negotiation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        // If the negotiation was created successfully, display a notification and redirect to the /homesList page
-        toast.success('Negociation a ete faite');
-        router.push('/homesList');
-      } else {
-        // Handle the error case
-        console.error('Failed to create negotiation');
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken = jwt.decode(token); // Add the idLikes, idBien, and idProprietaire to the form data
+        formData.id_likes = idLikes;
+        formData.bien_id = bien_id;
+        formData.proprietaire_id = idProprietaire;
+        formData.client_id = idClient;
+        formData.decodedToken = decodedToken;
+  
+        // Make an API request to create the negotiation
+        const response = await fetch('/api/api_create_negotiation', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+  
+        if (response.ok) {
+          // If the negotiation was created successfully, display a notification and redirect to the /homesList page
+          toast.success('Negociation a ete faite');
+          router.push('/homesList');
+        } else {
+          // Handle the error case
+          console.error('Failed to create negotiation');
+        }
       }
     } catch (error) {
       console.error('Failed to create negotiation:', error);
     }
   };
+  
 
   return (
     <div className='bg-white items-center'>

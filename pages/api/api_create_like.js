@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
       console.log('client_id', i);
       console.log('id_bien', b);
-      console.log('proprietaire_id p', p);
+      console.log('proprietaire_id', p);
 
       // Check the userType
       if (decodedTokenVrai.userType === 'client') {
@@ -46,24 +46,37 @@ export default async function handler(req, res) {
 
         res.status(200).json(like);
       } else if (decodedTokenVrai.userType === 'proprietaire') {
-        const proprietaire = await prisma.Proprietaire.findUnique({
+        const proprietaire = await prisma.proprietaire.findUnique({
           where: {
-            id_proprietaire:i,
+            id_proprietaire: i,
           },
         });
 
         if (proprietaire) {
-          // Create the like for a proprietaire
-          // Use the id_client from the proprietaire record
-          const like = await prisma.likes.create({
-            data: {
-              client_id: proprietaire.id_client,
-              id_bien: b, // Switched value
-              proprietaire_id:p, // Switched value
+          // Find the client based on the proprietaire's email
+          const client = await prisma.client.findFirst({
+            where: {
+              email: proprietaire.email,
+            },
+            select: {
+              id_client: true,
             },
           });
 
-          res.status(200).json(like);
+          if (client) {
+            // Create the like for a proprietaire using the client_id from the client record
+            const like = await prisma.likes.create({
+              data: {
+                client_id: client.id_client,
+                id_bien: b,
+                proprietaire_id: p,
+              },
+            });
+
+            res.status(200).json(like);
+          } else {
+            res.status(400).json({ error: 'Client not found' });
+          }
         } else {
           res.status(400).json({ error: 'Proprietaire not found' });
         }
