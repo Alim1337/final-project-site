@@ -72,22 +72,7 @@ export default function HomesListFiltred() {
     }
   };
 
-  useEffect(() => {
-    const queryParams = {
-      location: router.query.location,
-      address: router.query.address,
-      propertyType: router.query.propertyType,
-      numBedrooms: router.query.numBedrooms,
-    };
-
-    const queryString = Object.keys(queryParams)
-      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`)
-      .join('&');
-
-    const url = `/homesList_filtred?${queryString}`;
-    router.push(url);
-  }, [searchResults, router.query]);
-
+  
   return (
     <div className="bg-slate-50">
       <Header />

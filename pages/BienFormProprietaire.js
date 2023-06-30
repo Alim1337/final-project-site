@@ -11,7 +11,7 @@ export default function Page() {
   const [BienCompleted, setBienCompleted] = useState(false);
   const router = useRouter();
 
-  async function handleSubmit(description, type_bien, adresse, ville, code_postal, prix_estime, etat,nbrChambre) {  
+  async function handleSubmit(description,type_bien, nbrChambre,adresse,ville,  code_postal, prix_estime, etat, ) {  
     const token = localStorage.getItem('token'); // Retrieve the token from storage
 
     try {
@@ -21,7 +21,7 @@ export default function Page() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ description, type_bien, adresse, ville, code_postal, prix_estime, etat,nbrChambre }),
+        body: JSON.stringify({ description,type_bien, nbrChambre,adresse,ville,  code_postal, prix_estime, etat, }),
       });
       
       const data = await response.json();

@@ -8,16 +8,28 @@ export default async function handler(req, res) {
 
     const searchOptions = {
       ...(location && { location }),
-      ...(address && { adresse }),
-      ...(propertyType && { type_bien }),
+      ...(address && { adress }),
       ...(numBedrooms && { nbrChambre }),
     };
+console.log(location);
+console.log(address);
 
-    const biens = await prisma.biens.findMany({
-      where: {
-        ...searchOptions,
-      },
-    });
+console.log(numBedrooms);
+
+    let biens;
+
+    if (propertyType) {
+      biens = await prisma.biens.findMany({
+        where: {
+          type_bien: propertyType,
+          ...searchOptions,
+        },
+      });
+    } else {
+      biens = await prisma.biens.findMany({
+        where: { ...searchOptions },
+      });
+    }
 
     const biensWithProprietaire = await Promise.all(
       biens.map(async (bien) => {
@@ -28,7 +40,7 @@ export default async function handler(req, res) {
         return { ...bien, Proprietaire: proprietaire };
       })
     );
-
+    console.log(biensWithProprietaire);
     res.status(200).json(biensWithProprietaire);
   } catch (error) {
     console.error(error);

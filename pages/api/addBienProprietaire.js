@@ -64,8 +64,8 @@ export default async function handler(req, res) {
           type_bien: formData.type_bien,
           adresse: formData.adresse,
           ville: "Alger",
-          code_postal: formData.code_postal,
-          prix_estime: formData.prix_estime,
+          code_postal: "1600",
+          prix_estime: parseInt(formData.prix_estime),
           etat: formData.etat,
           Proprietaire: {
             connect: {

@@ -97,7 +97,7 @@ function Header() {
   const handleSearchClick = () => {
     const queryParams = {
       location: searchLocation,
-      address: searchadresse,
+      adress: searchadresse,
       propertyType: searchPropertyType,
       numBedrooms: searchNumBedrooms,
     };

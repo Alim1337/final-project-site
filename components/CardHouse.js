@@ -55,7 +55,6 @@ function CardHouse({ id_biens, description, type_bien, adresse, ville, code_post
       <p className="text-sm mb-2">Type: {type_bien}</p>
       <p className="text-sm mb-2">Address: {adresse}</p>
       <p className="text-sm mb-2">City: {ville}</p>
-      <p className="text-sm mb-2">Postal Code: {code_postal && code_postal.join(', ')}</p>
       <p className="text-sm mb-2">Estimated Price: {prix_estime} DA</p>
       <p className="text-sm mb-2">State: {etat}</p>
       <p className="text-sm mb-2">Owner: {Proprietaire && Proprietaire.nom}</p>
