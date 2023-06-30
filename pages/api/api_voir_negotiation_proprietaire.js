@@ -20,6 +20,7 @@ export default async function handler(req, res) {
           },
           biens: {
             select: {
+              id_biens : true,
               type_bien: true,
             },
           },
@@ -38,6 +39,7 @@ export default async function handler(req, res) {
         },
         biens: {
           type_bien: negotiation.biens?.type_bien,
+          id_biens : negotiation.biens?.id_biens,
         },
       }));
 

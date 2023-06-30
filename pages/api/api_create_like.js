@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
       let i, b, p;
       if (decodedToken.userType === 'proprietaire') {
-        i = decodedTokenVrai.id_client;
+        i = decodedTokenVrai.id;
         b = bien_id;
         p = proprietaire_id;
       } else {
@@ -46,18 +46,27 @@ export default async function handler(req, res) {
 
         res.status(200).json(like);
       } else if (decodedTokenVrai.userType === 'proprietaire') {
-        console.log('inside of else if');
-        // Create the like for a proprietaire
-        // Switch the values of id_bien and proprietaire_id
-        const like = await prisma.likes.create({
-          data: {
-            client_id: i,
-            id_bien: b, // Switched value
-            proprietaire_id: p, // Switched value
+        const proprietaire = await prisma.Proprietaire.findUnique({
+          where: {
+            id_proprietaire:i,
           },
         });
 
-        res.status(200).json(like);
+        if (proprietaire) {
+          // Create the like for a proprietaire
+          // Use the id_client from the proprietaire record
+          const like = await prisma.likes.create({
+            data: {
+              client_id: proprietaire.id_client,
+              id_bien: b, // Switched value
+              proprietaire_id:p, // Switched value
+            },
+          });
+
+          res.status(200).json(like);
+        } else {
+          res.status(400).json({ error: 'Proprietaire not found' });
+        }
       } else {
         res.status(400).json({ error: 'Invalid userType' });
       }

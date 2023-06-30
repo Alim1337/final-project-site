@@ -60,7 +60,7 @@ export default async function handler(req, res) {
       const bien = await prisma.biens.create({
         data: {
           description: formData.description,
-          nbrChambre:'4',
+          nbrChambre:formData.nbrChambre,
           type_bien: formData.type_bien,
           adresse: formData.adresse,
           ville: "Alger",

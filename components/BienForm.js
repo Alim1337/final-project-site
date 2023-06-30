@@ -19,8 +19,9 @@ export default function BienForm({ onSubmit }) {
 
     onSubmit(
       description,
-      nbrChambre,
       typeBien,
+      nbrChambre,
+      
       adresse,
       ville,
       codePostal,

@@ -174,7 +174,7 @@ model Proprietaire_vip {
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
 model Rdv {
   id_rdv                  Int          @id(map: "RDV_pkey") @default(autoincrement())
-  id_demande_client_valid Int
+  id_demande_client_valid Int?
   date_rdv                DateTime     @db.Date
   heure_rdv               DateTime?    @db.Time(6)
   lieu_rdv                String?      @db.VarChar
@@ -189,7 +189,7 @@ model Rdv {
 
 model Rdv_Vip_ {
   id_rdv                  Int              @default(autoincrement())
-  id_demande_client_valid Int
+  id_demande_client_valid Int?
   date_rdv                DateTime         @db.Date
   heure_rdv               DateTime?        @db.Time(6)
   lieu_rdv                String?          @db.VarChar
