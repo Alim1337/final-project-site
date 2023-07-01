@@ -96,10 +96,10 @@ function Header() {
   };
   const handleSearchClick = () => {
     const queryParams = {
-      location: searchLocation,
-      adress: searchadresse,
-      propertyType: searchPropertyType,
-      numBedrooms: searchNumBedrooms,
+      location: searchLocation || '',
+      address: searchadresse || '',
+      propertyType: searchPropertyType || '',
+      numBedrooms: searchNumBedrooms || '',
     };
   
     const queryString = Object.keys(queryParams)
@@ -107,10 +107,14 @@ function Header() {
       .join('&');
   
     const url = `/homesList_filtred?${queryString}`;
-    router.push(url);
+  
+    // Redirect to the desired URL
+    window.location.href = url;
   };
   
-
+  
+  
+  
   const handleLocationSelect = (location) => {
     setSearchLocation(location);
   };

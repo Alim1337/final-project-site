@@ -9,7 +9,7 @@ import BienForm from "@/components/BienForm";
 export default function Page() {
   const [BienCompleted, setBienCompleted] = useState(false);
 
-  async function handleSubmit(description, type_bien, adresse, ville, code_postal, prix_estime, etat) {  
+  async function handleSubmit(description, type_bien, nbrChambre,adresse, ville, codePostal, minPrixEstime, etat) {  
     const token = localStorage.getItem('token'); // Retrieve the token from storage
 
     try {
@@ -19,7 +19,7 @@ export default function Page() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ description, type_bien, adresse, ville, code_postal, prix_estime, etat }),
+        body: JSON.stringify({ description, type_bien,nbrChambre, adresse, ville, codePostal, minPrixEstime, etat }),
       });
       
       const data = await response.json();

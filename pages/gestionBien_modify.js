@@ -10,6 +10,8 @@ import DemandeClientLike from '@/components/CardHouse_for_prop';
 export default function GestionBienModify() {
   const [biens, setBiens] = useState([]);
   const router = useRouter();
+  const [idProprietaire, setIdProprietaire] = useState([]);
+
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -21,7 +23,7 @@ export default function GestionBienModify() {
       try {
         const decodedToken = jwt.decode(token);
         console.log('Decoded token:', decodedToken);
-
+        setIdProprietaire(decodedToken.id);
         if (!decodedToken || !decodedToken.id) {
           console.log('Invalid token or missing id_proprietaire');
         } else {

@@ -9,21 +9,37 @@ export default function HomesListFiltred() {
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
   const router = useRouter();
 
+  // Extract query fields into variables
+  const { address, location, numBedrooms, propertyType } = router.query;
+  console.log(propertyType);
+
   useEffect(() => {
     async function fetchData() {
       try {
+        console.log('Fetching data with query:', router.query);
+
+       
+           const  address = router.query.address ;
+           console.log('address:', address);
+
+           const location=router.query.location;
+           const propertyType=router.query.propertyType;
+
+           const numBedrooms=router.query.numBedrooms;
+
+     
+
         const response = await fetch('/api/api_rechercher_filtre', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            location: router.query.location,
-            address: router.query.address,
-            propertyType: router.query.propertyType,
-            numBedrooms: router.query.numBedrooms,
+            address : address, location : location, numBedrooms : numBedrooms, propertyType : propertyType,
+
           }),
         });
+
         const data = await response.json();
         setSearchResults(data);
       } catch (error) {
@@ -33,6 +49,7 @@ export default function HomesListFiltred() {
 
     fetchData();
   }, [router.query]);
+
 
   const handleInterestedClick = async (bienId, proprietaireId) => {
     try {

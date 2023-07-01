@@ -97,7 +97,7 @@ export default function BienForm({ onSubmit }) {
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div>
                     <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                    Description                      </label>
+                    Titre                     </label>
                     <div className="mt-1">
                       <textarea
                         id="description"

@@ -4,26 +4,21 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   try {
-    const { location, address, propertyType, numBedrooms } = req.query;
-
-    const searchOptions = {
-      ...(location && { location }),
-      ...(address && { adress }),
-      ...(numBedrooms && { nbrChambre }),
-    };
-console.log(location);
-console.log(address);
-
-console.log(numBedrooms);
+    const { location, address, propertyType, numBedrooms } = req.body;
+    console.log(propertyType);
+    console.log(address);
 
     let biens;
+    
+
+    const searchOptions = {
+     
+      ...(propertyType && { type_bien: propertyType }),
+    };
 
     if (propertyType) {
       biens = await prisma.biens.findMany({
-        where: {
-          type_bien: propertyType,
-          ...searchOptions,
-        },
+        where: {type_bien : propertyType}
       });
     } else {
       biens = await prisma.biens.findMany({
@@ -40,7 +35,7 @@ console.log(numBedrooms);
         return { ...bien, Proprietaire: proprietaire };
       })
     );
-    console.log(biensWithProprietaire);
+
     res.status(200).json(biensWithProprietaire);
   } catch (error) {
     console.error(error);

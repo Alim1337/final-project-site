@@ -133,7 +133,7 @@ model Proprietaire {
   id_proprietaire   Int               @id @default(autoincrement())
   nom               String            @db.VarChar(255)
   prenom            String            @db.VarChar(255)
-  email             String            @unique(map: "U_Proprietaire_email") @db.VarChar(255)
+  email             String            @unique(map: "email_p_unique") @db.VarChar(255)
   ville             String?           @db.VarChar(255)
   telephone         Decimal           @db.Decimal
   mdps              String            @db.VarChar(255)
