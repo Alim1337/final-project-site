@@ -56,7 +56,7 @@ const NegotiationClient = () => {
 
     console.log("this is negotiation object", negotiation);
     console.log("negotiation id", negotiationID);
-    console.log("proprietaire id", proprietaireID);
+    console.log("proprietaire id", negotiation.Proprietaire.id_proprietaire);
     console.log("client id", clientID);
 
     if (proprietaireID && negotiationID) {

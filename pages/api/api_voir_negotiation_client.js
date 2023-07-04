@@ -16,6 +16,7 @@ export default async function handler(req, res) {
           Proprietaire: {
             select: {
               nom: true,
+              id_proprietaire : true,
             },
           },
           biens: {
@@ -46,6 +47,7 @@ export default async function handler(req, res) {
           rdv,
           Proprietaire: {
             nom: negotiation.Proprietaire?.nom,
+            id_proprietaire : negotiation.Proprietaire?.id_proprietaire
           },
           biens: {
             type_bien: negotiation.biens?.type_bien,

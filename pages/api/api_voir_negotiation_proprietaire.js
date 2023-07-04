@@ -15,6 +15,7 @@ export default async function handler(req, res) {
         include: {
           Proprietaire: {
             select: {
+              id_proprietaire : true,
               nom: true,
             },
           },
@@ -22,6 +23,10 @@ export default async function handler(req, res) {
             select: {
               id_biens : true,
               type_bien: true,
+              description:true,
+              adresse:true,
+              ville:true,
+              prix_estime:true,
             },
           },
         },
@@ -35,11 +40,17 @@ export default async function handler(req, res) {
         statut: negotiation.statut,
         commentaire: negotiation.commentaire,
         Proprietaire: {
+          id_proprietaire : negotiation.Proprietaire?.id_proprietaire,
           nom: negotiation.Proprietaire?.nom,
         },
         biens: {
           type_bien: negotiation.biens?.type_bien,
           id_biens : negotiation.biens?.id_biens,
+          description : negotiation.biens?.description,
+          adresse: negotiation.biens?.adresse,
+          ville: negotiation.biens?.ville,
+          prix_estime : negotiation.biens?.prix_estime
+
         },
       }));
 

@@ -30,6 +30,8 @@ export default async function handler(req, res) {
       data: {
         id_biens: biensData.id_biens,
         id_client: biensData.id_client,
+        description : negotiation.description,
+        
        
         etat: 'Loué', // Assuming 'Loué' is the desired state for a rented property
       },
