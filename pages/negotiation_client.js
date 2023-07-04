@@ -73,81 +73,92 @@ const NegotiationClient = () => {
 
   return (
     <div className="bg-white text-black min-h-screen">
-      <Header />
+    <Header />
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-start mb-4">
-          <button
-            onClick={handleBackClick}
-            className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-          >
-            Retourner à Client DashBoard
-          </button>
-        </div>
-        <h1 className="text-2xl font-bold mb-4">Négociations pour le client: {clientName}</h1>
-        {negotiations && negotiations.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {negotiations.map((negotiation) => (
-              <div
-                key={negotiation.id_negotiation}
-                className="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-300 transition-shadow duration-300"
-              >
-                {/* Display negotiation details */}
-                <p className="font-bold text-lg">Négociation ID: {negotiation.id_negotiation}</p>
-                {/* Display additional negotiation details */}
-                <p className="text-sm">Prix Proposé: {negotiation.prix_propose}</p>
-                <p className="text-sm">Durée: {negotiation.duree}</p>
-                <p className="text-sm">Statut: {negotiation.statut}</p>
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex justify-start mb-4">
+        <button
+          onClick={handleBackClick}
+          className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        >
+          Retourner à Client DashBoard
+        </button>
+      </div>
+      <h1 className="text-2xl font-bold mb-4">Négociations pour le client: {clientName}</h1>
+      {negotiations && negotiations.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {negotiations.map((negotiation) => (
+            <div
+              key={negotiation.id_negotiation}
+              className="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-300 transition-shadow duration-300"
+            >
+              {/* Display negotiation details */}
+              <p className="font-bold text-lg">Négociation ID: {negotiation.id_negotiation}</p>
+              {/* Display additional negotiation details */}
+              <p className="text-sm">Prix Proposé: {negotiation.prix_propose}</p>
+              <p className="text-sm">Durée: {negotiation.duree}</p>
+              <p className="text-sm">Statut: {negotiation.statut}</p>
 
-                {/* Display biens information */}
-                <p className="text-sm">Type de bien: {negotiation.biens?.type_bien}</p>
+              {/* Display biens information */}
+              <p className="text-sm">Type de bien: {negotiation.biens?.type_bien}</p>
 
-                {/* Display Proprietaire information */}
-                <p className="text-sm">Nom du propriétaire: {negotiation.Proprietaire?.nom}</p>
+              {/* Display Proprietaire information */}
+              <p className="text-sm">Nom du propriétaire: {negotiation.Proprietaire?.nom}</p>
 
-                {/* Display rdv details */}
-                {negotiation.rdv && (
-                  <div>
-                    <p className="font-bold text-lg mt-4">Rdv Details</p>
-                    <p className="text-sm">Date: {negotiation.rdv.date_rdv}</p>
-                    <p className="text-sm">Heure: {negotiation.rdv.heure_rdv}</p>
-                    {/* Display more rdv details as needed */}
-                  </div>
-                )}
+              {/* Display rdv details */}
+              {negotiation.rdv && (
+                <div>
+                  <p className="font-bold text-lg mt-4">Rdv Details</p>
+                  <p className="text-sm">Date: {negotiation.rdv.date_rdv}</p>
+                  <p className="text-sm">Heure: {negotiation.rdv.heure_rdv}</p>
+                  {/* Display more rdv details as needed */}
+                </div>
+              )}
 
-                {/* Buttons */}
-                <div className="flex justify-end mt-4 space-x-4">
-                  <button
-                    onClick={() => handleAnnuler(negotiation.id_negotiation)}
-                    className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                  >
-                    Annuler
-                  </button>
-
+              {/* Buttons */}
+              <div className="flex justify-end mt-4 space-x-4">
+                {negotiation.rdv ? (
                   <button
                     onClick={() => handleModifier(negotiation.id_negotiation)}
                     className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                   >
                     Modifier
                   </button>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleAnnuler(negotiation.id_negotiation)}
+                      className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    >
+                      Annuler
+                    </button>
 
-                  <button
-                    onClick={() => handleContacter(negotiation)}
-                    className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                  >
-                    Contacter
-                  </button>
-                </div>
+                    <button
+                      onClick={() => handleModifier(negotiation.id_negotiation)}
+                      className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    >
+                      Modifier
+                    </button>
+                  </>
+                )}
+
+                <button
+                  onClick={() => handleContacter(negotiation)}
+                  className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                >
+                  Contacter
+                </button>
               </div>
-            ))}
-          </div>
-        ) : (
-          <p>Aucune négociation trouvée pour le client.</p>
-        )}
-      </div>
-
-      <Footer />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>Aucune négociation trouvée pour le client.</p>
+      )}
     </div>
+
+    <Footer />
+  </div>
   );
 };
 
