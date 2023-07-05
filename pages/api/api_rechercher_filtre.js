@@ -7,12 +7,14 @@ export default async function handler(req, res) {
     const { location, address, propertyType, numBedrooms } = req.body;
     console.log(propertyType);
     console.log(address);
-
+    console.log(numBedrooms);
     let biens; // Declare the biens variable here
 
     if (propertyType) {
       biens = await prisma.biens.findMany({
-        where: { type_bien: propertyType }
+        where: { type_bien: propertyType ,
+                 adresse : address, 
+                ville : "Alger", }
       });
     }
     

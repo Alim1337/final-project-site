@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Image from "next/image";
-function CardHouse({ id_biens, description, type_bien, adresse, ville, code_postal, prix_estime, etat, Proprietaire, token, onInterestedClick }) {
+function CardHouse({ id_biens, description, type_bien, adresse, ville, code_postal, prix_estime, etat,nbrChambre, Proprietaire, token, onInterestedClick }) {
   const [image, setImage] = useState(null);
 
   const router = useRouter();
@@ -97,13 +97,16 @@ function CardHouse({ id_biens, description, type_bien, adresse, ville, code_post
         />
       </div>
       <h3 className="text-lg font-bold mb-2">ID: {id_biens}</h3>
-      <p className="text-xl mb-2 ">Description: {description}</p>
+      <p className="text-xl mb-2 ">Proprietaire: {Proprietaire.nom}</p>
+
+      <p className="text-xl mb-2 ">Titre: {description}</p>
       <p className="text-xl mb-2">Type: {type_bien}</p>
-      <p className="text-xl mb-2">Address: {adresse}</p>
-      <p className="text-xl mb-2">City: {ville}</p>
-      <p className="text-xl  mb-2">Postal Code: {code_postal && code_postal.join(', ')}</p>
-      <p className="text-xl mb-2">Estimated Price: {prix_estime}</p>
-      <p className="text-xl mb-2">State: {etat}</p>
+      <p className="text-xl mb-2">Adresse: {adresse}</p>
+      <p className="text-xl mb-2">Ville: {ville}</p>
+      <p className="text-xl mb-2">prix estime: {prix_estime}</p>
+      <p className="text-xl mb-2">état: {etat}</p>
+      <p className="text-xl mb-2">Nombre de chambres: {nbrChambre}</p>
+
      
       {token && (
         <button

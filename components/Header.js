@@ -30,9 +30,9 @@ function Header() {
   'Rahmania','Raïs Hamidou','Réghaïa','Rouïba','Saoula',
   
   'Sidi MHamed','Sidi Moussa','Souidania','Staoueli','Tessala El Merdja','Zéralda'];
-  const propertyTypeOptions = ['Appartement', 'Villa'];
-  const numBedroomsOptions = ['1 Chambre', '2 Chambres', '3 Chambres ', '4 Chambres' , '5 Chambre' , '6 Chambre'
-,' 7Chambres','8 Chambres','9 Chambre','10 Chambre','11 Chambres',"12 Chambres"];
+  const propertyTypeOptions = ['appartement', 'villa'];
+  const numBedroomsOptions = ['F1', 'F2', 'F3 ', 'F4' , 'F5' , 'F6'
+,' F7','F8','F9','F10','F11',"F12","F13","F14"];
 
   useEffect(() => {
     const token = localStorage.getItem('token');
