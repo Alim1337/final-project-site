@@ -4,14 +4,15 @@ import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
-
+import Image from "next/image";
 import BienForm from "@/components/BienForm";
 
 export default function Page() {
   const [BienCompleted, setBienCompleted] = useState(false);
+  const [image, setImage] = useState(null);
   const router = useRouter();
 
-  async function handleSubmit(description,type_bien, nbrChambre,adresse,ville,  code_postal, prix_estime, etat, ) {  
+  async function handleSubmit(description, type_bien, nbrChambre, adresse, ville, code_postal, prix_estime, etat) {
     const token = localStorage.getItem('token'); // Retrieve the token from storage
 
     try {
@@ -21,12 +22,12 @@ export default function Page() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify({ description,type_bien, nbrChambre,adresse,ville,  code_postal, prix_estime, etat, }),
+        body: JSON.stringify({ description, type_bien, nbrChambre, adresse, ville, code_postal, prix_estime, etat }),
       });
-      
+
       const data = await response.json();
       console.log('Result:', data);
-      
+
       if (response.ok) {
         setBienCompleted(true);
         toast.success('Bien ajouté!', {
@@ -45,13 +46,18 @@ export default function Page() {
       // Handle the error
     }
   }
-  
+
   return (
     <div>
       <ToastContainer />
-      <Header/>
+      <Header />
+     
       <BgLogin />
+      <div>
+        
       <BienForm onSubmit={handleSubmit} />
+      
+      </div>
     </div>
   );
 }

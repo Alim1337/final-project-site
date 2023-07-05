@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Footer from './Footer';
 import { useRouter } from 'next/router';
-
+import Image from 'next/dist/client/image';
 export default function BienForm({ onSubmit }) {
   const [description, setDescription] = useState('');
   const [typeBien, setTypeBien] = useState('');
@@ -9,6 +9,7 @@ export default function BienForm({ onSubmit }) {
   const [ville, setVille] = useState('');
   const [nbrChambre, setNbrChambre] = useState('');
   const [selectedAddress, setSelectedAddress] = useState('');
+  const [image, setImage] = useState(null);
 
   const adresseOptions = ['Aïn Benian','Aïn Taya','Alger-Centre','Baba Hassen','Bab El Oued','Bab Ezzouar',
   'Bachdjerrah','Baraki','Belouizdad','Ben Aknoun','Beni Messous',
@@ -52,7 +53,36 @@ export default function BienForm({ onSubmit }) {
       router.push('/panel');
     }
   }
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
+    reader.onload = (e) => {
+      const timestamp = new Date().getTime(); // Get a timestamp
+      const imageName = `image_${timestamp}`; // Create a unique image name
+      const imageData = e.target.result;
+      const imageObject = {
+        name: imageName,
+        data: imageData
+      };
+
+      setImage(imageObject);
+      // Save the image in localStorage
+      localStorage.setItem('selectedImage', JSON.stringify(imageObject));
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmitIMAGE = (event) => {
+    event.preventDefault();
+    // Logic for handling 'Modifier' button click
+    console.log('Image submitted:', image);
+    // Save the image in localStorage
+    localStorage.setItem('selectedImage', JSON.stringify(image));
+  };
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -250,6 +280,18 @@ export default function BienForm({ onSubmit }) {
                     </div>
                   </div>
                 </form>
+                <form onSubmit={handleSubmitIMAGE}>
+        <div>
+          <label className="text-black text-xl" htmlFor="image">Image:</label>
+          <input type="file" id="image" accept="image/*" onChange={handleImageChange} />
+          {image && (
+            <div>
+              <Image src={image.data} width={200} height={200} alt="Selected Image" />
+            </div>
+          )}
+        </div>
+        <button type="submit">Submit</button>
+      </form>
               </div>
             </div>
           </div>
