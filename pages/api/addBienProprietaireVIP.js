@@ -62,7 +62,7 @@ export default async function handler(req, res) {
           description: formData.description,
           nbrChambre: formData.nbrChambre,
           type_bien: formData.type_bien,
-          adresse: formData.adresse,
+          adresse: formData.selectedAddress,
           ville: "Alger",
           code_postal: formData.code_postal,
           prix_estime: parseInt(formData.prix_estime),
@@ -81,7 +81,7 @@ export default async function handler(req, res) {
           prix_estime: formData.prix_estime,
           etat: bien.etat,
           nbrChambre: bien.nbrChambre,
-          type_location_vip: formData.type_location_vip,
+          type_location_vip :formData.type_location_vip,
           biens: {
             connect: { id_biens: bien.id_biens },
           },

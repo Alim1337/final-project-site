@@ -65,9 +65,10 @@ export default async function handler(req, res) {
           type_bien: formData.type_bien,
           adresse: formData.adresse,
           ville: "Alger",
-          code_postal: formData.codePostal,
+          code_postal: "1600",
           prix_estime: formData.minPrixEstime,
           etat: formData.etat,
+          nbrChambre:formData.nbrChambre,
           id_proprietaire: proprietaire.id_proprietaire,
         },
       });

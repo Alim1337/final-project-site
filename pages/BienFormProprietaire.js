@@ -6,7 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import Image from "next/image";
 import BienForm from "@/components/BienForm";
-
 export default function Page() {
   const [BienCompleted, setBienCompleted] = useState(false);
   const [image, setImage] = useState(null);

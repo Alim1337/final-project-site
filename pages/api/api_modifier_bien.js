@@ -19,7 +19,17 @@ export default async function handler(req, res) {
 
     console.log('Biens:', biens);
 
-    return res.status(200).json({ biens });
+    const biens_vip = await prisma.biens_vip.findMany({
+      where: {
+        id_biens: {
+          in: biens.map((bien) => bien.id_biens),
+        },
+      },
+    });
+
+    console.log('Biens VIP:', biens_vip);
+
+    return res.status(200).json({ biens, biens_vip });
   } catch (error) {
     console.error('API Error:', error);
     res.status(500).json({ error: 'An error occurred' });

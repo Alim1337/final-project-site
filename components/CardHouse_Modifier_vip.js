@@ -4,8 +4,9 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import Image from "next/image";
-
-function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adresse, ville, code_postal, prix_estime, etat, Proprietaire }) {
+import { MdOutlineWorkspacePremium } from "react-icons/md";
+function CardHouseModifiervip({ id_biens, description, type_bien,      type_location_vip,
+    nbrChambre, adresse, ville, code_postal, prix_estime, etat, Proprietaire }) {
   const [image, setImage] = useState(null);
   const [isModifying, setIsModifying] = useState(false);
   const [newValues, setNewValues] = useState({
@@ -14,6 +15,8 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
     id_biens: id_biens,
     description: description,
     type_bien: type_bien,
+    type_location_vip :  type_location_vip    ,
+
     nbrChambre: nbrChambre,
     adresse: adresse,
     ville: ville,
@@ -53,7 +56,7 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
   const handleDone = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('/api/api_modifier_bien_button', {
+      const response = await fetch('/api/api_modifier_bien_button_vip', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -132,7 +135,7 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 md:p-6 transition duration-300ease-out transform hover:scale-105  hover:shadow-lg">
+    <div className="bbg-white rounded-lg shadow-md p-6 transition duration-300 ease-out transform hover:scale-105 hover:shadow-lg">
       <div className="relative h-40 md:h-32 w-full mb-4">
         <Image
           src={getStoredImage() || getImageSrc()}
@@ -173,6 +176,16 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
               id="nbrChambre"
               name="nbrChambre"
               value={newValues.nbrChambre}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label className="text-base md:text-xl text-black" htmlFor="nbrChambre">type_location_vip:</label>
+            <input
+              type="number"
+              id="nbrChambre"
+              name="nbrChambre"
+              value={newValues.type_location_vip}
               onChange={handleInputChange}
             />
           </div>
@@ -238,8 +251,11 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
         </form>
       ) : (
         <div>
+            <MdOutlineWorkspacePremium/>
           <p className="text-xl mb-2 ">Description: {description}</p>
-          <p className="text-xl mb-2">Type: {type_bien}</p>
+          <p className="text-xl mb-2">Type de bien: {type_bien}</p>
+          <p className="text-xl mb-2">Type de location: {type_location_vip}</p>
+
           <p className="text-xl mb-2">Adresse: {adresse}</p>
           <p className="text-xl mb-2">Ville: {ville}</p>
           <p className="text-xl mb-2">prix estime: {prix_estime}</p>
@@ -268,4 +284,4 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
   );
 }
 
-export default CardHouseModifier;
+export default CardHouseModifiervip;

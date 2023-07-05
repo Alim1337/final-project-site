@@ -1,37 +1,42 @@
 import BgLogin from "../components/bg_login";
 import Header from "@/components/Header";
+import { useRouter } from 'next/router';
+
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import BienFormVIP from "@/components/BienFormVIP";
+import BienFormVip from "@/components/BienFormVIP";
 
 export default function Page() {
   const [BienCompleted, setBienCompleted] = useState(false);
+  const router = useRouter();
 
   async function handleSubmit(
-    type_bien,
-    adresse,
-    ville,
-    code_postal,
-    prix_estime,
-    etat,
+    description,
+    typeBien,
+    type_location_vip,
     nbrChambre,
-    type_location_vip
+    selectedAddress, 
+    ville,
+    codePostal,
+    minPrixEstime,
+    etat
   ) {
     const token = localStorage.getItem('token'); // Retrieve the token from storage
 
     try {
       console.log('Submitting form...');
       console.log('Form data:', {
-        type_bien,
-        adresse,
-        ville,
-        code_postal,
-        prix_estime,
-        etat,
-        nbrChambre,
-        type_location_vip
+        description,
+    typeBien,
+    type_location_vip,
+    nbrChambre,
+    selectedAddress, 
+    ville,
+    codePostal,
+    minPrixEstime,
+    etat
       });
 
       const response = await fetch('/api/addBienProprietaireVIP', {
@@ -41,14 +46,15 @@ export default function Page() {
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
-          type_bien,
-          adresse,
-          ville,
-          code_postal,
-          prix_estime,
-          etat,
+          description,
+          typeBien,
+          type_location_vip,
           nbrChambre,
-          type_location_vip
+          selectedAddress, 
+          ville,
+          codePostal,
+          minPrixEstime,
+          etat
         }),
       });
 
@@ -59,7 +65,8 @@ export default function Page() {
         setBienCompleted(true);
         toast.success('Bien ajouté!', {
           position: toast.POSITION.TOP_CENTER,
-        });
+          
+        });router.push(`/Vip`);
       } else {
         const errorMessage = data?.error || 'Error creating user';
         toast.error(errorMessage, {
@@ -77,7 +84,7 @@ export default function Page() {
       <ToastContainer />
       <Header/>
       <BgLogin />
-      <BienFormVIP onSubmit={handleSubmit} />
+      <BienFormVip onSubmit={handleSubmit} />
     </div>
   );
 }
