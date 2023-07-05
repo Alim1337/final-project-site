@@ -22,10 +22,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
   const [showConfirmationWindow, setShowConfirmationWindow] = useState(false); // New state variable
 
   const menus = [
-    { title: 'Gestion de profil', 
-      icon: HiUser ,
-       button1 : true,  
-      },
+    { title: 'Gestion de profil', icon: HiUser },
     { title: 'Gestion des annonces', icon: FaChalkboardTeacher },
     { title: 'Gestion des biens', icon: HiOutlineHome },
     { title: 'Support', icon: FiPlus },
@@ -198,21 +195,19 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
               {userType=== 'client' && (
-                
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                <div>
+                <p className=' text-red-600 text-sm'>* ajouter au moin un bien pour devenir proprietaire</p>
+                <button className="text-left sm:grid-cols-2 lg:grid-cols-3
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
+                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent w-fit" 
                  onClick={() => router.push('/BienFormPage')}>
-                <AjoutCard key="gestion" text="Ajouter au moins un bien pour devenir un proprietaire
-" />
-
-              
+                <AjoutCard key="gestion" text="Ajouter un bien" />
                 </button>
-                
+                </div>                
               )}
                {userType=== 'proprietaire' && (
                 
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                <button className="text-left -space-x-px sm:grid-cols-2 lg:grid-cols-3 
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                  transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
                  onClick={() => router.push('/BienFormProprietaire')}>
@@ -226,7 +221,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               )}
                 {userType === 'proprietaire' && (
                      <button
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
                   xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => handleVoirNegotiation()}
@@ -234,7 +229,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                   <AjoutCard key="gestion" text="Negotiations sur votre biens" />
                 </button>       
                     )}
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
                   xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
                  onClick={() => router.push('/homesList')}>
@@ -243,9 +238,8 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               
                 </button>
                 
-              
               {userType === 'proprietaire' && (
-                <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                  transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={handleModifierBien}>
                   <GestionCard key="gestion" text="Modifier un bien" />
@@ -258,7 +252,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
             
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
               {userType === 'proprietaire' && (
-              <button className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+              <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
               xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
               onClick={() => handleVoirbienliked()}              >
@@ -266,7 +260,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               </button> 
                )}
                 <button
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
                    text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 
                    hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => router.push('/Demande_Client')}
@@ -275,7 +269,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 </button>
               
                 <button
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
                   xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => router.push('/Modifier_Demande_Client')}
@@ -286,7 +280,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
           
            
                 <button
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
                   xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => handleVoirNegotiationP()}
@@ -294,28 +288,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                   <AjoutCard key="gestion" text="Negotiations avec les proprietaires" />
                 </button>
             </div>
-            {userType === 'proprietaire' && (
-            <button>
-            <div className='p-20 py-0'>  <h2 className='font-mono text-green-600'>Proprietaire Connected Name:</h2>
-              <h2 className='font-mono text-green-600'>{proprietaireName}</h2>
-            </div>
-            <div className='p-0'>           
-              <h2 className='font-mono text-green-600'>Proprietaire Connected Email: </h2>
-              <h2 className='font-mono text-green-600'>{proprietaireEmail}</h2>
-            </div>
-            </button>
-             )}
-               {userType === 'client' && (
-            <button>
-            <div className='p-20 py-0'>  <h2 className='font-mono text-green-600'>Client Connected Name:</h2>
-              <h2 className='font-mono text-green-600'>{ClientName}</h2>
-            </div>
-            <div className='p-0'>           
-              <h2 className='font-mono text-green-600'>Client Connected Email: </h2>
-              <h2 className='font-mono text-green-600'>{ClientEmail}</h2>
-            </div>
-            </button>
-             )}
+            
           </div>
         </main>
       </div>
@@ -339,7 +312,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
           <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
         </svg>
       </div>
-      <div className="text-center">
+      <div className="text-left">
         <p className="mb-2 text-sm font-medium text-gray-600">DevienirVIP</p>
       </div>
       <div className="flex justify-between mt-4">
@@ -348,7 +321,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
   to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
   focus:ring-green-300 dark:focus:ring-green-800 shadow-lg
   shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80
-  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+  font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"
   onClick={handleJaipaye} // Call the handleJaipaye function on button click
 >
   Jai payé
@@ -358,7 +331,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
           className="text-white bg-gradient-to-r from-red-400 via-red-500
            to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
             focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg
-             dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+             dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"
           onClick={() => {
             setShowVIPWindow(false);
           }}
@@ -389,7 +362,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
           <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
         </svg>
       </div>
-      <div className="text-center">
+      <div className="text-left">
         {/* Existing code */}
       </div>
       <h1 className="text-black font-semi-bold text-xl mt-4">On considère que le paiement est fait</h1>
@@ -401,7 +374,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
           to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
           focus:ring-green-300 dark:focus:ring-green-800 shadow-lg
           shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80
-          font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"
           onClick={handleConfirmation} // Call the handleConfirmation function on button click
         >
           Oui je suis sûr
@@ -410,7 +383,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
           className="text-white bg-gradient-to-r from-red-400 via-red-500
           to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
           focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg
-          dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+          dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"
           onClick={() => setShowConfirmationWindow(false)} // Close the confirmation window
         >
           Non je ne suis pas sûr

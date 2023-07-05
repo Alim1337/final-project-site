@@ -39,7 +39,7 @@ function FormClient({ onSubmit }) {
     <form
       id="form"
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto bg-center bg-slate-400 bg-opacity-80 p-9 rounded shadow-md"
+      className="max-w-md mx-auto bg-center bg-white bg-opacity-80 p-9 rounded shadow-md"
     >
       <div className="">
         <div className="mb-4">
