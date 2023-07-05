@@ -12,10 +12,30 @@ export default async function handler(req, res) {
 
     if (propertyType) {
       biens = await prisma.biens.findMany({
-        where: { type_bien: propertyType ,
-                 adresse : address, 
-                ville : "Alger", }
+        where: {
+          type_bien: propertyType,
+          adresse: address,
+          ville: "Alger",
+        },
+        select: {
+          id_biens: true,
+          description: true,
+          type_bien: true,
+          nbrChambre: true,
+          adresse: true,
+          ville: true,
+          code_postal: true,
+          prix_estime: true,
+          etat: true,
+          Proprietaire: {
+            select: {
+              id_proprietaire: true,
+              nom: true,
+            },
+          },
+        },
       });
+      
     }
     
     console.log("biens",biens);

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Footer from './Footer';
 import { useRouter } from 'next/router';
 import Image from 'next/dist/client/image';
+import { MdOutlineWorkspacePremium } from "react-icons/md";
+
 export default function BienFormVip({ onSubmit }) {
   const [description, setDescription] = useState('');
   const [typeBien, setTypeBien] = useState('');
@@ -111,6 +113,7 @@ export default function BienFormVip({ onSubmit }) {
               <div className="mt-2">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div>
+                    <label className="block text-gray-700 font-bold mb-2" >Ben VIP <MdOutlineWorkspacePremium/></label>
                     <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
                     Titre :
                     </label>
