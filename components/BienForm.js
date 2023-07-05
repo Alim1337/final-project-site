@@ -119,6 +119,7 @@ export default function BienForm({ onSubmit }) {
                         className="block border rounded py-2 px-3 text-gray-700 leading-tight 
                         focus:outline-none focus:shadow-outline w-full"
                         required
+                        placeholder='Title'
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                       ></input>
@@ -126,7 +127,7 @@ export default function BienForm({ onSubmit }) {
                   </div>
                   <div>
                     <label htmlFor="typeBien" className="block text-gray-700 font-bold mb-2">
-                      Type de bien
+                      Type de bien :
                     </label>
                     <div className="mt-1">
                       <select
@@ -146,7 +147,7 @@ export default function BienForm({ onSubmit }) {
                     </div>
                   </div>
                   <div>
-                    <label className='block text-gray-700 font-bold mb-2'>Nombre de Chambres</label>
+                    <label className='block text-gray-700 font-bold mb-2'>Nombre de Chambres :</label>
                     <select
                       id="nbrChambre"
                       name="nbrChambre"
@@ -168,7 +169,7 @@ export default function BienForm({ onSubmit }) {
                   </div>
                   <div>
                     <label htmlFor="adresse" className="block text-gray-700 font-bold mb-2">
-                      Adresse
+                      Adresse :
                     </label>
                     <div className="mt-1">
                       <select
@@ -191,7 +192,7 @@ export default function BienForm({ onSubmit }) {
                   </div>
                   <div>
                     <label htmlFor="ville" className="block text-gray-700 font-bold mb-2">
-                      Ville
+                      Ville :
                     </label>
                     <div className="mt-1">
                       <select
@@ -209,7 +210,7 @@ export default function BienForm({ onSubmit }) {
                   </div>
                   <div>
                     <label htmlFor="prixEstime" className="block text-gray-700 font-bold mb-2">
-                      Prix Estimé
+                      Prix Estimé :
                     </label>
                     <div className="mt-1 flex">
                       <input
@@ -228,8 +229,8 @@ export default function BienForm({ onSubmit }) {
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="etat" className="block text-sm font-medium text-gray-700">
-                      État du bien
+                    <label htmlFor="etat" className="block text-gray-700 font-bold mb-2 pt-2">
+                      État du bien :
                     </label>
                     <div className="mt-1">
                       <select
