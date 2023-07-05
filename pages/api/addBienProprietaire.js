@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { toast } from 'react-toastify';
 import bcrypt from 'bcryptjs';
+import { useRouter } from 'next/router';
 
 dotenv.config(); // Load the environment variables from .env file
 
@@ -41,8 +42,10 @@ export default async function handler(req, res) {
       }*/
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(req.body.formData);
       const formData = req.body;
       console.log('Form Data:', formData); // Log the form data
+      /*console.log(typeof formData.image);*/
 
       const idClient = decoded.id; // Retrieve the id_client from the token
 
@@ -56,17 +59,28 @@ export default async function handler(req, res) {
         console.error('Error: Invalid proprietaire');
         throw new Error('Failed to find proprietaire');
       }
-      
+      console.log('Form Data:', formData); 
+    /*  const file = req.files.image;
+      console.log('req.files',req.files);
+*/
+      // Convert the image file to bytea
+    //  const imageBuffer = Buffer.from(formData.imageBase64, 'base64');
       const bien = await prisma.biens.create({
         data: {
           description: formData.description,
-          nbrChambre:formData.nbrChambre,
           type_bien: formData.type_bien,
+          nbrChambre: formData.nbrChambre,
           adresse: formData.adresse,
           ville: "Alger",
           code_postal: "1600",
           prix_estime: parseInt(formData.prix_estime),
           etat: formData.etat,
+     /*    image: {
+            create: {
+              data: imageBuffer,
+            },
+          },  
+        */
           Proprietaire: {
             connect: {
               id_proprietaire: proprietaire.id_proprietaire,
@@ -74,7 +88,6 @@ export default async function handler(req, res) {
           },
         },
       });
-      
 
       console.log('Bien created:', bien); // Log the created bien
 

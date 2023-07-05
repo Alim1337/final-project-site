@@ -8,35 +8,16 @@ export default async function handler(req, res) {
     console.log(propertyType);
     console.log(address);
 
-    let biens;
-    
-
-    const searchOptions = {
-     
-      ...(propertyType && { type_bien: propertyType }),
-    };
+    let biens; // Declare the biens variable here
 
     if (propertyType) {
       biens = await prisma.biens.findMany({
-        where: {type_bien : propertyType}
-      });
-    } else {
-      biens = await prisma.biens.findMany({
-        where: { ...searchOptions },
+        where: { type_bien: propertyType }
       });
     }
-
-    const biensWithProprietaire = await Promise.all(
-      biens.map(async (bien) => {
-        const proprietaire = await prisma.proprietaire.findUnique({
-          where: { id_proprietaire: bien.id_proprietaire },
-          select: { id_proprietaire: true, nom: true },
-        });
-        return { ...bien, Proprietaire: proprietaire };
-      })
-    );
-
-    res.status(200).json(biensWithProprietaire);
+    
+    console.log("biens",biens);
+    res.status(200).json(biens);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to fetch biens from the database.' });

@@ -225,6 +225,7 @@ model biens {
   etat            String?       @db.VarChar(255)
   id_proprietaire Int
   nbrChambre      String?       @db.VarChar(255)
+  image           Bytes?
   Proprietaire    Proprietaire  @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: Cascade, onUpdate: NoAction)
   biens_loue      biens_loue[]
   biens_vip       biens_vip?
@@ -281,6 +282,7 @@ model biens_vip {
   nbrChambre          String?           @db.VarChar(255)
   type_location_vip   String?           @db.VarChar
   id_proprietaire_vip Int?
+  image               Bytes?
   biens               biens             @relation(fields: [id_biens], references: [id_biens], onDelete: NoAction, onUpdate: NoAction, map: "fk_bien_vip ")
   Proprietaire        Proprietaire      @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_bien_vip_")
   Proprietaire_vip    Proprietaire_vip? @relation(fields: [id_proprietaire_vip], references: [id_proprietaire_vip], onDelete: NoAction, onUpdate: NoAction, map: "fk_proprietaire_vip_to_biens_vip")
