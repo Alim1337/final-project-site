@@ -251,7 +251,7 @@ export default function BienFormVip({ onSubmit }) {
                     </div>
                   </div>
                   <div>
-                    <label htmlFor="etat" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="etat" className="block text-gray-700 font-bold mb-2">
                       État du bien
                     </label>
                     <div className="mt-1">
