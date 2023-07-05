@@ -27,7 +27,6 @@ export default function BienForm({ onSubmit }) {
 
   const [codePostal, setCodePostal] = useState('');
   const [minPrixEstime, setMinPrixEstime] = useState('');
-  const [maxPrixEstime, setMaxPrixEstime] = useState('');
   const [etat, setEtat] = useState('');
   const router = useRouter();
 
@@ -42,7 +41,7 @@ export default function BienForm({ onSubmit }) {
       ville,
       codePostal,
       minPrixEstime,
-      maxPrixEstime,
+
       etat
     );
   }
@@ -224,18 +223,7 @@ export default function BienForm({ onSubmit }) {
                         value={minPrixEstime}
                         onChange={(e) => setMinPrixEstime(e.target.value)}
                       />
-                      <span className="block text-gray-700 font-bold mb-2 pt-2 px-5">to</span>
-                      <input
-                        type="text"
-                        id="minPrixEstime"
-                        name="minPrixEstime"
-                        required
-                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-                        placeholder="Min Price"
-                        value={maxPrixEstime}
-                        onChange={(e) => setMaxPrixEstime(e.target.value)}
-                      />
+                     
                       {/* Add more input fields here */}
                     </div>
                   </div>
@@ -264,15 +252,7 @@ export default function BienForm({ onSubmit }) {
                       </select>
                     </div>
                   </div>
-                  <div>
-          <label className="text-black text-xl" htmlFor="image">Image:</label>
-          <input type="file" id="image" className='text-black' accept="image/*" onChange={handleImageChange} />
-          {image && (
-            <div>
-              <Image src={image.data} width={200} height={200} alt="Selected Image" />
-            </div>
-          )}
-        </div>
+                  
                   <div className="pt-5">
                     <div className="flex justify-end">
                       <button
@@ -293,10 +273,7 @@ export default function BienForm({ onSubmit }) {
                     </div>
                   </div>
                 </form>
-                <form onSubmit={handleSubmitIMAGE}>
-        
-        <button className='text-black' type="submit">Submit</button>
-      </form>
+         
               </div>
             </div>
           </div>
