@@ -23,8 +23,7 @@ export default function Home({ exploreData,cardsData }) {
       <main className='max-w-7xl mx-auto px-8 sm:px-16'>
         <section className='pt-6'>
           <h2 className='text-4xl font-semibold pb-5 text-black font-mono'>
-            Explore Nearby
-          </h2>
+          Explorer à proximité          </h2>
 
           {/* PULL some data from a server - API endpoints */}
           <div className='grid grid-cols-1 sm:grid-cols-2 
@@ -46,7 +45,7 @@ export default function Home({ exploreData,cardsData }) {
         </section>
         <br/>
         <section>
-        <h2 className='text-4xl font-semibold pb-5 text-black font-mono'>live anywhere</h2>
+        <h2 className='text-4xl font-semibold pb-5 text-black font-mono'> Explorer les biens VIP</h2>
           <div className='flex space-x-2 overflow-scroll scrollbar-hide
           p-3 -ml-3'>
             
@@ -62,9 +61,9 @@ export default function Home({ exploreData,cardsData }) {
 <div className='text-white'>
         <LargeCard 
         img='https://cdn.thespaces.com/wp-content/uploads/2023/01/MED439BFB92B97F4F45A30524FFADED34B5.jpeg'
-        title="The best place for u "
-        description={"take your time"}
-        buttonText="Get inspired" className="text-white font-bold"/>
+        title="Le meilleur endroit pour vous"
+        description={"prenez votre temps"}
+        buttonText="découvrir" className="text-white font-bold"/>
         </div>
       </main>
       <Footer/> 
@@ -74,7 +73,7 @@ export default function Home({ exploreData,cardsData }) {
 
 export async function getStaticProps() {
   const exploreData = await fetch("https://www.jsonkeeper.com/b/GZOI").then((res) => res.json())
-  const cardsData = await fetch("https://www.jsonkeeper.com/b/QKJN").then((res) => res.json())
+  const cardsData = await fetch("https://www.jsonkeeper.com/b/MJR0").then((res) => res.json())
   
 
   return {

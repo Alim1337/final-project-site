@@ -149,71 +149,78 @@ function Header() {
           E-krili
         </a>
       </div>
+      <div className='w-20'></div>
       {/* MIDDLE SECTION SEARCH BAR */}
-      <div className="flex items-center md:border-2 rounded-full py-2 md:shadow-sm">
-        {/* Location dropdown */}
-        
-        <div class="inset-y-0 left-0 flex items-center pl-3  pr-3 pointer-events-none">
-            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-            </svg>
-  </div>
-        <div className="relative">
-          <select
-            value={searchLocation}
-            onChange={(e) => handleLocationSelect(e.target.value)}
-            className="z-10 text-black border-opacity-0 bg-white divide-y divide-gray-100 rounded-lg w-32"
-          >
-            {locationOptions.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
+      <div className="flex items-center px-2 border-2 rounded-full py-2 shadow-sm">
+      <div className="hidden sm:block">
+        <div className="inset-y-0 left-0 flex items-center pl-3 pr-3 pointer-events-none">
+          <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+          </svg>
         </div>
-        {/* Adress dropdown */}
-        <div className="relative">
-          <select
-            value={searchadresse}
-            onChange={(e) => handleAdressSelect(e.target.value)}
-            className="z-10 py-2 text-black border-opacity-0 bg-white divide-x divide-gray-100 rounded-lg w-32 hover:"
-          >
-            {adresseOptions.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </div>
-        {/* Property type dropdown */}
-        <div className="relative">
-          <select
-            value={searchPropertyType}
-            onChange={(e) => handlePropertyTypeSelect(e.target.value)}
-            className="z-10 text-black border-opacity-0 bg-white divide-y divide-gray-100 rounded-lg w-32"
-          >
-            {propertyTypeOptions.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </div>
-        {/* Number of bedrooms dropdown */}
-        <div className="relative">
-          <select
-            value={searchNumBedrooms}
-            onChange={(e) => handleNumBedroomsSelect(e.target.value)}
-            className="z-10 text-black border-opacity-0 bg-white divide-y divide-gray-100 rounded-lg w-32"
-          >
-            {numBedroomsOptions.map((option) => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        </div>
-        <button onClick={handleSearchClick} className="text-white bg-red-400 
-        flex-auto border border-red-100 px-2 py-1 font-mono shadow-md rounded-full 
-        font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150 text-sm w-auto">
-  Recherche
-</button>
-
-
+      </div>
+      {/* Location dropdown */}
+      <div className="relative">
+        <select
+          value={searchLocation}
+          onChange={(e) => handleLocationSelect(e.target.value)}
+          className="z-10 text-black border-opacity-0 bg-white rounded-lg w-32"
+        >
+          {locationOptions.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
       </div>
 
+      {/* Address dropdown */}
+      <div className="relative">
+        <select
+          value={searchadresse}
+          onChange={(e) => handleAdressSelect(e.target.value)}
+          className="z-10 py-2 text-black border-opacity-0 bg-white rounded-lg w-32 hover:"
+        >
+          {adresseOptions.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Property type dropdown */}
+      <div className="relative">
+        <select
+          value={searchPropertyType}
+          onChange={(e) => handlePropertyTypeSelect(e.target.value)}
+          className="z-10 text-black border-opacity-0 bg-white rounded-lg w-32"
+        >
+          {propertyTypeOptions.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Number of bedrooms dropdown */}
+      <div className="relative">
+        <select
+          value={searchNumBedrooms}
+          onChange={(e) => handleNumBedroomsSelect(e.target.value)}
+          className="z-10 text-black border-opacity-0 bg-white rounded-lg w-32"
+        >
+          {numBedroomsOptions.map((option) => (
+            <option key={option} value={option}>{option}</option>
+          ))}
+        </select>
+      </div>
+
+      <button onClick={handleSearchClick} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold 
+      py-2 px-4 border border-gray-400 rounded-full shadow w-full ">
+    
+        Recherche
+      </button>
+
+      
+    </div>
+
+      <div className='w-1'></div>
       {/* RIGHT SECTION */}
       
       <div className='flex items-center space-x-4 justify-end text-gray-500'>
@@ -309,13 +316,13 @@ function Header() {
         ) : (
           <div className="flex space-x-4">
             <button
-              className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
+              className="inline-block rounded bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
               onClick={handleConnexionClick}
             >
               Connecter
             </button>
             <button
-              className="text-red-500 flex-auto bg-white border border-red-100 px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
+              className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
               onClick={handleSignupClick}
             >
               Créer un compte
