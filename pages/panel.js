@@ -188,7 +188,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
             ))}
             </ul>
             </div>
-            <div className="p-7 text-2xl font-semibold flex-1 h-screen">
+            <div className="p-7 text-2xl font-semibold flex flex-col h-screen">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
               {userType=== 'client' && (
                 <div>
@@ -248,7 +248,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                )}
             </div>
 
-            <div className="p-7 text-2xl font-semibold flex-1 h-screen">
+            <div className="p-7 text-2xl font-semibold h-screen flex flex-col">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
                 <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4

@@ -211,7 +211,7 @@ function Header() {
         </select>
       </div>
 
-      <button onClick={handleSearchClick} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold 
+      <button onClick={handleSearchClick} className="bg-white hover:bg-gray-100 text-gray-800 font-medium 
       py-2 px-4 border border-gray-400 rounded-full shadow w-full ">
     
         Recherche

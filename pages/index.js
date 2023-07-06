@@ -22,7 +22,7 @@ export default function Home({ exploreData,cardsData }) {
 
       <main className='max-w-7xl mx-auto px-8 sm:px-16'>
         <section className='pt-6'>
-          <h2 className='text-4xl font-semibold pb-5 text-black font-mono'>
+          <h2 className='text-4xl  pb-5 text-black font-mono'>
           Explorer à proximité          </h2>
 
           {/* PULL some data from a server - API endpoints */}
@@ -45,7 +45,7 @@ export default function Home({ exploreData,cardsData }) {
         </section>
         <br/>
         <section>
-        <h2 className='text-4xl font-semibold pb-5 text-black font-mono'> Explorer les biens VIP</h2>
+        <h2 className='text-4xl pb-5 text-black font-mono'> Explorer les biens VIP</h2>
           <div className='flex space-x-2 overflow-scroll scrollbar-hide
           p-3 -ml-3'>
             
