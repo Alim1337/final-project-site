@@ -26,6 +26,7 @@ model Client {
   Rdv                   Rdv[]
   biens_loue            biens_loue[]
   likes                 likes[]
+  likes_demande         likes_demande[]
   message               message[]
   negotiation           negotiation[]
 }
@@ -50,7 +51,7 @@ model Client_vip {
 
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
 model Demande_client {
-  id_demande_client     Int                    @id(map: "Demande_client_pkey") @default(autoincrement())
+  id_demande_client     Int                    @id(map: "Demande_client_pkey") @unique(map: "u_d") @default(autoincrement())
   id_client             Int
   type_bien             String?                @map("type bien") @db.VarChar
   type_de_transaction   String?                @map("type de transaction") @db.VarChar
@@ -64,6 +65,7 @@ model Demande_client {
   Client                Client                 @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client")
   Demande_client_valide Demande_client_valide?
   Demande_client_vip_   Demande_client_vip_?
+  likes_demande         likes_demande?
 
   @@map("Demande client")
 }
@@ -147,6 +149,7 @@ model Proprietaire {
   biens             biens[]
   biens_vip         biens_vip[]
   likes             likes[]
+  likes_demande     likes_demande[]
   message           message[]
   negotiation       negotiation[]
 }
@@ -331,4 +334,16 @@ model negotiation {
   negotiation       negotiation  @relation("negotiationTonegotiation", fields: [id_negotiation], references: [id_negotiation], onDelete: NoAction, onUpdate: NoAction, map: "negotiation_like_id_fkey")
   other_negotiation negotiation? @relation("negotiationTonegotiation")
   Proprietaire      Proprietaire @relation(fields: [proprietaire_id], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model likes_demande {
+  id_likes_demande Int            @id(map: "pk_id_likes_demande")
+  id_client        Int?
+  id_proprietaire  Int?
+  time             DateTime?      @default(dbgenerated("'2023-07-06 15:37:12.884385'::timestamp without time zone")) @db.Timestamp(6)
+  Client           Client?        @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_c")
+  Demande_client   Demande_client @relation(fields: [id_likes_demande], references: [id_demande_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_d")
+  Proprietaire     Proprietaire?  @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_p")
+
+  @@map("likes demande")
 }
