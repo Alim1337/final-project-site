@@ -163,7 +163,8 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
           <div>
             <label className="block text-gray-700 font-bold mb-2" htmlFor="description">Description :</label>
             <input
-            className="block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+            className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
               type="text"
               id="description"
               name="description"
@@ -174,7 +175,8 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
           <div>
             <label className="block text-gray-700 font-bold mb-2" htmlFor="type_bien">Type :</label>
             <input
-            className="block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+            className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
               type="text"
               id="type_bien"
               name="type_bien"
@@ -239,7 +241,8 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
           <div>
             <label className="block text-gray-700 font-bold mb-2" htmlFor="prix_estime">Prix estimé :</label>
             <input
-            className="block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
+            className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
               type="number"
               id="prix_estime"
               name="prix_estime"
@@ -281,20 +284,20 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
         </form>
       ) : (
         <div>
-          <p className="block text-gray-700 font-bold mb-2">Description :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
-            focus:outline-none focus:shadow-outline w-full">{description}</p>
-          <p className="block text-gray-700 font-bold mb-2">Type :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
-            focus:outline-none focus:shadow-outline w-full">{type_bien}</p>
-          <p className="block text-gray-700 font-bold mb-2">Adresse :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
-            focus:outline-none focus:shadow-outline w-full">{adresse}</p>
-          <p className="block text-gray-700 font-bold mb-2">Ville : </p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
-            focus:outline-none focus:shadow-outline w-full">{ville}</p>
-          <p className="block text-gray-700 font-bold mb-2">prix estime :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
-            focus:outline-none focus:shadow-outline w-full"> {prix_estime} Dzd</p>
-          <p className="block text-gray-700 font-bold mb-2">état :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
-            focus:outline-none focus:shadow-outline w-full"> {etat}</p>
-          <p className="block text-gray-700 font-bold mb-2">Nombre de chambres :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
-            focus:outline-none focus:shadow-outline w-full"> {nbrChambre}</p>
+          <p className="block text-gray-700 font-bold mb-2">Description :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full">{description}</p>
+          <p className="block text-gray-700 font-bold mb-2">Type :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full">{type_bien}</p>
+          <p className="block text-gray-700 font-bold mb-2">Adresse :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full">{adresse}</p>
+          <p className="block text-gray-700 font-bold mb-2">Ville : </p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full">{ville}</p>
+          <p className="block text-gray-700 font-bold mb-2">prix estime :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"> {prix_estime} Dzd</p>
+          <p className="block text-gray-700 font-bold mb-2">état :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"> {etat}</p>
+          <p className="block text-gray-700 font-bold mb-2">Nombre de chambres :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"> {nbrChambre}</p>
           <div className="flex justify-end mt-4">
         
       </div>   

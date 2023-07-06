@@ -54,7 +54,7 @@ export default function SignupClient() {
     <div>
       <Header />
       <BgLogin />
-      <div className='mt-5 mb-5'>
+      <div className='mt-5 mb-5 h-screen'>
         <FormClient onSubmit={handleSubmit} />
       </div>
       <ToastContainer />

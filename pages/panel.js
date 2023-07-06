@@ -30,7 +30,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
 
   const menus = [
     { title: 'Dashboard', icon: HiOutlineHome },
-    { title: 'Gestion de profil', icon: HiUser ,button1:true},
+    { title: 'Gestion de profil', icon: HiUser ,button1:true,}, /* hawlik sbab lmachakil 3ndou function fi ligne 48 ou render fi ligne 187, glhf :) */
     { title: 'Support', icon: FiPlus },
     {
       title: 'Devenir VIP',
@@ -150,7 +150,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
       <div>
         <main>
           <div className="flex bg-gray-100 text-gray-700">
-            <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
+            <div className={`${open ? 'w-60' : 'w-20'} h-auto relative bg-red-400`}>
               <FiChevronLeft
                 className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer 
                 -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
@@ -158,7 +158,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 }`}
                 onClick={() => setOpen(!open)}
               />
-             <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
+             <ul className={`gap-x-4 space-y-3 pt-6 origin-left items-center font-medium text-xl duration-300 ${!open ? 'flex flex-col' : ''}`}>
               {menus.map((menu, index) => (
               <li
                 key={index}
@@ -171,38 +171,38 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               {menu.button ? (
                 <button className="flex items-center gap-x-2" onClick={handleDevenirVIP}>
                   {React.createElement(menu.icon, { className: 'text-white' })}
-                  <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+                  <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
                     {menu.title}
                   </span>
                 </button>
-                ) : (
-                  <>
-                    {React.createElement(menu.icon, { className: 'text-white' })}
-                    <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-                      {menu.title}
-                    </span>
-                  </>
-              )}
+                ): null}
               {menu.button1 && (
                 <button className="flex items-center gap-x-2" onClick={handleModifierProfil}>
                   {React.createElement(menu.icon, { className: 'text-white' })}
-                  <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+                  <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
                     {menu.title}
                   </span>
                 </button>
               )}
+              {!menu.button && !menu.button1 && (<button className='flex items-center gap-x-2'>
+                    {React.createElement(menu.icon, { className: 'text-white' })}
+                    <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                      {menu.title}
+                    </span>
+                  </button>)}
               </li>
             ))}
             </ul>
             </div>
-            <div className="p-7 text-2xl font-semibold flex flex-col h-screen">
+            <div className='grid grid-cols-2'>
+            <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
               {userType=== 'client' && (
                 <div>
                 <p className=' text-red-600 text-sm'>* ajouter au moin un bien pour devenir proprietaire</p>
                 <button className="text-left sm:grid-cols-2 lg:grid-cols-3
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent w-fit" 
+                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent w-full" 
                  onClick={() => router.push('/BienFormPage')}>
                 <AjoutCard key="gestion" text="Ajouter un bien" />
                 </button>
@@ -283,6 +283,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 >
                   <NegotiationCard key="gestion" text="Negotiations avec les proprietaires" />
                 </button>
+            </div>
             </div>
           </div>
         </main>

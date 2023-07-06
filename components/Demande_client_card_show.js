@@ -18,8 +18,15 @@ const Demande_client_card_show = ({
     date_debut_recherche,
     statut_demande,
   } = demandeClient;
+  const options = { 
+    day: '2-digit', 
+    month: '2-digit', 
+    year: 'numeric',
+  };
+  const dateRecherche = new Date(date_debut_recherche).toLocaleString();
+  const dateRechercheFormated = dateRecherche.toLocaleString('en-US', options);
+  console.log({dateRecherche});
 
-  
     return (
     <div className="bg-white rounded-lg font-mono shadow-md font-medium my-2 mx-1 
     p-6 mb-4">
@@ -50,7 +57,7 @@ const Demande_client_card_show = ({
             </p>
             <p className="mb-2">
               <span className="block text-lg text-gray-700 font-bold mb-2 pt-2">Date de début de recherche:</span><p className='block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full text-sm'> {demande.date_debut_rechercher || ''}</p> 
+                        focus:outline-none focus:shadow-outline w-full text-sm'> {dateRecherche}</p> 
             </p>
             <p className="mb-2">
               <span className="block text-lg text-gray-700 font-bold mb-2 pt-2">Date de fin de recherche:</span><p className='block border rounded py-2 px-3 text-gray-700 leading-tight 
