@@ -56,7 +56,42 @@ const AllDemandClient = () => {
     // Handle deletion logic
     console.log(`Supprimer demande client with ID: ${id}`);
   };
-
+  const handleIntereser = (id_demande_client) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.id) {
+        const requestData = { id_demande_client, decodedTokenId: decodedToken.id ,demandeClients}; // Adjust the data structure as per your API requirements
+        const apiUrl = '/api/api_create_like_demande'; // Adjust the API endpoint URL
+  
+        fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        })
+          .then(response => {
+            // Check if the response was successful
+            if (!response.ok) {
+              throw new Error('Failed to create like');
+            }
+  
+            // Handle the response as needed
+            router.push('/negotiation_demande'); // Redirect to "/negotiation_demande"
+          })
+          .catch(error => {
+            // Handle the error
+            console.error(error);
+  
+            // Display a notification with the error message
+            // Replace this with your notification logic
+            alert('Failed to create like: ' + error.message);
+          });
+      }
+    }
+  };
+  
   return (
    
     <div>
@@ -91,14 +126,15 @@ const AllDemandClient = () => {
             </ul>
           </div>
           <div className="p-7 text-2xl text-black font-semibold flex-1 h-screen overflow-auto">
-            <h2 className="text-3xl font-mono mb-4">Tu As  {demandeClients.length ? demandeClients.length : ''} Demande Client:</h2>
+            <h2 className="text-3xl font-mono mb-4">il ya  {demandeClients.length ? demandeClients.length : ''} Demande Client:</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {demandeClients.map((demandeClients, index) => (
   <div key={index} className="mb-4">
     <Demande_client_card_show demandeClient={[demandeClients]} cardIndex={index + 1} className="hover:scale-105
  transition-all duration-300"
  handleModifier={handleModifier}
- handleSupprimer={handleSupprimer} />
+ handleSupprimer={handleSupprimer} 
+ handleIntereser={handleIntereser}/>
 
     
   </div>

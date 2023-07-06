@@ -16,12 +16,13 @@ export default function VipPnel({ exploreData, cardsData }) {
   const [open, setOpen] = useState(true);
   const [showVIPWindow, setShowVIPWindow] = useState(false);
   const menus = [
-    { title: 'Gestion de profil', icon: HiUser },
+    { title: 'Gestion de profil', icon: HiUser, route: '/Gestion_Profile_Proprietaire' },
     { title: 'Gestion des annonces', icon: FaChalkboardTeacher },
     { title: 'Gestion des biens', icon: HiOutlineHome },
     { title: 'Support', icon: FiPlus },
     { title: 'Settings', icon: IoIosHand },
   ];
+  
 
   const router = useRouter();
 
@@ -79,34 +80,37 @@ console.log(userType);
                 onClick={() => setOpen(!open)}
               />
               <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
-                {menus.map((menu, index) => (
-                  <li
-                    key={index}
-                    className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
-                    border-opacity-70  border-red-500 active:scale-95 text-s flex items-center gap-x-4 cursor-pointer p-2 ${
-                      !open ? 'transform scaleX(0)' : ''
-                    } transition transform duration-300 ease-out`}
-                  >
-                    {menu.button ? (
-                      <button
-                        className="flex items-center gap-x-2"
-                        onClick={handleDevenirVIP} // Call the function when the button is clicked
-                      >
-                        {React.createElement(menu.icon, { className: 'text-white' })}
-                        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-                          {menu.title}
-                        </span>
-                      </button>
-                    ) : (
-                      <>
-                        {React.createElement(menu.icon, { className: 'text-white' })}
-                        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-                          {menu.title}
-                        </span>
-                      </>
-                    )}
-                  </li>
-                ))}
+              {menus.map((menu, index) => (
+  <li
+    key={index}
+    className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
+    border-opacity-70  border-red-500 active:scale-95 text-s flex items-center 
+    gap-x-4 cursor-pointer p-2 ${
+      !open ? 'transform scaleX(0)' : ''
+    } transition transform duration-300 ease-out`}
+    onClick={() => menu.route ? router.push(menu.route) : null}
+  >
+    {menu.button ? (
+      <button
+        className="flex items-center gap-x-2"
+        onClick={handleDevenirVIP} // Call the function when the button is clicked
+      >
+        {React.createElement(menu.icon, { className: 'text-white' })}
+        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+          {menu.title}
+        </span>
+      </button>
+    ) : (
+      <>
+        {React.createElement(menu.icon, { className: 'text-white' })}
+        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+          {menu.title}
+        </span>
+      </>
+    )}
+  </li>
+))}
+
               </ul>
             </div>
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">

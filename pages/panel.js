@@ -23,7 +23,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
 
   const menus = [
     { title: 'Dashboard', icon: HiOutlineHome },
-    { title: 'Gestion de profil', icon: HiUser },
+    { title: 'Gestion de profil', icon: HiUser ,button1:true},
     { title: 'Support', icon: FiPlus },
     {
       title: 'Devenir VIP',
@@ -74,8 +74,12 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
     setShowConfirmationWindow(true); // Show the confirmation window
   };
   const handleVoirbienliked = () => {
-   // Show the confirmation window
+    router.push('/');
   };
+  const handleVoirDemande = () => {
+    router.push('/see_demande_client');
+   };
+ 
 
   const handleConfirmation = () => {
     const token = localStorage.getItem('token');
@@ -159,7 +163,8 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               <li
                 key={index}
                 className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
-                border-opacity-70  border-red-500 active:scale-95 text-s flex items-center gap-x-4 cursor-pointer p-2 ${
+                border-opacity-70  border-red-500 active:scale-95 text-s flex items-center
+                 gap-x-4 cursor-pointer p-2 ${
                   !open ? 'transform scaleX(0)' : ''
                 } transition transform duration-300 ease-out`}
               >
@@ -213,7 +218,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 </button>
               )}
 
-              {userType === 'proprietaire' && (
+             {userType === 'proprietaire' && (
                 <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                  transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={handleModifierBien}>
@@ -221,14 +226,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 </button>
               )}
 
-              {userType === 'proprietaire' && (
-              <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
-              xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-               transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-              onClick={() => handleVoirbienliked()}              >
-                <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
-              </button> 
-               )}
+            
                {userType === 'proprietaire' && (
                      <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 
@@ -239,6 +237,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                   <AjoutCard key="gestion" text="Negotiations sur votre biens" />
                 </button>       
                 )}
+                
               <button 
                 className="text-left sm:grid-cols-2 lg:grid-cols-3 
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
@@ -246,6 +245,14 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 onClick={() => router.push('/homesList')}>
                 <AjoutCard key="gestion" text="Consulter les biens"/>
               </button>
+              {userType === 'proprietaire' && (
+              <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
+              xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+               transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              onClick={() => handleVoirDemande()}              >
+                <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
+              </button> 
+               )}
             </div>
 
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">

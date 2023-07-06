@@ -5,6 +5,7 @@ const Demande_client_card_show = ({
   cardIndex,
   handleModifier,
   handleSupprimer,
+  handleIntereser,
 }) => {
   const {
     id_demande_client,
@@ -18,9 +19,7 @@ const Demande_client_card_show = ({
     statut_demande,
   } = demandeClient;
 
-  const handleInteresr = () => {
-    handleInteresr(id_demande_client);
-  };
+  
     return (
     <div className="bg-white rounded-lg font-mono shadow-md font-medium my-2 mx-1 hover:shadow-2xl 
     active:scale-90 transition duration-150 p-6 mb-4">
@@ -60,7 +59,7 @@ const Demande_client_card_show = ({
               className="text-blue-500 flex-auto bg-white border border-red-100 
               px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl 
               active:scale-90 transition duration-150"
-              onClick={() => handleInteresr(demande.id_demande_client)}
+              onClick={() => handleIntereser(demande.id_demande_client)}
             >
               Je suis interésé
             </button>
