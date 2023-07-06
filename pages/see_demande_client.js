@@ -9,26 +9,36 @@ import { IoIosHand } from 'react-icons/io';
 import jwt from 'jsonwebtoken';
 import Footer from '@/components/Footer';
 import Demande_client_card_show from '@/components/Demande_client_card_show';
-
+import { HiOutlineCog } from "react-icons/hi2";
 
 
 const AllDemandClient = () => {
     const [demandeClients, setDemandeClients] = useState([]);
     const [open, setOpen] = useState(true);
-  const menus = [
-    { title: 'Gestion de profil', icon: HiUser },
-    { title: 'Gestion des annonces', icon: FaChalkboardTeacher },
-    { title: 'Gestion des biens', icon: HiOutlineHome },
-    { title: 'Support', icon: FiPlus },
-    { title: 'Devenir VIP', icon: FiChevronDown },
-    { title: 'settings', icon: IoIosHand },
-  ];
+    const menus = [
+      { title: 'Dashboard', icon: HiOutlineHome },
+      { title: 'Gestion de profil', icon: HiUser ,button1:true},
+      { title: 'Support', icon: FiPlus },
+      {
+        title: 'Devenir VIP',
+        icon: FiChevronDown,
+        button: true,
+      },
+      { title: 'Paramètre', icon: HiOutlineCog },
+    ];
   const router = useRouter();
   const [ClientName, setClientName] = useState('');
   const [ClientEmail, setClientEmail] = useState('');
   const [demandeClient, setDemandeClient] = useState([]);
   const [demandeClient_id, setDemandeClient_id] = useState([]);
 
+  const handleModifierProfil= () => {
+    router.push('/Gestion_Profile_Proprietaire');
+  };
+
+  const handleDevenirVIP = () => {
+    setShowVIPWindow(true);
+  };
 
   useEffect(() => {
     const fetchDemandeClients = async () => {
@@ -98,59 +108,65 @@ const AllDemandClient = () => {
       <Header/>
       <main>
         <div className="flex bg-gray-100 text-gray-700">
-          <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
-            <FiChevronLeft
-              className={`absolute bg-red-400 border-red-400 rounded-full h-7 
-              cursor-pointer -right-3 top-9 w-7 border-2 border-dark-purple transition 
-              transform duration-300 ease-out ${
-                open ? 'rotate-180' : ''
-              }`}
-              onClick={() => setOpen(!open)}
-            />
-            <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
+        <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
+              <FiChevronLeft
+                className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer 
+                -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
+                  open ? 'rotate-180' : ''
+                }`}
+                onClick={() => setOpen(!open)}
+              />
+             <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
               {menus.map((menu, index) => (
-                <li
-                  key={index}
-                  className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0
-                   hover:bg-opacity-70 border-opacity-70  border-red-500 active:scale-95 text-s 
-                   flex items-center gap-x-4 cursor-pointer p-2 ${
-                    !open ? 'transform scaleX(0)' : ''
-                  } transition transform duration-300 ease-out`}
-                >
+              <li
+                key={index}
+                className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
+                border-opacity-70  border-red-500 active:scale-95 text-s flex items-center
+                 gap-x-4 cursor-pointer p-2 ${
+                  !open ? 'transform scaleX(0)' : ''
+                } transition transform duration-300 ease-out`}
+              >
+              {menu.button ? (
+                <button className="flex items-center gap-x-2" onClick={handleDevenirVIP}>
                   {React.createElement(menu.icon, { className: 'text-white' })}
                   <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
                     {menu.title}
                   </span>
-                </li>
-              ))}
+                </button>
+                ) : (
+                  <>
+                    {React.createElement(menu.icon, { className: 'text-white' })}
+                    <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+                      {menu.title}
+                    </span>
+                  </>
+              )}
+              {menu.button1 && (
+                <button className="flex items-center gap-x-2" onClick={handleModifierProfil}>
+                  {React.createElement(menu.icon, { className: 'text-white' })}
+                  <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+                    {menu.title}
+                  </span>
+                </button>
+              )}
+              </li>
+            ))}
             </ul>
-          </div>
-          <div className="p-7 text-2xl text-black font-semibold flex-1 h-screen overflow-auto">
-            <h2 className="text-3xl font-mono mb-4">il ya  {demandeClients.length ? demandeClients.length : ''} Demande Client:</h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {demandeClients.map((demandeClients, index) => (
-  <div key={index} className="mb-4">
-    <Demande_client_card_show demandeClient={[demandeClients]} cardIndex={index + 1} className="hover:scale-105
- transition-all duration-300"
- handleModifier={handleModifier}
- handleSupprimer={handleSupprimer} 
- handleIntereser={handleIntereser}/>
-
-    
-  </div>
-))}
-
-
+            </div>
+            <div className="p-7 text-2xl text-black font-semibold flex-1 h-screen overflow-auto">
+              <h2 className="font-bold text-gray-700 text-2xl">il ya  {demandeClients.length ? demandeClients.length : ''} Demande Client:</h2>
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {demandeClients.map((demandeClients, index) => (
+              <div key={index} className="mb-4">
+                <Demande_client_card_show demandeClient={[demandeClients]} cardIndex={index + 1} className="hover:scale-105
+                  transition-all duration-300"
+                  handleModifier={handleModifier}
+                  handleSupprimer={handleSupprimer} 
+                  handleIntereser={handleIntereser}/>    
+              </div>
+            ))}
             </div>
           </div>
-        </div>
-        <div className="p-20 py-0 bg-gray-50">
-          <h2 className="font-mono text-green-600">Client Connected Name:</h2>
-          <h2 className="font-mono text-green-600">{ClientName}</h2>
-        </div>
-        <div className="p-0 bg-gray-50">
-          <h2 className="font-mono text-green-600">Client Connected Email: </h2>
-          <h2 className="font-mono text-green-600">{ClientEmail}</h2>
         </div>
       </main>
       <Footer />
