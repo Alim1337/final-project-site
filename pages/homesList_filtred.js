@@ -82,7 +82,7 @@ export default function HomesListFiltred() {
       const userType = decodedToken ? decodedToken.userType : null;
 
       if (userType) {
-        router.push('/panel');
+        router.push('/');
       }
     } catch (error) {
       console.error('Failed to decode token:', error);

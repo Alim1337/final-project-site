@@ -109,7 +109,6 @@ export default function LoginClient() {
                       <label htmlFor="remember" className="">Souvenir de moi</label>
                     </div>
                   </div>
-                  <a href="#" className="text-sm font-medium text-primary-600 hover:underline">mot de pass oublier?</a>
                 </div>
                 <div className='flex items-center'>
                 <button

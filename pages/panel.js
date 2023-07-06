@@ -9,9 +9,16 @@ import AjoutCard from '@/components/AjoutCard';
 import DemandeClientCard from '@/components/DemandeClientCard';
 import { HiOutlineHome } from "react-icons/hi2";
 import { HiUser } from "react-icons/hi2";
+import { HiUserGroup } from "react-icons/hi";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { HiOutlineCog } from "react-icons/hi2";
 import jwt from 'jsonwebtoken';
+import { FaSketch } from "react-icons/fa";
+import DemandeUsersCard from '@/components/demande_client_users_card';
+import NegotiationCard from '@/components/negotiation_card';
+import SearchCard from '@/components/SearchCard';
+import EcrireDemande from '@/components/ecrire_card';
+import ModifyCard from '@/components/modify_card';
 
 /** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
   
@@ -27,7 +34,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
     { title: 'Support', icon: FiPlus },
     {
       title: 'Devenir VIP',
-      icon: FiChevronDown,
+      icon: FaSketch,
       button: true,
     },
     { title: 'Paramètre', icon: HiOutlineCog },
@@ -227,7 +234,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => handleVoirNegotiation()}
                 >
-                  <AjoutCard key="gestion" text="Negotiations sur votre biens" />
+                  <NegotiationCard key="gestion" text="Negotiations sur votre biens" />
                 </button>       
                 )}
                 
@@ -236,14 +243,14 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
                 onClick={() => router.push('/homesList')}>
-                <AjoutCard key="gestion" text="Consulter les biens"/>
+                <SearchCard key="gestion" text="Consulter les biens"/>
               </button>
               {userType === 'proprietaire' && (
               <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
               xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
               onClick={() => handleVoirDemande()}              >
-                <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
+                <DemandeUsersCard key="gestion" text="Voir Les Demandes Des Clients" />
               </button> 
                )}
             </div>
@@ -256,7 +263,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                    hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => router.push('/Demande_Client')}
                 >
-                  <AjoutCard key="gestion" text="Faire Une Demande Personnalisée" />
+                  <EcrireDemande key="gestion" text="Faire Une Demande Personnalisée" />
                 </button>
               
                 <button
@@ -265,7 +272,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => router.push('/Modifier_Demande_Client')}
                 >
-                  <AjoutCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
+                  <ModifyCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
                 </button>
               
                 <button
@@ -274,7 +281,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => handleVoirNegotiationP()}
                 >
-                  <AjoutCard key="gestion" text="Negotiations avec les proprietaires" />
+                  <NegotiationCard key="gestion" text="Negotiations avec les proprietaires" />
                 </button>
             </div>
           </div>
