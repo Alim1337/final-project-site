@@ -68,7 +68,6 @@ export default function GestionBienModify() {
         <div className="flex justify-between items-center mb-4">
           <div className="grid grid-cols-4 gap-10 px-10 mt-6 text-black">
             
-
         {biens.map((bien) => (
           <CardHouseModifier
             key={bien.id_biens}

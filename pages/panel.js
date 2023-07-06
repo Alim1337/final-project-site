@@ -23,7 +23,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
 
   const menus = [
     { title: 'Dashboard', icon: HiOutlineHome },
-    
+    { title: 'Gestion de profil', icon: HiUser },
     { title: 'Support', icon: FiPlus },
     {
       title: 'Devenir VIP',
