@@ -205,7 +205,13 @@ function Header() {
             ))}
           </select>
         </div>
-        <button onClick={handleSearchClick} class="text-white bg-red-400 flex-auto border border-red-100 px-0 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150">Search</button>
+        <button onClick={handleSearchClick} className="text-white bg-red-400 
+        flex-auto border border-red-100 px-2 py-1 font-mono shadow-md rounded-full 
+        font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150 text-sm w-auto">
+  Recherche
+</button>
+
+
       </div>
 
       {/* RIGHT SECTION */}
