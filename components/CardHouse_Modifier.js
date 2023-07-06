@@ -132,7 +132,7 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 md:p-6 transition duration-300ease-out transform hover:scale-105  hover:shadow-lg">
+    <div className="bg-white rounded-lg shadow-md p-4 md:p-6 transition duration-300ease-out transform">
       <div className="relative h-40 md:h-32 w-full mb-4">
         <Image
           src={getStoredImage() || getImageSrc()}
@@ -247,19 +247,24 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
           <p className="text-xl mb-2">Nombre de chambres: {nbrChambre}</p>
           <div className="flex justify-end mt-4">
         
-      </div>   <button
-  className="text-red-500 bg-white px-6 py-3 font-mono shadow-md rounded-full font-bold my-3 hover:shadow-2xl active:scale-90 transition duration-150"
-  onClick={handleSupprimer}
->
-  Supprimer
-</button>
-
-          <button
-            className="text-red-500 bg-white px-6 py-3 font-mono shadow-md rounded-full font-bold my-3 hover:shadow-2xl active:scale-90 transition duration-150"
+      </div>   
+      <div className="flex px-3">
+      <button
+            className="text-red-500 border-red-400 border bg-white px-3 py-3 font-mono shadow-md rounded-full font-bold my-3 hover:shadow-2xl active:scale-90 transition duration-150"
             onClick={handleModifier}
           >
             Modifier
           </button>
+          <div className="pr-2"/>
+      <button
+        className="text-white bg-red-400 px-3 py-3 font-mono shadow-md rounded-full font-bold my-3 hover:shadow-2xl active:scale-90 transition duration-150"
+        onClick={handleSupprimer}
+      >
+        Supprimer
+      </button>
+
+          
+          </div>
         </div>
         
       )}

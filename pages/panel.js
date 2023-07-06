@@ -219,7 +219,25 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 
                 
               )}
-                {userType === 'proprietaire' && (
+                
+                
+                
+              {userType === 'proprietaire' && (
+                <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={handleModifierBien}>
+                  <GestionCard key="gestion" text="Modifier un bien" />
+                </button>
+              )}
+              {userType === 'proprietaire' && (
+              <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
+              xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+               transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              onClick={() => handleVoirbienliked()}              >
+                <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
+              </button> 
+               )}
+               {userType === 'proprietaire' && (
                      <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 
                   xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
@@ -229,36 +247,13 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                   <AjoutCard key="gestion" text="Negotiations sur votre biens" />
                 </button>       
                     )}
-                <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
-                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
-                 onClick={() => router.push('/homesList')}>
-                <AjoutCard key="gestion" text="Consulter les biens"/>
-
-              
-                </button>
-                
-              {userType === 'proprietaire' && (
-                <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
-                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={handleModifierBien}>
-                  <GestionCard key="gestion" text="Modifier un bien" />
-                </button>
-              )}
          
              
             </div>
             <div className="p-7 text-2xl font-semibold flex-1 h-screen">
             
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
-              {userType === 'proprietaire' && (
-              <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
-              xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-               transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-              onClick={() => handleVoirbienliked()}              >
-                <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
-              </button> 
-               )}
+              
                 <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
                    text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 

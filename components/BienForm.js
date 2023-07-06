@@ -87,16 +87,8 @@ export default function BienForm({ onSubmit }) {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-        <div className="absolute inset-0opacity-75"></div>
-      </div>
-
-      <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-        &#8203;
-      </span>
-
       <div
-        className="inline-block items-center pt-20 align-bottomtext-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+        className="inline-block items-center pt-20 align-bottom text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-headline"
@@ -106,7 +98,7 @@ export default function BienForm({ onSubmit }) {
             
             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
               <div className="mt-2">
-                <form className="space-y-6" onSubmit={handleSubmit}>
+                <form className="pl-10" onSubmit={handleSubmit}>
                   <div>
                     <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
                     Titre :

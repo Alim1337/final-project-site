@@ -20,7 +20,7 @@ function Header() {
   const adresseOptions = ['Aïn Benian','Aïn Taya','Alger-Centre','Baba Hassen','Bab El Oued','Bab Ezzouar',
   'Bachdjerrah','Baraki','Belouizdad','Ben Aknoun','Beni Messous',
   'Birkhadem','Bir Mourad Raïs','Birtouta','Bologhine',
-  'Bordj El Bahri','Bordj El Kiffan','BouroubaBouzareah','Casbah',
+  'Bordj El Bahri','Bordj El Kiffan','Bourouba','Bouzareah','Casbah',
   'Chéraga','Dar El Beïda','Dely Ibrahim',
   'Djasr Kasentina','Douera','Draria',
   'El Achour','El Biar','El Hammamet','El Harrach','El Madania',
@@ -81,6 +81,10 @@ function Header() {
           console.log('Redirecting to /panel');
           router.push('/panel');
         }
+        else if (userType ==='client'){
+          console.log('Redirecting to /panel')
+          router.push('/panel')
+        }
       
       }
     }
@@ -137,23 +141,28 @@ function Header() {
   };
   
   return (
-    <header className='sticky top-0 z-40 grid grid-cols-3 bg-white shadow-md py-3 px-3 md:px-10'>
+    <header className='sticky top-0 z-40 grid grid-flow-col bg-white shadow-md py-3 px-3 md:px-10'>
       {/* LEFT SECTION */}
       <div onClick={() => router.push({ pathname: "/", mode: true })} className='relative flex items-center top-2 h-16 my-auto'>
         <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-gray-900">
           <img className="w-8 h-8 mr-2" src="https://img.uxwing.com/wp-content/themes/uxwing/download/buildings-architecture-real-estate/property-icon.svg" alt="logo" />
-          Ekrili
+          E-krili
         </a>
       </div>
       {/* MIDDLE SECTION SEARCH BAR */}
       <div className="flex items-center md:border-2 rounded-full py-2 md:shadow-sm">
         {/* Location dropdown */}
+        
+        <div class="inset-y-0 left-0 flex items-center pl-3  pr-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+  </div>
         <div className="relative">
           <select
             value={searchLocation}
             onChange={(e) => handleLocationSelect(e.target.value)}
-            className="flex items-center pl-4 bg-transparent outline-none
-             text-sm text-gray-600 placeholder-gray-400"
+            className="z-10 text-black border-opacity-0 bg-white divide-y divide-gray-100 rounded-lg w-32"
           >
             {locationOptions.map((option) => (
               <option key={option} value={option}>{option}</option>
@@ -165,8 +174,7 @@ function Header() {
           <select
             value={searchadresse}
             onChange={(e) => handleAdressSelect(e.target.value)}
-            className="flex items-center pl-4 bg-transparent outline-none 
-            text-sm text-gray-600 placeholder-gray-400"
+            className="z-10 py-2 text-black border-opacity-0 bg-white divide-x divide-gray-100 rounded-lg w-32 hover:"
           >
             {adresseOptions.map((option) => (
               <option key={option} value={option}>{option}</option>
@@ -178,7 +186,7 @@ function Header() {
           <select
             value={searchPropertyType}
             onChange={(e) => handlePropertyTypeSelect(e.target.value)}
-            className="flex items-center pl-4 bg-transparent outline-none text-sm text-gray-600 placeholder-gray-400"
+            className="z-10 text-black border-opacity-0 bg-white divide-y divide-gray-100 rounded-lg w-32"
           >
             {propertyTypeOptions.map((option) => (
               <option key={option} value={option}>{option}</option>
@@ -190,21 +198,16 @@ function Header() {
           <select
             value={searchNumBedrooms}
             onChange={(e) => handleNumBedroomsSelect(e.target.value)}
-            className="flex items-center pl-4 bg-transparent outline-none text-sm text-gray-600 placeholder-gray-400"
+            className="z-10 text-black border-opacity-0 bg-white divide-y divide-gray-100 rounded-lg w-32"
           >
             {numBedroomsOptions.map((option) => (
               <option key={option} value={option}>{option}</option>
             ))}
           </select>
         </div>
-        <button
-  onClick={handleSearchClick}
-  className="hidden md:inline-flex h-8 bg-red-400 text-white rounded-full p-2 cursor-pointer ml-2"
->
-  <SearchIcon className="h-6" />
-</button>
-
+        <button onClick={handleSearchClick} class="text-white bg-red-400 flex-auto border border-red-100 px-0 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150">Search</button>
       </div>
+
       {/* RIGHT SECTION */}
       
       <div className='flex items-center space-x-4 justify-end text-gray-500'>
