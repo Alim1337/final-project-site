@@ -133,14 +133,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
     }
   };
   const handleVoirNegotiationP = () => {
-    
-   
-  
-          router.push('/negotiation_client');
-        
-        
-        
-      
+    router.push('/negotiation_client');
   };
   console.log(userType);
 

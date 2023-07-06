@@ -5,12 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import Image from "next/image";
 
+
 function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adresse, ville, code_postal, prix_estime, etat, Proprietaire }) {
+  const router = useRouter();
   const [image, setImage] = useState(null);
   const [isModifying, setIsModifying] = useState(false);
   const [newValues, setNewValues] = useState({
-
-
     id_biens: id_biens,
     description: description,
     type_bien: type_bien,
@@ -22,6 +22,19 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
     etat: etat,
     Proprietaire: Proprietaire
   });
+
+  const adresseOptions = ['Aïn Benian','Aïn Taya','Alger-Centre','Baba Hassen','Bab El Oued','Bab Ezzouar',
+  'Bachdjerrah','Baraki','Belouizdad','Ben Aknoun','Beni Messous',
+  'Birkhadem','Bir Mourad Raïs','Birtouta','Bologhine',
+  'Bordj El Bahri','Bordj El Kiffan','BouroubaBouzareah','Casbah',
+  'Chéraga','Dar El Beïda','Dely Ibrahim',
+  'Djasr Kasentina','Douera','Draria',
+  'El Achour','El Biar','El Hammamet','El Harrach','El Madania',
+  'El Marsa','El Mouradia','El Magharia','Hraoua','Hussein-Dey','Hydra',
+  'Khraïssia','Kouba','Les Eucalyptus','Mahelma','Mohammadia','Oued Koriche',
+  'Oued Smar','Ouled Chebel','Ouled Fayet',
+  'Rahmania','Raïs Hamidou','Réghaïa','Rouïba','Saoula',
+  'Sidi MHamed','Sidi Moussa','Souidania','Staoueli','Tessala El Merdja','Zéralda'];
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -58,7 +71,7 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_biens, newValues }),
+        body: JSON.stringify({ id_biens, newValues , Proprietaire}),
       });
   
       if (response.ok) {
@@ -74,6 +87,8 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
       console.error(error);
       // Handle the error
     }
+    setIsModifying(false);
+    router.push('/gestionBien_modify');
   };
   const handleSupprimer = async (event) => {
     event.preventDefault();
@@ -132,7 +147,7 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 md:p-6 transition duration-300ease-out transform">
+    <div className="bg-white border rounded-lg shadow-md p-4 md:p-6 transition duration-300ease-out transform">
       <div className="relative h-40 md:h-32 w-full mb-4">
         <Image
           src={getStoredImage() || getImageSrc()}
@@ -142,13 +157,13 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
           className="rounded-lg"
         />
       </div>
-      <h3 className="text-lg font-bold mb-2">ID: {id_biens}</h3>
 
       {isModifying ? (
         <form onSubmit={handleDone}>
           <div>
-            <label className="text-base md:text-xl text-black" htmlFor="description">Description:</label>
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="description">Description :</label>
             <input
+            className="block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
               type="text"
               id="description"
               name="description"
@@ -157,8 +172,9 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
             />
           </div>
           <div>
-            <label className="text-base md:text-xl text-black" htmlFor="type_bien">Type:</label>
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="type_bien">Type :</label>
             <input
+            className="block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
               type="text"
               id="type_bien"
               name="type_bien"
@@ -167,38 +183,63 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
             />
           </div>
           <div>
-            <label className="text-base md:text-xl text-black" htmlFor="nbrChambre">Nombre de chambres:</label>
-            <input
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="nbrChambre">Nombre de chambres :</label>
+            <select
               type="number"
               id="nbrChambre"
               name="nbrChambre"
+              className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+              focus:outline-none focus:shadow-outline w-full"
               value={newValues.nbrChambre}
               onChange={handleInputChange}
-            />
+            >
+              <option value="F3">F3</option>
+              <option value="F4">F4</option>
+              <option value="F5">F5</option>
+              <option value="F6">F6</option>
+              <option value="F7">F7</option>
+              <option value="F8">F8</option>
+              <option value="F9">F9</option>
+              <option value="F10">F10</option>
+            </select>
           </div>
           <div>
-            <label className="text-base md:text-xl text-black" htmlFor="adresse">Adresse:</label>
-            <input
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="adresse">Adresse :</label>
+            <select
               type="text"
               id="adresse"
               name="adresse"
+              className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+              focus:outline-none focus:shadow-outline w-full"
               value={newValues.adresse}
               onChange={handleInputChange}
-            />
+            >
+              <option value="">Select an address</option>
+              {adresseOptions.map((address) => (
+                <option key={address} value={address}>
+                  {address}
+                </option>
+              ))}
+            </select>
           </div>
           <div>
-            <label className="text-base md:text-xl text-black" htmlFor="ville">Ville:</label>
-            <input
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="ville">Ville :</label>
+            <select
               type="text"
               id="ville"
               name="ville"
+              className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+              focus:outline-none focus:shadow-outline w-full"
               value={newValues.ville}
               onChange={handleInputChange}
-            />
+            >
+              <option value="Alger">Alger</option>
+            </select>
           </div>
           <div>
-            <label className="text-base md:text-xl text-black" htmlFor="prix_estime">Prix estimé:</label>
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="prix_estime">Prix estimé :</label>
             <input
+            className="block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full"
               type="number"
               id="prix_estime"
               name="prix_estime"
@@ -207,44 +248,53 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
             />
           </div>
           <div>
-            <label className="text-base md:text-xl text-black" htmlFor="etat">État:</label>
-            <input
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="etat">État :</label>
+            <select
               type="text"
               id="etat"
               name="etat"
+              className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+              focus:outline-none focus:shadow-outline w-full"
               value={newValues.etat}
               onChange={handleInputChange}
-            />
+            >
+              <option value="">Select a property status</option>
+              <option value="neuf">Neuf (New)</option>
+              <option value="bonne_condition">Bonne condition (Good condition)</option>
+              <option value="rénové">Rénové (Renovated)</option>
+              <option value="à_rénover">À rénover (To renovate)</option>
+              <option value="partiellement_rénové">Partiellement rénové (Partially renovated)</option>
+              <option value="en_construction">En construction (Under construction)</option>
+              {/* Add more options here */}
+            </select>
           </div>
           <div>
-            <label className="text-base md:text-xl text-black" htmlFor="Proprietaire">Propriétaire:</label>
-            <input
-              type="text"
-              id="Proprietaire"
-              name="Proprietaire"
-              value={newValues.Proprietaire}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label className="text-base md:text-xl text-black" htmlFor="image">Image:</label>
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="image">Image :</label>
             <div>
               <input type="file" id="image" accept="image/*" onChange={handleImageChange} />
             </div>
           </div>
-          <button type="submit" className="text-base md:text-xl bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg mt-4">
+          <button type="submit" className="text-red-500  flex-auto bg-white border border-red-100 px-4 py-2
+            font-mono shadow-md rounded-full font-medium mt-5 mx-1 hover:shadow-2xl active:scale-90 transition duration-150 w-full">
             Done
           </button>
         </form>
       ) : (
         <div>
-          <p className="text-xl mb-2 ">Description: {description}</p>
-          <p className="text-xl mb-2">Type: {type_bien}</p>
-          <p className="text-xl mb-2">Adresse: {adresse}</p>
-          <p className="text-xl mb-2">Ville: {ville}</p>
-          <p className="text-xl mb-2">prix estime: {prix_estime}</p>
-          <p className="text-xl mb-2">état: {etat}</p>
-          <p className="text-xl mb-2">Nombre de chambres: {nbrChambre}</p>
+          <p className="block text-gray-700 font-bold mb-2">Description :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
+            focus:outline-none focus:shadow-outline w-full">{description}</p>
+          <p className="block text-gray-700 font-bold mb-2">Type :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
+            focus:outline-none focus:shadow-outline w-full">{type_bien}</p>
+          <p className="block text-gray-700 font-bold mb-2">Adresse :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
+            focus:outline-none focus:shadow-outline w-full">{adresse}</p>
+          <p className="block text-gray-700 font-bold mb-2">Ville : </p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
+            focus:outline-none focus:shadow-outline w-full">{ville}</p>
+          <p className="block text-gray-700 font-bold mb-2">prix estime :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
+            focus:outline-none focus:shadow-outline w-full"> {prix_estime} Dzd</p>
+          <p className="block text-gray-700 font-bold mb-2">état :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
+            focus:outline-none focus:shadow-outline w-full"> {etat}</p>
+          <p className="block text-gray-700 font-bold mb-2">Nombre de chambres :</p><p className="block rounded font-bold py-2 px-3 text-gray-700 leading-tight 
+            focus:outline-none focus:shadow-outline w-full"> {nbrChambre}</p>
           <div className="flex justify-end mt-4">
         
       </div>   
@@ -262,8 +312,6 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
       >
         Supprimer
       </button>
-
-          
           </div>
         </div>
         
