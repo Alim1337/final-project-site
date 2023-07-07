@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
-import { FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
+import { FiChevronLeft, FiHome, FiChevronDown, FiPlus ,FiArrowLeft} from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import { HiOutlineHome } from 'react-icons/hi';
 import { HiUser } from 'react-icons/hi';
@@ -100,7 +100,9 @@ setDemandeClient_id(data.demandeClient[0].id_demande_client);
 
     <div>
       <Header/>
+      
       <main>
+        
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
             <FiChevronLeft
@@ -129,6 +131,7 @@ setDemandeClient_id(data.demandeClient[0].id_demande_client);
               ))}
             </ul>
           </div>
+          
           <div className="p-7 text-2xl text-black font-semibold flex-1 h-screen overflow-auto">
             <h2 className="text-3xl font-mono mb-4">Tu As  {demandeClient.length ? demandeClient.length : ''} Demande Client:</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -142,19 +145,16 @@ setDemandeClient_id(data.demandeClient[0].id_demande_client);
     
   </div>
 ))}
-
+<div>    <button className="text-gray-500 mt-4 ml-7 mb-7 flex items-center gap-2" onClick={router.back}>
+        <FiArrowLeft className="w-5 h-5" />
+        <span>Go Back</span>
+      </button></div>
 
             </div>
           </div>
         </div>
-        <div className="p-20 py-0 bg-gray-50">
-          <h2 className="font-mono text-green-600">Client Connected Name:</h2>
-          <h2 className="font-mono text-green-600">{ClientName}</h2>
-        </div>
-        <div className="p-0 bg-gray-50">
-          <h2 className="font-mono text-green-600">Client Connected Email: </h2>
-          <h2 className="font-mono text-green-600">{ClientEmail}</h2>
-        </div>
+      
+    
       </main>
       <Footer />
     </div>

@@ -203,12 +203,12 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
             ))}
             </ul>
             </div>
-            <div className='grid grid-cols-2'>
+            <div className='grid grid-cols-3'>
             <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
               {userType=== 'client' && (
                 <div>
-                <p className=' text-red-600 text-sm'>* ajouter au moin un bien pour devenir proprietaire</p>
+                <p className=' text-red-1000 text-sm'>* ajouter au moin un bien pour devenir proprietaire</p>
                 <button className="text-left sm:grid-cols-2 lg:grid-cols-3
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                  transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent w-full" 
@@ -230,31 +230,14 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
              {userType === 'proprietaire' && (
                 <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={handleModifierBien}>
+                 transform hover:scale-105 hover:cursor-pointer 
+                 font-mono bg-transparent" onClick={handleModifierBien}>
                   <GestionCard key="gestion" text="Modifier un bien" />
                 </button>
               )}
 
-               {userType === 'proprietaire' && (
-                     <button
-                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
-                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-                  onClick={() => handleVoirNegotiation()}
-                >
-                  <NegotiationCard key="gestion" text="Negotiations sur votre biens" />
-                </button>       
-                )}
-                  {userType === 'proprietaire' && (
-                     <button
-                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
-                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-                  onClick={() => handleVoirNegotiationDemande()}
-                >
-                  <NegotiationCard key="gestion" text="Negotiations sur les demandes des clients" />
-                </button>       
-                )}
+        
+               
                 
               <button 
                 className="text-left sm:grid-cols-2 lg:grid-cols-3 
@@ -273,7 +256,48 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                )}
             </div>
 
-            <div className="p-7 text-2xl font-semibold h-screen flex flex-col">
+        
+            <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Négotiations</h1>
+              <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationDemandeClient()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur votre demandes client" />
+                </button>  
+                <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationP()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations avec les proprietaires" />
+                </button>
+                {userType === 'proprietaire' && (
+                     <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiation()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur votre biens" />
+                </button>       
+                )}
+                     {userType === 'proprietaire' && (
+                     <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationDemande()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur les demandes des clients" />
+                </button>       
+                )}
+                
+              </div>
+              <div className="p-7 text-2xl font-semibold h-screen flex flex-col">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
                 <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
@@ -293,24 +317,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                   <ModifyCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
                 </button>
               
-                <button
-                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
-                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-                  onClick={() => handleVoirNegotiationP()}
-                >
-                  <NegotiationCard key="gestion" text="Negotiations avec les proprietaires" />
-                </button>
-                
+           
 
-                     <button
-                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
-                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-                  onClick={() => handleVoirNegotiationDemandeClient()}
-                >
-                  <NegotiationCard key="gestion" text="Negotiations sur votre demandes client" />
-                </button>       
+                  
              
             </div>
             </div>

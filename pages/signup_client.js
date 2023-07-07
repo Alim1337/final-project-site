@@ -39,7 +39,8 @@ export default function SignupClient() {
       toast.success('Signup completed!', {
         position: toast.POSITION.TOP_CENTER,
       });
-  
+      toast.success('Signup completed!');
+
       // Redirect to clientHouses page
       router.push('/login_client');
     } else {
