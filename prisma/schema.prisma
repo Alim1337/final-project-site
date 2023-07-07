@@ -26,9 +26,9 @@ model Client {
   Rdv                   Rdv[]
   biens_loue            biens_loue[]
   likes                 likes[]
-  likes_demande         likes_demande[]
   message               message[]
   negotiation           negotiation[]
+  negotiation_demande   negotiation_demande[]
 }
 
 model Client_vip {
@@ -65,7 +65,7 @@ model Demande_client {
   Client                Client                 @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client")
   Demande_client_valide Demande_client_valide?
   Demande_client_vip_   Demande_client_vip_?
-  likes_demande         likes_demande?
+  interesse             interesse[]
 
   @@map("Demande client")
 }
@@ -132,26 +132,27 @@ model Demande_client_vip_valid_ {
 
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
 model Proprietaire {
-  id_proprietaire   Int               @id @default(autoincrement())
-  nom               String            @db.VarChar(255)
-  prenom            String            @db.VarChar(255)
-  email             String            @unique(map: "email_p_unique") @db.VarChar(255)
-  ville             String?           @db.VarChar(255)
-  telephone         Decimal           @db.Decimal
-  mdps              String            @db.VarChar(255)
-  date_naissance    DateTime?         @db.Date
-  sex               String?           @db.VarChar(255)
-  date_dinscription DateTime?         @db.Date
-  id_client         Int?
-  Client            Client?           @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "id_client_in_proprietaire_fk")
-  Proprietaire_vip  Proprietaire_vip?
-  Rdv               Rdv[]
-  biens             biens[]
-  biens_vip         biens_vip[]
-  likes             likes[]
-  likes_demande     likes_demande[]
-  message           message[]
-  negotiation       negotiation[]
+  id_proprietaire     Int                   @id @default(autoincrement())
+  nom                 String                @db.VarChar(255)
+  prenom              String                @db.VarChar(255)
+  email               String                @unique(map: "email_p_unique") @db.VarChar(255)
+  ville               String?               @db.VarChar(255)
+  telephone           Decimal               @db.Decimal
+  mdps                String                @db.VarChar(255)
+  date_naissance      DateTime?             @db.Date
+  sex                 String?               @db.VarChar(255)
+  date_dinscription   DateTime?             @db.Date
+  id_client           Int?
+  Client              Client?               @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "id_client_in_proprietaire_fk")
+  Proprietaire_vip    Proprietaire_vip?
+  Rdv                 Rdv[]
+  biens               biens[]
+  biens_vip           biens_vip[]
+  interesse           interesse[]
+  likes               likes[]
+  message             message[]
+  negotiation         negotiation[]
+  negotiation_demande negotiation_demande[]
 }
 
 model Proprietaire_vip {
@@ -336,14 +337,31 @@ model negotiation {
   Proprietaire      Proprietaire @relation(fields: [proprietaire_id], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model likes_demande {
-  id_likes_demande Int            @id(map: "pk_id_likes_demande")
-  id_client        Int?
-  id_proprietaire  Int?
-  time             DateTime?      @default(dbgenerated("'2023-07-06 15:37:12.884385'::timestamp without time zone")) @db.Timestamp(6)
-  Client           Client?        @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_c")
-  Demande_client   Demande_client @relation(fields: [id_likes_demande], references: [id_demande_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_d")
-  Proprietaire     Proprietaire?  @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_p")
+model interesse {
+  id_interesse        Int                   @id @default(autoincrement())
+  iid_demande_client  Int
+  id_proprietaire     Int
+  time                DateTime?             @default(now()) @db.Timetz(6)
+  Demande_client      Demande_client        @relation(fields: [iid_demande_client], references: [id_demande_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_dc")
+  Proprietaire        Proprietaire          @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_pp")
+  negotiation_demande negotiation_demande[]
 
-  @@map("likes demande")
+  @@map("interesse")
+}
+
+model negotiation_demande {
+  id_negotiation_demande Int           @id @default(autoincrement())
+  id_interesse           Int
+  id_proprietaire        Int?
+  id_client              Int?
+  prix_propose           Decimal?      @db.Decimal
+  statut                 String?       @db.VarChar
+  commentaire            String?       @db.Char(1)
+  created_at             DateTime?     @default(dbgenerated("'01:42:37.641086+02'::time with time zone")) @db.Timetz(6)
+  duree                  Int?
+  Client                 Client?       @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_ccc")
+  interesse              interesse     @relation(fields: [id_interesse], references: [id_interesse], onDelete: NoAction, onUpdate: NoAction, map: "fk_inter")
+  Proprietaire           Proprietaire? @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_ppp")
+
+  @@map("negotiation demande")
 }

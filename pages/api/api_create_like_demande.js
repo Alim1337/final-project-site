@@ -6,40 +6,52 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      const {  id_demande_client, decodedTokenId ,demandeClients} = req.body;
-      console.log('id_demande_client', id_demande_client);
+      const { id_demande_client, decodedTokenId, demandeClients } = req.body;
+      console.log('id_demande_client:', id_demande_client);
       console.log('proprietaire id:', decodedTokenId);
-      console.log('demande client:', demandeClients);
-      console.log('client id:', demandeClients.id_client);
+      console.log('demandeClients:', demandeClients);
 
-     
-        const proprietaire = await prisma.proprietaire.findUnique({
-          where: {
-            id_proprietaire: decodedTokenId,
-          },
-        });
+      const proprietaire = await prisma.Proprietaire.findUnique({
+        where: {
+          id_proprietaire: decodedTokenId,
+        },
+      });
 
-            const like = await prisma.likes.create({
-              data: {
-                client_id: demandeClients.id_client,
-                id_bien: b,
-                proprietaire_id: p,
+      if (proprietaire) {
+        const likes = await Promise.all(
+          demandeClients.map(async (demandeClient) => {
+            const client = await prisma.client.findUnique({
+              where: {
+                id_client: demandeClient.id_client,
               },
             });
+            console.log('id_demande_client:', demandeClient.id_demande_client);
+            console.log('proprietaire id:',  decodedTokenId);
+            console.log('id_client:', demandeClient.id_client);
 
-            res.status(200).json(like);
-          } else {
-            res.status(400).json({ error: 'Client not found' });
-          }
-        } else {
-          res.status(400).json({ error: 'Proprietaire not found' });
-        }
+            console.log('demandeClients:', demandeClient);
+            if (client) {
+              const like = await prisma.interesse.create({
+                data: {
+                  iid_demande_client: demandeClient.id_demande_client,
+                  id_proprietaire: decodedTokenId,
+                },
+              });
+
+              return like;
+            } else {
+              throw new Error(`Client not found for demandeClient with id ${demandeClient.id_demande_client}`);
+            }
+          })
+        );
+
+        res.status(200).json(likes);
       } else {
-        res.status(400).json({ error: 'Invalid userType' });
+        res.status(400).json({ error: 'Proprietaire not found' });
       }
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Failed to create like' });
+      res.status(500).json({ error: 'Failed to create likes' });
     }
   } else {
     res.status(405).json({ error: 'Method Not Allowed' });

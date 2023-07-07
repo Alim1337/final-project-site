@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     try {
         const demandeClients = await prisma.demande_client.findMany();
 
-console.log(demandeClients);
+//console.log(demandeClients);
       res.status(200).json({ demandeClients });
     } catch (error) {
       console.error('Failed to fetch demandeClients:', error);
