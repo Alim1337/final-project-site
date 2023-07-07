@@ -99,7 +99,6 @@ function CardHouse({ id_biens, description, type_bien, adresse, ville, code_post
           className="rounded-lg"
         />
       </div>
-      <h3 className="text-lg font-bold mb-2">ID: {id_biens}</h3>
       <p className="text-xl mb-2 ">Proprietaire: {Proprietaire.nom}</p>
 
       <p className="text-xl mb-2 ">Titre: {description}</p>

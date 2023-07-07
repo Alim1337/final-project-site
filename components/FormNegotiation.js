@@ -49,49 +49,61 @@ function FormNegotiation({ onSubmit }) {
   };
 
   return (
-<form onSubmit={handleSubmit} className="max-w-sm mx-auto">
-  <div className="mb-4 text-black">
-    <label htmlFor="prixPropose" className="block font-bold text-black">
-      Prix Proposé:
-    </label>
-    <input
-      type="number"
-      id="prixPropose"
-      value={prixPropose}
-      onChange={(e) => setPrixPropose(e.target.value)}
-      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
-    />
+    <div className="max-w-sm mx-auto border-2 border-gray-300 rounded-lg shadow-md">
+    <form onSubmit={handleSubmit} className="p-4">
+      <div className="mb-4">
+        <label htmlFor="prixPropose" className="block font-bold text-black">
+          Prix Proposé pour le mois (DA):
+        </label>
+        <input
+          type="number"
+          id="prixPropose"
+          value={prixPropose}
+          onChange={(e) => setPrixPropose(e.target.value)}
+          className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500 hover:border-blue-500 hover:shadow-md"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="duree" className="block font-bold text-black">
+          Durée:
+        </label>
+        <input
+          type="text"
+          id="duree"
+          value={duree}
+          onChange={(e) => setDuree(e.target.value)}
+          className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500 hover:border-blue-500 hover:shadow-md"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="commentaire" className="block font-bold text-black">
+          Commentaire:
+        </label>
+        <textarea
+          id="commentaire"
+          value={commentaire}
+          onChange={(e) => setCommentaire(e.target.value)}
+          className="border text-black font-medium border-gray-300 px-4 py-2 rounded-lg w-full 
+        focus:outline-none focus:border-blue-500 hover:border-blue-500 hover:shadow-md"
+        ></textarea>
+      </div>
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] 
+      transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800
+       focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900
+        active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 
+        dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]
+         dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
   </div>
-  <div className="mb-4">
-    <label htmlFor="duree" className="block font-bold text-black">
-      Durée:
-    </label>
-    <input
-      type="text"
-      id="duree"
-      value={duree}
-      onChange={(e) => setDuree(e.target.value)}
-      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
-    />
-  </div>
-  <div className="mb-4 font-bold text-black">
-    <label htmlFor="commentaire" className="block text-gray-700">
-      Commentaire:
-    </label>
-    <textarea
-      id="commentaire"
-      value={commentaire}
-      onChange={(e) => setCommentaire(e.target.value)}
-      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
-    ></textarea>
-  </div>
-  <button
-    type="submit"
-    className="bg-blue-500 text-white px-4 py-2 rounded-lg focus:outline-none hover:bg-blue-600"
-  >
-    Submit
-  </button>
-</form>
+  
+
 
   );
 }

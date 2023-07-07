@@ -145,7 +145,6 @@ function CardHouseModifiervip({ id_biens, description, type_bien,      type_loca
           className="rounded-lg"
         />
       </div>
-      <h3 className="text-lg font-bold mb-2">ID: {id_biens}</h3>
 
       {isModifying ? (
         <form onSubmit={handleDone}>

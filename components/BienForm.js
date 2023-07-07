@@ -202,7 +202,7 @@ export default function BienForm({ onSubmit }) {
                   </div>
                   <div>
                     <label htmlFor="prixEstime" className="block text-gray-700 font-bold mb-2">
-                      Prix Estimé :
+                      Prix Estimé pour le mois :
                     </label>
                     <div className="mt-1 flex">
                       <input

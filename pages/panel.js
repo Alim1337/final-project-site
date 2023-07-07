@@ -209,9 +209,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               {userType=== 'client' && (
                 <div>
                 <p className=' text-red-1000 text-sm'>* ajouter au moin un bien pour devenir proprietaire</p>
-                <button className="text-left sm:grid-cols-2 lg:grid-cols-3
-                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent w-full" 
+                <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
                  onClick={() => router.push('/BienFormPage')}>
                 <AjoutCard key="gestion" text="Ajouter un bien" />
                 </button>
@@ -219,9 +219,9 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               )}
                {userType=== 'proprietaire' && (
 
-                <button className="text-left -space-x-px sm:grid-cols-2 lg:grid-cols-3 
-                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
-                  transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
+                <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
                   onClick={() => router.push('/BienFormProprietaire')}>
                   <AjoutCard key="gestion" text="Ajouter un bien" />
                 </button>

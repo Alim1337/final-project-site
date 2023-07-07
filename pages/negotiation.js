@@ -17,7 +17,11 @@ export default function Negotiation() {
   const [idClient, setidClient] = useState('');
 
 
+  const handleGoBack = () => {
+    router.back();
+  };
   useEffect(() => {
+    
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwt.decode(token);
@@ -75,16 +79,24 @@ export default function Negotiation() {
   
 
   return (
-    <div className='bg-white items-center'>
-      <Header />
-      <div className="container mx-auto px-4 py-8 bg-white rounded-sm">
-        <div className='bg-white'>
-          <h1 className="text-2xl text-center font-bold text-black mb-4">Negotiation Page</h1>
-          <FormNegotiation onSubmit={handleNegotiationSubmit} />
+    <div className="bg-white items-center">
+    <Header />
+    <div className="container mx-auto px-4 py-8 bg-white rounded-sm">
+      <div className="bg-white">
+        <h1 className="text-2xl text-center font-bold text-black mb-4">Page de négotiation</h1>
+        <FormNegotiation onSubmit={handleNegotiationSubmit} />
+        <div className="text-center mt-4">
+          <button
+            className="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg focus:outline-none hover:bg-gray-300"
+            onClick={handleGoBack}
+          >
+          Annuler
+          </button>
         </div>
       </div>
-      <Footer />
-      <ToastContainer />
     </div>
+    <Footer />
+    <ToastContainer />
+  </div>
   );
 }

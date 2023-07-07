@@ -64,9 +64,9 @@ export default function GestionBienModify() {
     <div className="bg-white">
       <Header />
       <h1 className="pl-10 pt-5 font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
-      <div className="container mx-auto py-8">
-        <div className="flex justify-between items-center mb-4">
-          <div className="grid grid-cols-4 gap-10 px-10 mt-6 text-black">
+  <div className="container mx-auto py-2">
+    <div className="flex justify-between items-center mb-14">
+      <div className="grid grid-cols-4 gap-10 px-10 mt-6 text-black">
             
         {biens.map((bien) => (
           <CardHouseModifier
