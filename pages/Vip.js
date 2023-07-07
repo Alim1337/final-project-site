@@ -4,13 +4,21 @@ import Footer from '@/components/Footer';
 import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import GestionCard from '@/components/CardGestion';
+import Header_signup from '@/components/Header_signup';
 import AjoutCard from '@/components/AjoutCard';
 import DemandeClientCard from '@/components/DemandeClientCard';
 import { HiOutlineHome } from "react-icons/hi2";
 import { HiUser } from "react-icons/hi2";
+import { HiUserGroup } from "react-icons/hi";
 import { FaChalkboardTeacher } from "react-icons/fa";
-import { IoIosHand } from "react-icons/io";
+import { HiOutlineCog } from "react-icons/hi2";
 import jwt from 'jsonwebtoken';
+import { IoIosHand } from "react-icons/io";
+import DemandeUsersCard from '@/components/demande_client_users_card';
+import NegotiationCard from '@/components/negotiation_card';
+import SearchCard from '@/components/SearchCard';
+import EcrireDemande from '@/components/ecrire_card';
+import ModifyCard from '@/components/modify_card';
 
 export default function VipPnel({ exploreData, cardsData }) {
   const [open, setOpen] = useState(true);
@@ -60,7 +68,7 @@ console.log(userType);
   const handleVoirDemandes = () => {
     router.push('/Voir_Demandes');
   };
-
+  
   return (
     <div>
       <Header />
@@ -113,84 +121,148 @@ console.log(userType);
 
               </ul>
             </div>
-            <div className="p-7 text-2xl font-semibold flex-1 h-screen">
-  <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
-
-  <div className="grid grid-cols-2 gap-4 mt-8">
-    {userType === 'client' && (
+ <div className='grid grid-cols-3'>
+            <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
+              {userType=== 'client' && (
+                <div>
+                <p className=' text-red-1000 text-sm'>* ajouter au moin un bien pour devenir proprietaire</p>
+                <button className="text-left sm:grid-cols-2 lg:grid-cols-3
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent w-full" 
+                 onClick={() => router.push('/BienFormPage')}>
+                <AjoutCard key="gestion" text="Ajouter un bien" />
+                </button>
+                </div>                
+              )}
+                  {userType === 'proprietaire' && (
       <>
-        <button className="font-normal text-black" onClick={() => router.push('/devenir_proprietaire')}>
-          <AjoutCard key="gestion" text="Ajouter au moins un bien pour devenir un proprietaire" />
-        </button>
-
-        <button className="font-normal text-black" onClick={() => router.push('/homesList')}>
-          <AjoutCard key="gestion" text="Consulter les biens" />
-        </button>
-      </>
-    )}
-
-    {userType === 'proprietaire' && (
-      <>
-        <button className="font-normal text-black" onClick={() => router.push('/BienFormProprietaire')}>
+        <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer 
+                 font-mono bg-transparent" onClick={() => router.push('/BienFormProprietaire')}>
           <AjoutCard key="gestion" text="Ajouter un bien" />
         </button>
 
-        <button className="font-normal text-black" onClick={() => router.push('/BienFormProprietaireVIP')}>
+        <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer 
+                 font-mono bg-transparent" onClick={() => router.push('/BienFormProprietaireVIP')}>
           <AjoutCard key="gestion" text="Ajouter un bien VIP" />
         </button>
       </>
     )}
 
-    {userType === 'proprietaire' && (
-      <>
-        <button className="font-normal text-black" onClick={handleModifierBien}>
-          <GestionCard key="gestion" text="Modifier un bien" />
-        </button>
+             {userType === 'proprietaire' && (
+                <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer 
+                 font-mono bg-transparent" onClick={handleModifierBien}>
+                  <GestionCard key="gestion" text="Modifier un bien" />
+                </button>
+              )}
 
-        <button
-          className="text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-          onClick={() => router.push('/api/api_fetch_all_biens')}
-        >
-          <AjoutCard key="gestion" text="Voir Votre Biens Aimé" />
-        </button>
-      </>
-    )}
-  </div>
-</div>
-
-<div className="p-7 text-2xl font-semibold flex-1 h-screen">
-  <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
-
-  <div className="grid grid-cols-2 gap-4 mt-8">
-    {userType === 'proprietaire' && (
-      <button className="font-normal text-black" onClick={handleVoirDemandes}>
-        <DemandeClientCard key="gestion" text="Voir Les Demandes Des Clients" />
-      </button>
-    )}
-
-    <button className="text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={() => router.push('/Demande_Client')}>
-      <AjoutCard key="gestion" text="Faire Une Demande Personnalisée" />
-    </button>
-
-    <button className="text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={() => router.push('/Demande_Client')}>
-      <AjoutCard key="gestion" text="Faire Une Demande Vip Personnalisée" />
-    </button>
-
-    <button className="text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={() => router.push('/Modifier_Demande_Client')}>
-      <AjoutCard key="gestion" text="Modifier Votre Demandes Personnalisée et les Demandes VIP" />
-    </button>
-
-    <button className="text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" onClick={() => handleVoirNegotiation()}>
-      <AjoutCard key="gestion" text="Voir Les Negotiations" />
-    </button>
-  </div>
-</div>
-
+        
+               
+                
+              <button 
+                className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
+                onClick={() => router.push('/homesList')}>
+                <SearchCard key="gestion" text="Consulter les biens"/>
+              </button>
+             
+            </div>
+           
+            <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Négotiations</h1>
+              {userType === 'proprietaire' && (
+                     <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiation()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur votre biens" />
+                </button>       
+                )}
+              <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationDemandeClient()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur votre demandes client" />
+                </button>  
+                <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationP()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations avec les proprietaires" />
+                </button>
+            
+                     {userType === 'proprietaire' && (
+                     <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationDemande()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur les demandes des clients" />
+                </button>       
+                )}
+                
+              </div>
+              <div className="p-7 text-2xl font-semibold h-screen flex flex-col">
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
+                <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+                   text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 
+                   hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => router.push('/Demande_Client')}
+                >
+                  <EcrireDemande key="gestion" text="Faire Une Demande Personnalisée" />
+                </button>
+              
+                <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => router.push('/Modifier_Demande_Client')}
+                >
+                  <ModifyCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
+                </button>
+              
+                {userType === 'proprietaire' && (
+              <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
+              xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+               transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              onClick={() => handleVoirDemandes()}              >
+                <DemandeUsersCard key="gestion" text="Voir Les Demandes Des Clients" />
+              </button> 
+            
+               )}
+ {userType === 'proprietaire' && (
+              <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
+              xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+               transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              onClick={() => handleVoirDemandeVIP()}              >
+                <DemandeUsersCard key="gestion" text="Voir Les Demandes Des Clients VIP" />
+              </button> 
+            
+               )}
+                  
+             
+            </div>
+            </div>
           </div>
         </main>
       </div>
-      <div>
-      </div>
+
+   
       <Footer />
     </div>
   );
