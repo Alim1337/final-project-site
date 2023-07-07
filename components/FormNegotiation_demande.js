@@ -1,0 +1,98 @@
+import React, { useState } from 'react';
+import jwt from 'jsonwebtoken';
+
+function FormNegotiationDemande({ onSubmit }) {
+  const [prixPropose, setPrixPropose] = useState('');
+  const [duree, setDuree] = useState('');
+  const [commentaire, setCommentaire] = useState('');
+
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  let decodedToken = null; // Declare decodedToken variable with default value
+
+  if (token) {
+    decodedToken = jwt.decode(token);
+    try {
+      console.log("Decoded token:", decodedToken);
+      console.log("Decoded client:", decodedToken.id);
+    } catch (error) {
+      console.error('Failed to verify JWT token:', error);
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      let proprietaire_id = decodedToken.id;
+  
+      // Prepare the form data
+      const formData = {
+        prixPropose,
+        duree,
+        commentaire,
+        token,
+      };
+  
+      console.log(formData); // Review the formData in the console
+  
+      // Call the onSubmit function provided by the parent component
+      onSubmit(formData);
+  
+      // Reset the form fields
+      setPrixPropose('');
+      setDuree('');
+      setCommentaire('');
+    } catch (error) {
+      console.error('Failed to verify JWT token:', error);
+    }
+  };
+
+  return (
+<form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+  <div className="mb-4 text-black">
+    <label htmlFor="prixPropose" className="block font-bold text-black">
+      Prix Proposé:
+    </label>
+    <input
+      type="number"
+      id="prixPropose"
+      value={prixPropose}
+      onChange={(e) => setPrixPropose(e.target.value)}
+      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
+    />
+  </div>
+  <div className="mb-4">
+    <label htmlFor="duree" className="block font-bold text-black">
+      Durée:
+    </label>
+    <input
+      type="text"
+      id="duree"
+      value={duree}
+      onChange={(e) => setDuree(e.target.value)}
+      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
+    />
+  </div>
+  <div className="mb-4 font-bold text-black">
+    <label htmlFor="commentaire" className="block text-gray-700">
+      Commentaire:
+    </label>
+    <textarea
+      id="commentaire"
+      value={commentaire}
+      onChange={(e) => setCommentaire(e.target.value)}
+      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
+    ></textarea>
+  </div>
+  <button
+    type="submit"
+    className="bg-blue-500 text-white px-4 py-2 rounded-lg focus:outline-none hover:bg-blue-600"
+  >
+    Submit
+  </button>
+</form>
+
+  );
+}
+
+export default FormNegotiationDemande;

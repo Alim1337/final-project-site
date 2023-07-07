@@ -139,6 +139,15 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
       }
     }
   };
+  const handleVoirNegotiationDemande = () => {
+    router.push('/negotiation_demande_proprietaire');
+  }; // Add the closing curly brace here
+  const handleVoirNegotiationDemandeClient = () => {
+    
+    router.push('/negotiation_demande_client');
+  }; // Add the closing curly brace here
+  
+
   const handleVoirNegotiationP = () => {
     router.push('/negotiation_client');
   };
@@ -226,7 +235,6 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 </button>
               )}
 
-            
                {userType === 'proprietaire' && (
                      <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 
@@ -235,6 +243,16 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                   onClick={() => handleVoirNegotiation()}
                 >
                   <NegotiationCard key="gestion" text="Negotiations sur votre biens" />
+                </button>       
+                )}
+                  {userType === 'proprietaire' && (
+                     <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationDemande()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur les demandes des clients" />
                 </button>       
                 )}
                 
@@ -283,6 +301,17 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 >
                   <NegotiationCard key="gestion" text="Negotiations avec les proprietaires" />
                 </button>
+                
+
+                     <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationDemandeClient()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur votre demandes client" />
+                </button>       
+             
             </div>
             </div>
           </div>

@@ -4,17 +4,15 @@ import { useRouter } from 'next/router';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Image from 'next/image';
-import FormNegotiation from '../components/FormNegotiation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import FormNegotiationDemande from '@/components/FormNegotiation_demande';
 
 export default function NegotiationDemande() {
-  const router = useRouter();
-  const { query } = router;
-  const idLikes = query.id_interesse || null; // Assign null as the default value if id_likes is not available
-  const idProprietaire = query.proprietaire_id || null;
+    const router = useRouter();
+    const { id_likes } = router.query;// Assign null as the default value if id_likes is not available
   const [idClient, setidClient] = useState('');
-
+console.log("outsideidLikes ",id_likes),
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -42,27 +40,24 @@ export default function NegotiationDemande() {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        const decodedToken = jwt.decode(token); // Add the idLikes, idBien, and idProprietaire to the form data
-        formData.id_interesse = idLikes;
-        formData.proprietaire_id = idProprietaire;
+        const decodedToken = jwt.decode(token);
+        formData.proprietaire_id = decodedToken.id;
         formData.client_id = idClient;
         formData.decodedToken = decodedToken;
-  
-        // Make an API request to create the negotiation
-        const response = await fetch('/api/api_create_negotiation', {
+        formData.id_likes = id_likes;
+
+        const response = await fetch('/api/api_create_negotiation_demande', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(formData),
         });
-  
+
         if (response.ok) {
-          // If the negotiation was created successfully, display a notification and redirect to the /homesList page
           toast.success('Negociation a ete faite');
-          router.push('/homesList');
+          router.push('/panel'); // Redirect to the "panel" page
         } else {
-          // Handle the error case
           console.error('Failed to create negotiation');
         }
       }
@@ -78,7 +73,7 @@ export default function NegotiationDemande() {
       <div className="container mx-auto px-4 py-8 bg-white rounded-sm">
         <div className='bg-white'>
           <h1 className="text-2xl text-center font-bold text-black mb-4">Negotiation Page</h1>
-          <FormNegotiation onSubmit={handleNegotiationSubmit} />
+          <FormNegotiationDemande onSubmit={handleNegotiationSubmit} />
         </div>
       </div>
       <Footer />

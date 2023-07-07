@@ -29,23 +29,25 @@ export default async function handler(req, res) {
             console.log('proprietaire id:',  decodedTokenId);
             console.log('id_client:', demandeClient.id_client);
 
-            console.log('demandeClients:', demandeClient);
+       //     console.log('demandeClients:', demandeClient);
             if (client) {
-              const like = await prisma.interesse.create({
-                data: {
-                  iid_demande_client: demandeClient.id_demande_client,
-                  id_proprietaire: decodedTokenId,
-                },
-              });
+              
 
-              return like;
             } else {
               throw new Error(`Client not found for demandeClient with id ${demandeClient.id_demande_client}`);
             }
           })
         );
-
-        res.status(200).json(likes);
+        const interesse = await prisma.interesse.create({
+          data: {
+            iid_demande_client: id_demande_client,
+            id_proprietaire: decodedTokenId,
+          },
+          
+        })
+        res.status(200).json(interesse);
+        console.log(interesse);;
+     
       } else {
         res.status(400).json({ error: 'Proprietaire not found' });
       }

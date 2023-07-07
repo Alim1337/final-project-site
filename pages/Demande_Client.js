@@ -21,12 +21,29 @@ export default function DemandeClient() {
     const [ClientEmail, setClientEmail] = useState('');
     const [decodedToken, setDecodedToken] = useState(null); // State variable to store decoded token
     const [open, setOpen] = useState(true);
-
+    const token = localStorage.getItem('token');
+    let clientId;
+    if (token) {
+      const decodedToken = jwt.decode(token);
+     
+    
+      if (decodedToken.userType === 'client') {
+        clientId = decodedToken.id;
+      } else if (decodedToken.userType === 'proprietaire') {
+        clientId = decodedToken.id_client;
+      }}
     useEffect(() => {
       const token = localStorage.getItem('token');
       console.log("token:",token); // Retrieve the token from local storage
       if (token) {
         const decodedToken = jwt.decode(token);
+        let clientId;
+      
+        if (decodedToken.userType === 'client') {
+          clientId = decodedToken.id;
+        } else if (decodedToken.userType === 'proprietaire') {
+          clientId = decodedToken.id_client;
+        }
         console.log("decoded token:",decodedToken)
         if (decodedToken && decodedToken.nom) {
           setClientName(decodedToken.nom);
@@ -58,7 +75,7 @@ export default function DemandeClient() {
             surface_minimum,
             nbr_chambre_minimum,
             date_debut_rechercher,
-            id: decodedToken?.id // Access the id from the decodedToken state variable
+            id: clientId// Access the id from the decodedToken state variable
           }),
         });
   

@@ -23,7 +23,6 @@ const Form_Demande_Client = ({ onSubmit }) => {
 
   return (
     <div className="max-w-md mx-auto bg-white rounded p-6 shadow">
-      <h2 className="text-2xl font-semibold mb-4">Demande Personnalisée</h2>
       <form id="form" onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="type_bien" className="block font-medium mb-2">

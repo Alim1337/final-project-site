@@ -4,10 +4,18 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
+  let clientId;
+
   const { token ,demandeClient} = req.body;
 const demandeId = demandeClient.id_demande_client
 console.log("id_demande_client",demandeId);
+const decodedToken = jwt.decode(token);
 
+if (decodedToken.userType === 'client') {
+  clientId = decodedToken.id;
+} else if (decodedToken.userType === 'proprietaire') {
+  clientId = decodedToken.id_client;
+}
   console.log(demandeClient);
 
   if (!token) {
@@ -15,8 +23,7 @@ console.log("id_demande_client",demandeId);
   }
 
   try {
-    const decodedToken = jwt.decode(token);
-    const id_client = decodedToken.id;
+   
 
     if (req.method === 'PUT') {
       // Handle modifier (modify) operation
@@ -43,10 +50,10 @@ console.log("id_demande_client",demandeId);
       console.log('Demande deleted successfully');
       return res.status(200).json({ message: 'Demande deleted successfully' });
     } else {
-      console.log('Fetching demande client for id_client:', id_client);
+      console.log('Fetching demande client for id_client:', clientId);
       const demandeClient = await prisma.demande_client.findMany({
         where: {
-          id_client: id_client,
+          id_client: clientId,
         },
       });
 

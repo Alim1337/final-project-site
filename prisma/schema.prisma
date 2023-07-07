@@ -356,9 +356,9 @@ model negotiation_demande {
   id_client              Int?
   prix_propose           Decimal?      @db.Decimal
   statut                 String?       @db.VarChar
-  commentaire            String?       @db.Char(1)
   created_at             DateTime?     @default(dbgenerated("'01:42:37.641086+02'::time with time zone")) @db.Timetz(6)
-  duree                  Int?
+  duree                  String?       @db.VarChar
+  commentaire            String?       @db.VarChar
   Client                 Client?       @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_ccc")
   interesse              interesse     @relation(fields: [id_interesse], references: [id_interesse], onDelete: NoAction, onUpdate: NoAction, map: "fk_inter")
   Proprietaire           Proprietaire? @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_ppp")

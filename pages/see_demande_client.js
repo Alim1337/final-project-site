@@ -12,7 +12,7 @@ import Demande_client_card_show from '@/components/Demande_client_card_show';
 import { HiOutlineCog } from "react-icons/hi2";
 
 
-const AllDemandClient = () => {
+export default function AllDemandClient() {
     const [demandeClients, setDemandeClients] = useState([]);
     const [open, setOpen] = useState(true);
     const menus = [
@@ -81,23 +81,26 @@ const AllDemandClient = () => {
           },
           body: JSON.stringify(requestData),
         })
-          .then(response => {
-            // Check if the response was successful
-            if (!response.ok) {
-              throw new Error('Failed to create like');
-            }
-  
-            // Handle the response as needed
-            router.push('/negotiation_demande'); // Redirect to "/negotiation_demande"
-          })
-          .catch(error => {
-            // Handle the error
-            console.error(error);
-  
-            // Display a notification with the error message
-            // Replace this with your notification logic
-            alert('Failed to create like: ' + error.message);
-          });
+        .then(response => {
+          // Check if the response was successful
+          if (!response.ok) {
+            throw new Error('Failed to create like');
+          }
+          return response.json(); // Parse the response JSON
+        })
+        .then(interesse => {
+          console.log("interesse.id_interesse", interesse.id_interesse);
+          router.push(`/negotiation_demande?id_likes=${interesse.id_interesse}`);
+        })
+        .catch(error => {
+          // Handle the error
+          console.error(error);
+        
+          // Display a notification with the error message
+          // Replace this with your notification logic
+          alert('Failed to create like: ' + error.message);
+        });
+        
       }
     }
   };
@@ -174,4 +177,4 @@ const AllDemandClient = () => {
   );
 }
 
-export default AllDemandClient;
+
