@@ -60,7 +60,7 @@ function FormNegotiation({ onSubmit }) {
           id="prixPropose"
           value={prixPropose}
           onChange={(e) => setPrixPropose(e.target.value)}
-          className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500 hover:border-blue-500 hover:shadow-md"
+          className="border text-black border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500 hover:border-blue-500 hover:shadow-md"
         />
       </div>
       <div className="mb-4">
@@ -72,7 +72,7 @@ function FormNegotiation({ onSubmit }) {
           id="duree"
           value={duree}
           onChange={(e) => setDuree(e.target.value)}
-          className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500 hover:border-blue-500 hover:shadow-md"
+          className="border text-black border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500 hover:border-blue-500 hover:shadow-md"
         />
       </div>
       <div className="mb-4">

@@ -29,6 +29,21 @@ export default async function handler(req, res) {
               prix_estime:true,
             },
           },
+          Client : {
+           select : {
+           id_client : true,
+           nom:true,
+
+          },
+        },
+           Rdv: {
+            select : {
+
+            id_rdv:true,
+            date_rdv:true,
+          },
+        },
+          
         },
       });
 
@@ -52,6 +67,16 @@ export default async function handler(req, res) {
           prix_estime : negotiation.biens?.prix_estime
 
         },
+        Client: {
+          id_client :negotiation.Client?.id_client,
+          nom :negotiation.Client?.nom,
+        },
+   
+        Rdv: {
+          id_rdv:negotiation.Rdv.id_rdv,
+          date_rdv:negotiation.Rdv.date_rdv,
+        },
+
       }));
 
       console.log(formattedNegotiations.map((negotiation) => negotiation.Proprietaire?.nom));

@@ -12,11 +12,15 @@ const NegotiationProprietaire = () => {
   const [proprietaireNom, setProprietaireNom] = useState([]);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [ClientID, setClientID] = useState([]);
+  const [Clientnom, setClientnom] = useState([]);
   const [NegotiationID, setNegotiationID] = useState([]);
   const [bienid, setBienid] = useState([]);
   const [isRDVSet, setIsRDVSet] = useState(false); // Add state for checking if RDV is set
   const [index, setIndex] = useState("");
+  const [selectedNegotiationIndex, setSelectedNegotiationIndex] = useState(null);
+  const [rdv, setRdv] = useState([]);
+  const [hasRdv, setHasRdv] = useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -24,17 +28,25 @@ const NegotiationProprietaire = () => {
       const token = localStorage.getItem('token');
       const decodedToken = jwt.decode(token);
       const proprietaireID = decodedToken.id;
+      setProprietaireNom(decodedToken.nom);
+  
       console.log('proprietaire id', proprietaireID);
       if (proprietaireID) {
         try {
           const response = await fetch(`/api/api_voir_negotiation_proprietaire?proprietaireID=${proprietaireID}`);
           const data = await response.json();
+          const hasRdv = await checkRdvExistence(data.negotiations);
+          setHasRdv(hasRdv);
           setNegotiations(data.negotiations);
-          setBienid(data.negotiation.biens.id_biens);
-          console.log("bien id " ,bienid);
+          console.log(negotiations);
+          setBienid(data.negotiation.biens.bien_id);
+          console.log("bien id ", bienid);
           setProprietaireID(proprietaireID);
-          setProprietaireNom(decodedToken.nom);
-         
+          setClientnom(data.negotiation.Client.nom);
+  
+          if (hasRdv) {
+            console.log('RDV:', rdv);
+          }
         } catch (error) {
           console.error('Failed to fetch negotiations:', error);
         }
@@ -42,12 +54,46 @@ const NegotiationProprietaire = () => {
         console.error('Invalid negotiation object:', proprietaireID);
       }
     };
-
+  
     fetchNegotiations();
   }, []);
+  
+  const checkRdvExistence = async (negotiations) => {
+    try {
+      const negotiationsWithRdv = [];
+      for (const negotiation of negotiations) {
+        const response = await fetch(`/api/api_check_rdv_existence?negotiationID=${negotiation.id_negotiation}`);
+        const data = await response.json();
+  
+        if (data.hasRdv) {
+          negotiation.rdv = data.rdv; // Add the rdv property to the negotiation object
+        }
+  
+        negotiationsWithRdv.push(negotiation);
+      }
+      return negotiationsWithRdv;
 
+    } catch (error) {
+      console.error('Failed to check RDV existence:', error);
+     
 
+      return negotiations; // Return the original negotiations array
+    }
+  };
+  
+  const see = async (negotiations) => {
+    for (const negotiation of negotiations) {
+      console.log("negotiation",negotiation);
+      console.log("negotiation.rdv.date_rdv",negotiation.rdv?.date_rdv);
 
+    }
+  };
+  const dee = see(negotiations);
+  
+  useEffect(() => {
+    console.log('Updated rdv:', rdv);
+  }, [rdv]);
+  
   const handleAnnuler = (id) => {
     // Logic for handling 'Annuler' button click
   };
@@ -122,11 +168,10 @@ const NegotiationProprietaire = () => {
       console.error('Invalid negotiation object:', negotiation);
     }
   };
-  const handleProposerRendezvous = (negotiationId,index) => {
-    // Handle Proposer Rendezvous button click
-    setShowDatePicker(negotiationId);
-    setIndex(index);
-
+  const handleProposerRendezvous = (negotiationId, index) => {
+    setShowDatePicker(true); // Show the date picker
+    setNegotiationID(negotiationId); // Set the negotiation ID
+    setSelectedNegotiationIndex(index); // Set the index of the negotiation
   };
   
   const handleSubmit = async (negotiation, index) => {
@@ -166,7 +211,7 @@ const NegotiationProprietaire = () => {
   }, [selectedDate]);
   
   const handleRdv = async (selectedDate, negotiation, index) => {
-    if (!negotiation || index < 0 || index >= negotiation.length) {
+    if (!negotiation || index < 0 || index >= negotiations.length) {
       console.error('Invalid negotiation object or index:', negotiation, index);
       return;
     }
@@ -200,7 +245,9 @@ const NegotiationProprietaire = () => {
       });
   
       if (response.ok) {
-        toast.success('Rdv created!');
+        const rdvData = await response.json();
+        setRdv(rdvData); // Update the RDV state with the created RDV data
+        toast.success('RDV created!');
       }
   
       if (!response.ok) {
@@ -237,7 +284,7 @@ const NegotiationProprietaire = () => {
     <div className="flex justify-start mb-4">
       <button
         onClick={handleBackClick}
-        className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+        className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
       >
         Retourner à proprietaire DashBoard
       </button>
@@ -250,84 +297,110 @@ const NegotiationProprietaire = () => {
         {negotiations.map((negotiation, index) => (
           <div
             key={negotiation.id_negotiation}
-            className="bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-300 transition-shadow duration-300"
+            className="bg-gray-100 p-8 rounded-lg font-semibold shadow-md hover:shadow-lg hover:bg-gray-300 transition-shadow duration-300 border border-gray-300"
           >
             {/* Display negotiation details */}
-            <p className="font-bold text-lg">
-              Négociation ID: {negotiation.id_negotiation}
-            </p>
-            {/* Display additional negotiation details */}
-            <p className="text-sm">Prix Proposé: {negotiation.prix_propose}</p>
-            <p className="text-sm">Durée: {negotiation.duree}</p>
-            <p className="text-sm">Statut: {negotiation.statut}</p>
+            <div className="border-b-2 pb-4">
+              <div className="border-b-2 pb-2">
+             
+                <p className="text-lg border-b pb-2">
+                  Prix Proposé: {negotiation.prix_propose}
+                </p>
+                <p className="text-lg border-b pb-2">Durée: {negotiation.duree}</p>
+                <p className="text-lg border-b pb-2">
+                  Statut:{" "}
+                  <span
+                    className={`text-lg ${
+                      negotiation.statut === "waiting"
+                        ? "text-yellow-500"
+                        : negotiation.statut === "validated"
+                        ? "text-green-500"
+                        : ""
+                    }`}
+                  >
+                    {negotiation.statut}
+                  </span>
+                </p>
+              </div>
 
-            {/* Display biens information */}
-            <p className="text-sm">Type de bien: {negotiation.biens?.type_bien}</p>
+              {/* Display biens information */}
+              <p className="text-lg border-b pb-2">
+                Type de bien: {negotiation.biens?.type_bien}
+              </p>
 
-            {/* Display Proprietaire information */}
-            <p className="text-sm">Nom du propriétaire: {negotiation.Proprietaire?.nom}</p>
+              {/* Display Proprietaire information */}
+              <div className="border-t-2 mt-4 pt-4">
+                <p className="text-lg border-b pb-2">
+                  Nom du propriétaire: {negotiation.Proprietaire?.nom}
+                </p>
+                <p className="text-lg">Nom du Client: {negotiation.Client?.nom}</p>
+              </div>
+
+              {/* Display RDV information */}
+              {negotiation.rdv && negotiation.rdv?.length > 0 && (
+  <div className="border-t-2 mt-4 pt-4">
+    <p className="text-lg border-b pb-2">RDV Dates:</p>
+    {negotiation.rdv.map((rdv, index) => (
+      <p key={index} className="text-lg">
+        {index + 1}. {rdv.date_rdv}
+      </p>
+    ))}
+  </div>
+)}
+
+            </div>
 
             {/* Buttons */}
-            <div className="flex justify-end mt-4 space-x-4">
-              <button
-                onClick={() => handleAnnuler(negotiation.id_negotiation)}
-                className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              >
-                Annuler
-              </button>
-              <ToastContainer />
+            <div className="flex justify-end mt-9 space-x-3">
+              <div className="flex space-x-0">
+                <button
+                  onClick={() => handleAnnuler(negotiation.id_negotiation)}
+                  className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                >
+                  Annuler
+                </button>
+                <ToastContainer />
 
-              <button
-                onClick={() => handleValider(negotiation)}
-                className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              >
-                Valider
-              </button>
+                <button
+                  onClick={() => handleValider(negotiation)}
+                  className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                >
+                  Valider
+                </button>
 
-              <button
-                onClick={() => handleContacter(negotiation)}
-                className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-              >
-                Contacter
-              </button>
+                <button
+                  onClick={() => handleContacter(negotiation)}
+                  className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                >
+                  Contacter
+                </button>
 
-              <button
-  onClick={() => handleProposerRendezvous(negotiation.id_negotiation,index)}
-  className="text-white bg-gradient-to-r from-gray-400 via-green-200 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
->
-  Proposer un rendezvous
-</button>
-
-
-              {showDatePicker === negotiation.id_negotiation && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                  <div className="bg-white p-4 rounded-md">
-                    <h2 className="text-xl font-bold mb-4">Choisissez une date</h2>
-                    <input
-                      type="date"
-                      className="border-gray-300 border p-2 mb-4"
-                      value={selectedDate}
-                      onChange={handleDatePickerChange}
-                    />
-                    <div className="flex justify-end">
-                      <button
-                        onClick={() => handleSubmit(negotiation, index)}
-                        className="text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                      >
-                        Valider
-                      </button>
-
-                      <button
-                        onClick={() => setShowDatePicker(false)}
-                        className="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-2"
-                      >
-                        Annuler
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+                <button
+                  onClick={() => handleProposerRendezvous(negotiation.id_negotiation, index)}
+                  className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                >
+                  Proposer un rendezvous
+                </button>
+              </div>
             </div>
+
+            {/* Date picker */}
+            {showDatePicker && index === selectedNegotiationIndex && (
+              <div className="flex space-x-2 mt-4">
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={handleDatePickerChange}
+                  className="border border-gray-300 rounded-md px-4 py-2"
+                />
+                <button
+                  onClick={() => handleSubmit(negotiation, index)}
+                  className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                >
+                  Submit
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -339,7 +412,6 @@ const NegotiationProprietaire = () => {
   <Footer />
 </div>
 
-  
 
   
   )};

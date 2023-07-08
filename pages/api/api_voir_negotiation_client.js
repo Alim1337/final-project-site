@@ -12,56 +12,53 @@ export default async function handler(req, res) {
         where: {
           client_id: parseInt(clientID),
         },
-        include: {
-          Proprietaire: {
+      });
+
+      const formattedNegotiations = await Promise.all(
+        negotiations.map(async (negotiation) => {
+          const rdv = await prisma.rdv.findFirst({
+            where: {
+              id_negotiation: negotiation.id_negotiation,
+            },
+          });
+
+          const proprietaire = await prisma.proprietaire.findUnique({
+            where: {
+              id_proprietaire: negotiation.proprietaire_id,
+            },
             select: {
               nom: true,
-              id_proprietaire : true,
+              id_proprietaire: true,
             },
-          },
-          biens: {
+          });
+
+          const bien = await prisma.biens.findUnique({
+            where: {
+              id_biens: negotiation.bien_id,
+            },
             select: {
-              id_biens : true,
+              id_biens: true,
               type_bien: true,
             },
-          },
-        },
-      });
+          });
 
-      const formattedNegotiations = negotiations.map(async (negotiation) => {
-        const rdv = await prisma.rdv.findFirst({
-          where: {
+          return {
             id_negotiation: negotiation.id_negotiation,
-          },
-        });
+            client_id: negotiation.client_id,
+            prix_propose: negotiation.prix_propose,
+            duree: negotiation.duree,
+            statut: negotiation.statut,
+            commentaire: negotiation.commentaire,
+            Proprietaire: proprietaire,
+            biens: bien,
+            rdv,
+          };
+        })
+      );
 
-        return {
-          id_negotiation: negotiation.id_negotiation,
-          client_id: negotiation.client_id,
-          prix_propose: negotiation.prix_propose,
-          duree: negotiation.duree,
-          statut: negotiation.statut,
-          commentaire: negotiation.commentaire,
-          Proprietaire: { id_proprietaire: negotiation.proprietaire_id, nom: null },
-          biens: { type_bien: null },
-          rdv,
-          Proprietaire: {
-            nom: negotiation.Proprietaire?.nom,
-            id_proprietaire : negotiation.Proprietaire?.id_proprietaire
-          },
-          biens: {
-            type_bien: negotiation.biens?.type_bien,
-            id_biens : negotiation.biens?.id_biens,
-          },
-        };
-        ;
-      });
+      console.log(formattedNegotiations);
 
-      const formattedNegotiationsWithRdv = await Promise.all(formattedNegotiations);
-
-      console.log(formattedNegotiationsWithRdv);
-
-      res.status(200).json({ negotiations: formattedNegotiationsWithRdv });
+      res.status(200).json({ negotiations: formattedNegotiations });
     } catch (error) {
       console.error('Failed to fetch negotiations:', error);
       res.status(500).json({ error: 'Failed to fetch negotiations' });
