@@ -5,6 +5,8 @@ import Footer from '@/components/Footer';
 
 const ChatClient = () => {
   const [messages, setMessages] = useState([]);
+  const [Pnom, setPnom] = useState([]);
+
   const [content, setContent] = useState('');
 
   const router = useRouter();
@@ -13,7 +15,9 @@ const ChatClient = () => {
     try {
       const res = await fetch(`/api/api_messages_modul?negotiationId=${negotiationId}`);
       const data = await res.json();
-      setMessages(data);
+      setMessages(data.messages);
+      setPnom(data.Pnom)
+     
     } catch (error) {
       console.error('Failed to fetch messages:', error);
     }
@@ -69,29 +73,32 @@ const ChatClient = () => {
 
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-start mb-4">
+        <div className="flex justify-start mb-4">
           <button
             onClick={handleBackClick}
-            className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
           >
-            Retourner à Négociations
+            Retourner 
           </button>
         </div>
-        <h1 className="text-2xl font-bold mb-4">Négociation ID: {negotiationId}</h1>
+        </div>
+        <h1 className="text-2xl font-bold mb-4">Négotiation avec: {Pnom}</h1>
         {messages && messages.length > 0 ? (
-          <div className="space-y-4">
-            {messages.map((message) => (
-              <div key={message.id}>
-                <p className="text-sm font-bold">
-                  {getSenderName(message.senderId, message.receiverId, clientId)}
-                </p>
-                <p className="text-sm">{message.content}</p>
-                <p className="text-xs text-gray-500">{message.timestamp}</p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>Aucun message trouvé.</p>
-        )}
+  <div className="border border-gray-300 p-4 rounded">
+    {messages.map((message) => (
+      <div key={message.id} className="mb-4">
+        <p className="text-sm font-bold">
+          {getSenderName(message.senderId, message.receiverId, clientId)}
+        </p>
+        <p className="text-xl font-semibold">{message.content}</p>
+        <p className="text-xl text-gray-500">{message.timestamp}</p>
+      </div>
+    ))}
+  </div>
+) : (
+  <p className="border border-gray-300 p-4 rounded">Aucun message trouvé.</p>
+)}
+
 
         <div className="mt-4">
           <textarea
@@ -105,7 +112,7 @@ const ChatClient = () => {
         <div className="mt-2">
           <button
             onClick={handleSendMessage}
-            className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+            className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
           >
             Envoyer
           </button>

@@ -32,6 +32,7 @@ select:{
     iid_demande_client :true,
 },
 });
+console.log("intresse",interesse);
 const dem = await prisma.demande_client.findFirst({
     where : { id_demande_client: parseInt(interesse.iid_demande_client),
 

@@ -83,7 +83,7 @@ export default function Negotiation() {
     <Header />
     <div className="container mx-auto px-4 py-8 bg-white rounded-sm">
       <div className="bg-white">
-        <h1 className="text-2xl text-center font-bold text-black mb-4">Page de négotiation</h1>
+        <h1 className="text-2xl text-center font-bold text-black mb-4">Page de négociation </h1>
         <FormNegotiation onSubmit={handleNegotiationSubmit} />
         <div className="text-center mt-4">
           <button
