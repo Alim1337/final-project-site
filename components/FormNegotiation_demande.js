@@ -65,13 +65,27 @@ function FormNegotiationDemande({ onSubmit }) {
     <label htmlFor="duree" className="block font-bold text-black">
       Durée:
     </label>
-    <input
+    <select
       type="text"
       id="duree"
       value={duree}
       onChange={(e) => setDuree(e.target.value)}
-      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
-    />
+      className="border border-gray-300 text-bl text-black px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
+    >
+      <option value="1 mois ">1 mois </option>
+      <option value="2 mois ">2 mois </option>
+      <option value="3 mois ">3 mois </option>
+      <option value="4 mois ">4 mois </option>
+      <option value="5 mois ">5 mois </option>
+      <option value="6 mois ">6 mois </option>
+      <option value="7 mois ">7 mois </option>
+      <option value="8 mois ">8 mois </option>
+      <option value="9 mois ">9 mois </option>
+      <option value="10 mois">10 mois</option>
+      <option value="11 mois">11 mois</option>
+      <option value="1 ans  ">1 ans  </option>
+      <option value="2 ans  ">2 ans  </option>
+    </select>
   </div>
   <div className="mb-4 font-bold text-black">
     <label htmlFor="commentaire" className="block text-gray-700">
@@ -81,14 +95,14 @@ function FormNegotiationDemande({ onSubmit }) {
       id="commentaire"
       value={commentaire}
       onChange={(e) => setCommentaire(e.target.value)}
-      className="border border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
+      className="border border-gray-300 px-4 py-2 font-normal rounded-lg w-full focus:outline-none focus:border-blue-500"
     ></textarea>
   </div>
   <button
     type="submit"
-    className="bg-blue-500 text-white px-4 py-2 rounded-lg focus:outline-none hover:bg-blue-600"
+    className="inline-block w-full rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
   >
-    Submit
+    Envoyer
   </button>
 </form>
 

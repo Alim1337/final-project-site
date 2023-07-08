@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Footer from '@/components/Footer';
+import { FaSketch } from "react-icons/fa";
 import HouseCards from '@/components/HouseCards';
 import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
 import Image from 'next/image';
@@ -14,6 +15,7 @@ import AjoutCard from '@/components/AjoutCard';
 import Form_Demande_Client from '@/components/Form_Demande_Client';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { HiOutlineCog } from "react-icons/hi2";
 
 export default function DemandeClient() {
     const router = useRouter();
@@ -31,7 +33,19 @@ export default function DemandeClient() {
         clientId = decodedToken.id;
       } else if (decodedToken.userType === 'proprietaire') {
         clientId = decodedToken.id_client;
-      }}
+      }
+    }
+    const handleDevenirVIP = () => {
+      setShowVIPWindow(true);
+    };
+    
+    const handleModifierBien = () => {
+      router.push('/gestionBien_modify');
+    };
+    const handleModifierProfil= () => {
+      router.push('/Gestion_Profile_Proprietaire');
+    };
+
     useEffect(() => {
       const token = localStorage.getItem('token');
       console.log("token:",token); // Retrieve the token from local storage
@@ -97,61 +111,70 @@ export default function DemandeClient() {
     };
   
     const menus = [
-      { title: 'Gestion de profil', icon: HiUser },
-      { title: 'Gestion des annonces', icon: FaChalkboardTeacher },
-      { title: 'Gestion des biens', icon: HiOutlineHome },
-      { title: 'Support', icon: FiChevronDown },
-      { title: 'Devenir VIP', icon: FiChevronDown },
-      { title: 'settings', icon: IoIosHand },
+      { title: 'Dashboard', icon: HiOutlineHome },
+      { title: 'Gestion de profil', icon: HiUser, button1:true}, /* hawlik sbab lmachakil 3ndou function fi ligne 48 ou render fi ligne 187, glhf :) */
+      { title: 'Support', icon: FiPlus },
+      { title: 'Devenir VIP', icon: FaSketch, button: true},
+      { title: 'Paramètre', icon: HiOutlineCog }
     ];
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className=" min-h-screen">
         <Header />
-        <main className="flex-grow">
-          <div className="flex bg-gray-100 text-gray-700">
+        <main className="">
+          <div className="flex bg-white text-gray-700">
             
-            <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
+          <div className={`${open ? 'w-60' : 'w-20'} h-auto relative bg-red-400`}>
               <FiChevronLeft
-                className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer 
+                className={`absolute bg-red-400 text-white border-red-400 rounded-full h-7 cursor-pointer 
                 -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
                   open ? 'rotate-180' : ''
                 }`}
                 onClick={() => setOpen(!open)}
               />
-  
-              <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
-                {menus.map((menu, index) => (
-                  <li
-                    key={index}
-                    className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0
-                     hover:bg-opacity-70 border-opacity-70  border-red-500 active:scale-95 text-s f
-                     lex items-center gap-x-4 cursor-pointer p-2 ${
-                       !open ? 'transform scaleX(0)' : ''
-                     } transition transform duration-300 ease-out`}            >
-                     {React.createElement(menu.icon, { className: 'text-white' })}
-                     <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-                       {menu.title}
-                     </span>
-                   </li>
-                 ))}
-               </ul>
-             </div>
-             <div className="flex-1 flex items-center justify-center">
-               <div className="max-w-md w-full p-6 bg-white rounded shadow">
+             <ul className={`gap-x-4 space-y-3 px-5 pt-6 origin-left items-center font-medium text-xl duration-300 ${!open ? 'flex flex-col' : ''}`}>
+              {menus.map((menu, index) => (
+              <li
+                key={index}
+                className={`rounded text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
+                border-opacity-70  border-red-500 active:scale-95 text-s flex items-center
+                 gap-x-4 cursor-pointer p-2 ${
+                  !open ? 'transform scaleX(0)' : ''
+                } transition transform duration-300 ease-out`}
+              >
+              {menu.button ? (
+                <button className="flex items-center gap-x-2" onClick={handleDevenirVIP}>
+                  {React.createElement(menu.icon, { className: 'text-white' })}
+                  <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                    {menu.title}
+                  </span>
+                </button>
+                ): null}
+              {menu.button1 && (
+                <button className="flex items-center gap-x-2" onClick={handleModifierProfil}>
+                  {React.createElement(menu.icon, { className: 'text-white' })}
+                  <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                    {menu.title}
+                  </span>
+                </button>
+              )}
+              {!menu.button && !menu.button1 && (<button className='flex items-center gap-x-2'>
+                    {React.createElement(menu.icon, { className: 'text-white' })}
+                    <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                      {menu.title}
+                    </span>
+                  </button>)}
+              </li>
+            ))}
+            </ul>
+            </div>
+             <div className="flex items-center justify-between">
+               <div className="max-w-md w-full p-6 bg-white rounded">
                  <h2 className="text-2xl font-semibold mb-4">Demande Personnalisée</h2>
                  <Form_Demande_Client onSubmit={handlemSubmit} />
                  
                </div>
              </div>
-             <div className="p-20 py-0">
-           <h2 className="font-mono text-green-600">Client Connected Name:</h2>
-           <h2 className="font-mono text-green-600">{ClientName}</h2>
-         </div>
-       
-         <div className="p-0">
-           <h2 className="font-mono text-green-600">Client Connected Email: </h2>
-           <h2 className="font-mono text-green-600">{ClientEmail}</h2>
-         </div>
+             
            </div>
          
          </main>

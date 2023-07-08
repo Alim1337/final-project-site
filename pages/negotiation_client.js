@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import jwt from 'jsonwebtoken';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { HiArrowLeft } from "react-icons/hi2";
 
 const NegotiationClient = () => {
   const [negotiations, setNegotiations] = useState([]);
@@ -72,17 +73,17 @@ const NegotiationClient = () => {
   };
 
   return (
-    <div className="bg-white text-black min-h-screen">
+    <div className="bg-white text-black">
     <Header />
 
-    <div className="container mx-auto px-4 py-8">
+    <div className="container min-h-screen mx-auto px-4 py-8">
       <div className="flex justify-start mb-4">
-        <button
-          onClick={handleBackClick}
-          className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-        >
-          Retourner à Client DashBoard
-        </button>
+      <button
+        onClick={handleBackClick}
+        className="text-white text-xl bg-gradient-to-r bg-neutral-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg px-5 py-2.5 text-center mr-2 mb-2"
+      >
+        <HiArrowLeft />
+      </button>
       </div>
       <h1 className="text-2xl font-bold mb-4">Négociations pour le client: {clientName}</h1>
       {negotiations && negotiations.length > 0 ? (
@@ -174,8 +175,9 @@ const NegotiationClient = () => {
       )}
     </div>
 
-    <Footer />
+    <Footer />  
   </div>
+  
   );
 };
 

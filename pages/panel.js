@@ -30,14 +30,10 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
 
   const menus = [
     { title: 'Dashboard', icon: HiOutlineHome },
-    { title: 'Gestion de profil', icon: HiUser ,button1:true,}, /* hawlik sbab lmachakil 3ndou function fi ligne 48 ou render fi ligne 187, glhf :) */
+    { title: 'Gestion de profil', icon: HiUser, button1:true}, /* hawlik sbab lmachakil 3ndou function fi ligne 48 ou render fi ligne 187, glhf :) */
     { title: 'Support', icon: FiPlus },
-    {
-      title: 'Devenir VIP',
-      icon: FaSketch,
-      button: true,
-    },
-    { title: 'Paramètre', icon: HiOutlineCog },
+    { title: 'Devenir VIP', icon: FaSketch, button: true},
+    { title: 'Paramètre', icon: HiOutlineCog }
   ];
 
   const router = useRouter();
@@ -161,17 +157,17 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
           <div className="flex bg-gray-100 text-gray-700">
             <div className={`${open ? 'w-60' : 'w-20'} h-auto relative bg-red-400`}>
               <FiChevronLeft
-                className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer 
+                className={`absolute bg-red-400 text-white border-red-400 rounded-full h-7 cursor-pointer 
                 -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
                   open ? 'rotate-180' : ''
                 }`}
                 onClick={() => setOpen(!open)}
               />
-             <ul className={`gap-x-4 space-y-3 pt-6 origin-left items-center font-medium text-xl duration-300 ${!open ? 'flex flex-col' : ''}`}>
+             <ul className={`gap-x-4 space-y-3 px-5 pt-6 origin-left items-center font-medium text-xl duration-300 ${!open ? 'flex flex-col' : ''}`}>
               {menus.map((menu, index) => (
               <li
                 key={index}
-                className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
+                className={`rounded text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
                 border-opacity-70  border-red-500 active:scale-95 text-s flex items-center
                  gap-x-4 cursor-pointer p-2 ${
                   !open ? 'transform scaleX(0)' : ''
@@ -205,7 +201,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
             </div>
             <div className='grid grid-cols-3'>
             <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
-              <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Biens</h1>
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion des biens</h1>
               {userType=== 'client' && (
                 <div>
                 <p className=' text-red-1000 text-sm'>* ajouter au moin un bien pour devenir proprietaire</p>
@@ -258,7 +254,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
 
         
             <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
-              <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Négotiations</h1>
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion des négotiations</h1>
               <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 
                   xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
@@ -298,7 +294,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 
               </div>
               <div className="p-7 text-2xl font-semibold h-screen flex flex-col">
-              <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Annonces</h1>
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion des annonces</h1>
                 <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
                    text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 
@@ -363,7 +359,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
               </button>
 
               <button
-                className="text-white bg-gradient-to-r from-red-400 via-red-500
+                className="text-white bg-gradient-to-r from-neutral-800 via-red-500
                 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
                   focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg
                   dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"
@@ -415,7 +411,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                 Oui je suis sûr
               </button>
               <button
-                className="text-white bg-gradient-to-r from-red-400 via-red-500
+                className="text-white bg-gradient-to-r from-neutral-800 via-red-500
                 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
                 focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg
                 dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"

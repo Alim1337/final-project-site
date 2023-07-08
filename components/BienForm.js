@@ -148,7 +148,7 @@ export default function BienForm({ onSubmit }) {
                       value={nbrChambre}
                       onChange={(e) => setNbrChambre(e.target.value)}
                     >
-                      <option value="">Select a number of bedrooms</option>
+                      <option value="">nombre de chambres</option>
                       <option value="F3">F3</option>
                       <option value="F4">F4</option>
                       <option value="F5">F5</option>
