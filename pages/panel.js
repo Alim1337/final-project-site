@@ -265,7 +265,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => handleVoirNegotiationDemandeClient()}
                 >
-                  <NegotiationCard key="gestion" text="Negotiations sur votre demandes client" />
+                  <NegotiationCard key="gestion" text="Negotiations sur vous demandes client" />
                 </button>  
                 <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 
@@ -282,7 +282,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => handleVoirNegotiation()}
                 >
-                  <NegotiationCard key="gestion" text="Negotiations sur votre biens" />
+                  <NegotiationCard key="gestion" text="Negotiations sur vous biens" />
                 </button>       
                 )}
                      {userType === 'proprietaire' && (
@@ -305,7 +305,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                    hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => router.push('/Demande_Client')}
                 >
-                  <EcrireDemande key="gestion" text="Faire Une Demande Personnalisée" />
+                  <EcrireDemande key="gestion" text="Créer une demande personnalisée" />
                 </button>
               
                 <button
@@ -314,7 +314,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => router.push('/Modifier_Demande_Client')}
                 >
-                  <ModifyCard key="gestion" text="Consulter Et Modifier Votre Demandes Personnalisée" />
+                  <ModifyCard key="gestion" text="Consulter et modifier vous demandes personnalisée" />
                 </button>
               
            

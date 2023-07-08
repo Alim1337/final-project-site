@@ -111,7 +111,7 @@ export default function AllDemandClient() {
       <Header/>
       <main>
         <div className="flex bg-gray-100 text-gray-700">
-        <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
+        <div className={`${open ? 'w-60' : 'w-20'} h-auto relative bg-red-400`}>
               <FiChevronLeft
                 className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer 
                 -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
@@ -119,7 +119,7 @@ export default function AllDemandClient() {
                 }`}
                 onClick={() => setOpen(!open)}
               />
-             <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
+             <ul className={`gap-x-4 space-y-3 pt-6 origin-left items-center font-medium text-xl duration-300 ${!open ? 'flex flex-col' : ''}`}>
               {menus.map((menu, index) => (
               <li
                 key={index}
@@ -132,31 +132,30 @@ export default function AllDemandClient() {
               {menu.button ? (
                 <button className="flex items-center gap-x-2" onClick={handleDevenirVIP}>
                   {React.createElement(menu.icon, { className: 'text-white' })}
-                  <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+                  <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
                     {menu.title}
                   </span>
                 </button>
-                ) : (
-                  <>
-                    {React.createElement(menu.icon, { className: 'text-white' })}
-                    <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-                      {menu.title}
-                    </span>
-                  </>
-              )}
+                ): null}
               {menu.button1 && (
                 <button className="flex items-center gap-x-2" onClick={handleModifierProfil}>
                   {React.createElement(menu.icon, { className: 'text-white' })}
-                  <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
+                  <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
                     {menu.title}
                   </span>
                 </button>
               )}
+              {!menu.button && !menu.button1 && (<button className='flex items-center gap-x-2'>
+                    {React.createElement(menu.icon, { className: 'text-white' })}
+                    <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                      {menu.title}
+                    </span>
+                  </button>)}
               </li>
             ))}
             </ul>
             </div>
-            <div className="p-7 text-2xl text-black font-semibold flex-1 h-screen overflow-auto">
+            <div className="p-7 text-2xl text-black font-semibold flex-1 h-full overflow-auto">
               <h2 className="font-bold text-gray-700 text-2xl">il ya  {demandeClients.length ? demandeClients.length : ''} Demande Client:</h2>
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {demandeClients.map((demandeClients, index) => (
