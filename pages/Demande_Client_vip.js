@@ -18,7 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { HiOutlineCog } from "react-icons/hi2";
 import Form_Demande_Client_vip from '@/components/Form_Demande_Client_vip';
 
-export default function DemandeClient() {
+export default function DemandeClientVIP() {
     const router = useRouter();
     const [ClientName, setClientName] = useState('');
     const [ClientEmail, setClientEmail] = useState('');

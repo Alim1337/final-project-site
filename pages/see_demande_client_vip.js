@@ -12,7 +12,7 @@ import Demande_client_card_show from '@/components/Demande_client_card_show';
 import { HiOutlineCog } from "react-icons/hi2";
 
 
-export default function AllDemandClientVIP() {
+export default function AllDemandClient() {
     const [demandeClients, setDemandeClients] = useState([]);
     const [open, setOpen] = useState(true);
     const menus = [
@@ -43,7 +43,7 @@ export default function AllDemandClientVIP() {
   useEffect(() => {
     const fetchDemandeClients = async () => {
       try {
-        const response = await fetch('/api/api_voir_all_demande_client');
+        const response = await fetch('/api/api_voir_all_demande_client_vip');
         const data = await response.json();
         
         setDemandeClients(data.demandeClients);
@@ -72,7 +72,7 @@ export default function AllDemandClientVIP() {
       const decodedToken = jwt.decode(token);
       if (decodedToken && decodedToken.id) {
         const requestData = { id_demande_client, decodedTokenId: decodedToken.id ,demandeClients}; // Adjust the data structure as per your API requirements
-        const apiUrl = '/api/api_create_like_demande'; // Adjust the API endpoint URL
+        const apiUrl = '/api/api_create_like_demande_vip'; // Adjust the API endpoint URL
   
         fetch(apiUrl, {
           method: 'POST',

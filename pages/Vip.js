@@ -66,10 +66,10 @@ export default function VipPnel({ exploreData, cardsData }) {
   };
 console.log(userType);
   const handleVoirDemandes = () => {
-    router.push('/Voir_Demandes');
+    router.push('/see_demande_client');
   };
   const handleVoirDemandes_vip = () => {
-    router.push('/Voir_Demandes');
+    router.push('/see_demande_client_vip');
   };
   
   
