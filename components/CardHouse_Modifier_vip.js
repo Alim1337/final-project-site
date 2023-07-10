@@ -4,6 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import Image from "next/image";
+
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 function CardHouseModifiervip({ id_biens, description, type_bien,      type_location_vip,
     nbrChambre, adresse, ville, code_postal, prix_estime, etat, Proprietaire }) {
@@ -137,6 +138,8 @@ function CardHouseModifiervip({ id_biens, description, type_bien,      type_loca
   return (
     <div className="bbg-white rounded-lg shadow-md p-6 transition duration-300 ease-out transform hover:scale-105 hover:shadow-lg">
       <div className="relative h-40 md:h-32 w-full mb-4">
+     
+
         <Image
           src={getStoredImage() || getImageSrc()}
           alt="Property Image"
@@ -145,7 +148,7 @@ function CardHouseModifiervip({ id_biens, description, type_bien,      type_loca
           className="rounded-lg"
         />
       </div>
-
+      <label className="block text-gray-700 font-bold mb-2" >Ben VIP <MdOutlineWorkspacePremium/></label>
       {isModifying ? (
         <form onSubmit={handleDone}>
           <div>

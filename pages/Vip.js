@@ -68,6 +68,10 @@ console.log(userType);
   const handleVoirDemandes = () => {
     router.push('/Voir_Demandes');
   };
+  const handleVoirDemandes_vip = () => {
+    router.push('/Voir_Demandes');
+  };
+  
   
   return (
     <div>
@@ -226,7 +230,14 @@ console.log(userType);
                 >
                   <EcrireDemande key="gestion" text="Faire Une Demande Personnalisée" />
                 </button>
-              
+                <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+                   text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 
+                   hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => router.push('/Demande_Client_vip')}
+                >
+                  <EcrireDemande key="gestion" text="Faire Une Demande Personnalisée VIP" />
+                </button>
                 <button
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 
                   xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
@@ -249,11 +260,12 @@ console.log(userType);
               <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
               xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-              onClick={() => handleVoirDemandeVIP()}              >
+              onClick={() => handleVoirDemandes_vip()}              >
                 <DemandeUsersCard key="gestion" text="Voir Les Demandes Des Clients VIP" />
               </button> 
             
                )}
+               
                   
              
             </div>
