@@ -72,7 +72,7 @@ console.log("outsideidLikes ",id_likes),
       <Header />
       <div className="container mx-auto px-4 py-8 bg-white rounded-sm">
         <div className='bg-white'>
-          <h1 className="text-2xl text-center font-bold text-black mb-4">Negotiation Page</h1>
+          <h1 className="text-2xl text-center font-bold text-black mb-4">Negotiation demande</h1>
           <FormNegotiationDemande onSubmit={handleNegotiationSubmit} />
         </div>
       </div>

@@ -22,6 +22,7 @@ const NegotiationClient = () => {
           const decodedToken = jwt.decode(token);
           const userType = decodedToken.userType;
           const clientID = userType === 'proprietaire' ? decodedToken.id_client : decodedToken.id;
+          console.log(clientID);
           const clientName = decodedToken.nom; // Assuming the name is stored in the token
           setClientName(clientName);
           const res = await fetch(`/api/api_voir_negotiation_client?client_id=${clientID}`);
@@ -29,7 +30,9 @@ const NegotiationClient = () => {
           setProprietaireID(data.negotiations[0]?.Proprietaire?.id_proprietaire); // Access the first negotiation object and get the id_proprietaire
           setNegotiations(data.negotiations);
           setRdv(data.rdv);
-          console.log('rdv:', data.rdv);
+          console.log('data.rdv:',data.rdv);
+          console.log('rdv:',rdv);
+
         } else {
           router.push('/login'); // Redirect to the login page if the token is not found
         }

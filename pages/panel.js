@@ -278,7 +278,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
                   onClick={() => handleVoirNegotiation()}
                 >
-                  <NegotiationCard key="gestion" text="Negotiations sur vous biens" />
+                  <NegotiationCard key="gestion" text="Negotiations sur vos biens" />
                 </button>       
                 )}
                      {userType === 'proprietaire' && (

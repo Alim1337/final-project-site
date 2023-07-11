@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   if (req.method === "GET") {
     const { negotiationId } = req.query;
-
+console.log(negotiationId);
     try {
       const messages = await prisma.message.findMany({
         where: {

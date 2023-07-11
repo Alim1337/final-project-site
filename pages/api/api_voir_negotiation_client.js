@@ -6,26 +6,25 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     const clientID = req.query.client_id; // Accessing the client_id from req.query
     console.log(clientID);
-
+let rdv ;
     try {
       const negotiations = await prisma.negotiation.findMany({
         where: {
           client_id: parseInt(clientID),
         },
-        
       });
-
 
       const formattedNegotiations = await Promise.all(
         negotiations.map(async (negotiation) => {
-          const rdv = await prisma.Rdv.findMany({
+           rdv = await prisma.Rdv.findMany({
             where: {
               id_negotiation: negotiation.id_negotiation,
+              id_client : parseInt(clientID),
             },
           });
-      
-          console.log('rdv', rdv);
-      
+
+         // console.log('rdv', rdv);
+
           const proprietaire = await prisma.proprietaire.findUnique({
             where: {
               id_proprietaire: negotiation.proprietaire_id,
@@ -35,7 +34,7 @@ export default async function handler(req, res) {
               id_proprietaire: true,
             },
           });
-      
+
           const bien = await prisma.biens.findUnique({
             where: {
               id_biens: negotiation.bien_id,
@@ -45,7 +44,7 @@ export default async function handler(req, res) {
               type_bien: true,
             },
           });
-      
+
           return {
             id_negotiation: negotiation.id_negotiation,
             client_id: negotiation.client_id,
@@ -55,14 +54,15 @@ export default async function handler(req, res) {
             commentaire: negotiation.commentaire,
             Proprietaire: proprietaire,
             biens: bien,
-            rdv: rdv || [], // Use an empty array if rdv is undefined
+            rdv: rdv ,
           };
         })
       );
-      
-      console.log(formattedNegotiations);
-      
-      res.status(200).json({ negotiations: formattedNegotiations });
+
+   //   console.log(formattedNegotiations);
+
+      res.status(200).json({ negotiations: formattedNegotiations,rdv });
+      console.log(rdv);
     } catch (error) {
       console.error('Failed to fetch negotiations:', error);
       res.status(500).json({ error: 'Failed to fetch negotiations' });

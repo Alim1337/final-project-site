@@ -13,6 +13,8 @@ const NegotiationProprietaire = () => {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [Clientnom, setClientnom] = useState([]);
+  const [clienID, setClientID] = useState([]);
+
   const [NegotiationID, setNegotiationID] = useState([]);
   const [bienid, setBienid] = useState([]);
   const [isRDVSet, setIsRDVSet] = useState(false); // Add state for checking if RDV is set
@@ -43,6 +45,7 @@ const NegotiationProprietaire = () => {
           console.log("bien id ", bienid);
           setProprietaireID(proprietaireID);
           setClientnom(data.negotiation.Client.nom);
+          setClientID(data.negotiation.Client.id_client)
   
           if (hasRdv) {
             console.log('RDV:', rdv);
@@ -225,7 +228,7 @@ const NegotiationProprietaire = () => {
     const N_ID = negotiation.id_negotiation;
     console.log('negotiation id', N_ID);
   
-    const C_id = negotiation.client_id;
+    const C_id = clienID;
     console.log('client id', C_id);
   
     const rdvData = {
