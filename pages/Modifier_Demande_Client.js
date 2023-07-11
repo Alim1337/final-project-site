@@ -110,7 +110,7 @@ export default function ModifierDemandeClient(props) {
               }`}
               onClick={() => setOpen(!open)}
             />
-            <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
+            <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl h-full duration-300`}>
               {menus.map((menu, index) => (
                 <li
                   key={index}
