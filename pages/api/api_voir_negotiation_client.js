@@ -23,7 +23,6 @@ let rdv ;
             },
           });
 
-         // console.log('rdv', rdv);
 
           const proprietaire = await prisma.proprietaire.findUnique({
             where: {
@@ -42,6 +41,7 @@ let rdv ;
             select: {
               id_biens: true,
               type_bien: true,
+              description:true,
             },
           });
 
@@ -59,10 +59,12 @@ let rdv ;
         })
       );
 
-   //   console.log(formattedNegotiations);
+     
 
       res.status(200).json({ negotiations: formattedNegotiations,rdv });
-      console.log(rdv);
+      console.log('rdv', rdv);
+
+
     } catch (error) {
       console.error('Failed to fetch negotiations:', error);
       res.status(500).json({ error: 'Failed to fetch negotiations' });

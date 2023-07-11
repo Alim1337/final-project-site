@@ -84,7 +84,7 @@ const NegotiationProprietaire = () => {
     }
   };
   
-  const see = async (negotiations) => {
+  /*const see = async (negotiations) => {
     for (const negotiation of negotiations) {
       console.log("negotiation",negotiation);
       console.log("negotiation.rdv.date_rdv",negotiation.rdv?.date_rdv);
@@ -96,7 +96,7 @@ const NegotiationProprietaire = () => {
   useEffect(() => {
     console.log('Updated rdv:', rdv);
   }, [rdv]);
-  
+  */
   const handleAnnuler = (id) => {
     // Logic for handling 'Annuler' button click
   };
@@ -305,7 +305,9 @@ const NegotiationProprietaire = () => {
             {/* Display negotiation details */}
             <div className="border-b-2 pb-4">
               <div className="border-b-2 pb-2">
-             
+              <p className="text-lg border-b pb-2">
+               Titre: {negotiation.biens?.description}
+              </p>
                 <p className="text-lg border-b pb-2">
                   Prix Proposé: {negotiation.prix_propose}
                 </p>
@@ -330,7 +332,7 @@ const NegotiationProprietaire = () => {
               <p className="text-lg border-b pb-2">
                 Type de bien: {negotiation.biens?.type_bien}
               </p>
-
+           
               {/* Display Proprietaire information */}
               <div className="border-t-2 mt-4 pt-4">
                 <p className="text-lg border-b pb-2">

@@ -40,6 +40,7 @@ export default async function handler(req, res) {
             select : {
 
             id_rdv:true,
+
             date_rdv:true,
           },
         },

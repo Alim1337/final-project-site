@@ -12,6 +12,7 @@ const NegotiationClient = () => {
   const [clientName, setClientName] = useState('');
   const [proprietaireID, setProprietaireID] = useState('');
   const [clientID, setClientID] = useState('');
+  const [hasRdv, setHasRdv] = useState(false);
 
   const router = useRouter();
 
@@ -29,6 +30,8 @@ const NegotiationClient = () => {
         
           const res = await fetch(`/api/api_voir_negotiation_client?client_id=${clientID}`);
           const data = await res.json();
+          const hasRdv = await checkRdvExistence(data.negotiations);
+          setHasRdv(hasRdv);
           setProprietaireID(data.negotiations[0]?.Proprietaire?.id_proprietaire); // Access the first negotiation object and get the id_proprietaire
           setNegotiations(data.negotiations);
           setRdv(data.rdv);
@@ -45,7 +48,29 @@ const NegotiationClient = () => {
   
     fetchNegotiations();
   }, []);
+  const checkRdvExistence = async (negotiations) => {
+    try {
+      const negotiationsWithRdv = [];
+      for (const negotiation of negotiations) {
+        const response = await fetch(`/api/api_check_rdv_existence?negotiationID=${negotiation.id_negotiation}`);
+        const data = await response.json();
   
+        if (data.hasRdv) {
+          negotiation.rdv = data.rdv; // Add the rdv property to the negotiation object
+        }
+  
+        negotiationsWithRdv.push(negotiation);
+      }
+      return negotiationsWithRdv;
+
+    } catch (error) {
+      console.error('Failed to check RDV existence:', error);
+     
+
+      return negotiations; // Return the original negotiations array
+    }
+  };
+  console.log('negotiations',negotiations);
 
   const handleAnnuler = (id) => {
     // Logic for handling 'Annuler' button click
@@ -108,6 +133,9 @@ const NegotiationClient = () => {
               Négociation ID: {negotiation.id_negotiation}
             </p>
             <p className="text-lg border-b pb-2">
+               Titre: {negotiation.biens?.description}
+              </p>
+            <p className="text-lg border-b pb-2">
               Prix Proposé: {negotiation.prix_propose}
             </p>
             <p className="text-lg border-b pb-2">Durée: {negotiation.duree}</p>
@@ -139,15 +167,21 @@ const NegotiationClient = () => {
             </p>
             <p className="text-lg">Nom du Client: {negotiation.Client?.nom}</p>
           </div>
-        </div>
       
-          <div className="border-t-2 mt-4 pt-4">
-            <p className="text-lg border-b pb-2">RDV Dates:</p>
-            {/* Iterate over the rdv array and display each date */}
-              <p key={negotiation.rdv?.date_rdv} className="text-lg">
-                {index + 1}. {negotiation.rdv?.date_rdv}
-              </p>
-          </div>
+              {/* Display RDV information */}
+              {negotiation.rdv && negotiation.rdv?.length > 0 && (
+  <div className="border-t-2 mt-4 pt-4">
+    <p className="text-lg border-b pb-2">RDV Dates:</p>
+    {negotiation.rdv.map((rdv, index) => (
+      <p key={index} className="text-lg">
+        {index + 1}. {rdv.date_rdv}
+      </p>
+    ))}
+  </div>
+)}
+
+            </div>
+
       
 
         {/* Buttons */}
