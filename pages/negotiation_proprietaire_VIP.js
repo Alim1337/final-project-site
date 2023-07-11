@@ -36,7 +36,7 @@ const NegotiationProprietaire = () => {
       console.log('proprietaire id', proprietaireID);
       if (proprietaireID) {
         try {
-          const response = await fetch(`/api/api_voir_negotiation_proprietaire?proprietaireID=${proprietaireID}`);
+          const response = await fetch(`/api/api_voir_negotiation_proprietaire_VIP?proprietaireID=${proprietaireID}`);
           const data = await response.json();
           const hasRdv = await checkRdvExistence(data.negotiations);
           setHasRdv(hasRdv);
@@ -151,26 +151,9 @@ const NegotiationProprietaire = () => {
   };
   
   const handleBackClick = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = jwt.decode(token);
-      if (decodedToken && decodedToken.userType) {
-        const userType = decodedToken.userType;
-        const statusVIP = decodedToken.statusVIP;
-        if (statusVIP) {
-          console.log('Redirecting to /Vip');
+
           router.push('/Vip');
-        } else if (userType === 'proprietaire') {
-          console.log('Redirecting to /panel');
-          router.push('/panel');
-        }
-        else if (userType ==='client'){
-          console.log('Redirecting to /panel')
-          router.push('/panel')
-        }
-      
-      }
-    }
+  
   };
   
   const handleContacter = (negotiation) => {
@@ -282,8 +265,7 @@ const NegotiationProprietaire = () => {
     }
   };
   
-  
-  
+
 
   
   const handleDatePickerChange = (event) => {
@@ -291,13 +273,7 @@ const NegotiationProprietaire = () => {
   };
   
 
-  const handleBackToClientHousesClick = () => {
-    router.push('/panel');
-  };
 
-  const handleBackToProprietaireHousesClick = () => {
-    router.push('/panel');
-  };
   
  return (
   <div className="bg-white text-black min-h-screen">

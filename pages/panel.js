@@ -135,6 +135,7 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
       }
     }
   };
+  
   const handleVoirNegotiationDemande = () => {
     router.push('/negotiation_demande_proprietaire');
   }; // Add the closing curly brace here

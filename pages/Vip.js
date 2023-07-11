@@ -53,16 +53,18 @@ export default function VipPnel({ exploreData, cardsData }) {
     }
   }, []);
 
-  const handleVoirNegotiation = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = jwt.decode(token);
-      if (decodedToken && decodedToken.userType === 'client') {
+  const handleVoirNegotiationBien = () => {
+
+        router.push('/negotiation_proprietaire_VIP');
+  
+  };
+  const handleVoirNegotiationP = () => {
+
+    
         router.push('/negotiation_client');
-      } else if (decodedToken && decodedToken.userType === 'proprietaire') {
-        router.push('/negotiation_proprietaire');
-      }
-    }
+    
+      
+    
   };
 console.log(userType);
   const handleVoirDemandes = () => {
@@ -156,7 +158,13 @@ console.log(userType);
         </button>
       </>
     )}
-
+     <button 
+                className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
+                onClick={() => router.push('/homesListVIP')}>
+                <SearchCard key="gestion" text="Consulter les biens VIP"/>
+              </button>
              {userType === 'proprietaire' && (
                 <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
@@ -178,7 +186,7 @@ console.log(userType);
               </button>
              
             </div>
-           
+       
             <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
               <h1 className="font-bold text-gray-700 text-4xl">Gestion Des Négotiations</h1>
               {userType === 'proprietaire' && (
@@ -186,7 +194,7 @@ console.log(userType);
                   className="text-left sm:grid-cols-2 lg:grid-cols-3 
                   xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                    transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
-                  onClick={() => handleVoirNegotiation()}
+                  onClick={() => handleVoirNegotiationBien()}
                 >
                   <NegotiationCard key="gestion" text="Negotiations sur votre biens" />
                 </button>       
