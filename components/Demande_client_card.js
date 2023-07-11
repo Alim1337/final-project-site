@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const Demande_client_card = ({
   demandeClient,
@@ -18,12 +18,23 @@ const Demande_client_card = ({
     statut_demande,
   } = demandeClient;
 
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   const handleModify = () => {
     handleModifier(id_demande_client);
   };
 
   const handleDelete = () => {
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    setShowConfirmation(false);
     handleSupprimer(id_demande_client);
+  };
+
+  const handleCancelDelete = () => {
+    setShowConfirmation(false);
   };
 
   return (
@@ -61,22 +72,14 @@ const Demande_client_card = ({
             <p className="mb-2">
               <span className="font-semibold">Statut de la demande:</span> {demande.statut_demande || ''}
             </p>
+            <div className='flex items-center'>
             <button
-              className="text-blue-500 flex-auto bg-white border border-red-100 
-              px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl 
-              active:scale-90 transition duration-150"
-              onClick={() => handleModifier(demande.id_demande_client)}
-            >
-              Modifier
-            </button>
-            <button
-              className="text-red-500 flex-auto bg-white border border-red-100 
-              px-4 py-2 font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl 
-              active:scale-90 transition duration-150"
+              className="inline-block  rounded border border-neutral-400 bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
               onClick={() => handleDelete(demande.id_demande_client)}
             >
-              Supprimer
+              Anuller
             </button>
+            </div>
             <div className="flex items-center space-x-4"></div>
           </li>
         ))}
