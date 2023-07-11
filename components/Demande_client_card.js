@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 const Demande_client_card = ({
   demandeClient,
   cardIndex,
+  clientName,
   handleModifier,
   handleSupprimer,
 }) => {
@@ -40,7 +41,7 @@ const Demande_client_card = ({
   return (
     <div className="bg-white rounded-lg font-mono shadow-md font-medium my-2 mx-1 hover:shadow-2xl 
     active:scale-90 transition duration-150 p-6 mb-4">
-      <h2 className="text-xl font-bold mb-4">Demande Client {cardIndex}:</h2>
+      <h2 className="text-xl font-bold mb-4">Demande Client {clientName}:</h2>
       <ul className="list-disc ml-6">
         {demandeClient.map((demande, index) => (
           <li key={index} className="mb-4">

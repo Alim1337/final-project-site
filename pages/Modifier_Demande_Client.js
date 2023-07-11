@@ -97,12 +97,9 @@ export default function ModifierDemandeClient(props) {
     }
   };
   return (
-
     <div>
       <Header/>
-      
       <main>
-        
         <div className="flex bg-gray-100 text-gray-700">
           <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
             <FiChevronLeft
@@ -136,25 +133,16 @@ export default function ModifierDemandeClient(props) {
             <h2 className="text-3xl font-mono mb-4">Tu As  {demandeClient.length ? demandeClient.length : ''} Demande Client:</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {demandeClient.map((demandeClient, index) => (
-  <div key={index} className="mb-4">
-    <Demande_client_card demandeClient={[demandeClient]} cardIndex={index + 1} className="hover:scale-105
- transition-all duration-300"
- handleModifier={handleModifier}
- handleSupprimer={handleSupprimer} />
-
-    
-  </div>
-))}
-<div>    <button className="text-gray-500 mt-4 ml-7 mb-7 flex items-center gap-2" onClick={router.back}>
-        <FiArrowLeft className="w-5 h-5" />
-        <span>Go Back</span>
-      </button></div>
-
+              <div key={index} className="mb-4">
+                <Demande_client_card demandeClient={[demandeClient]} clientName={ClientName} cardIndex={index + 1} className="hover:scale-105
+                transition-all duration-300"
+                handleModifier={handleModifier}
+                handleSupprimer={handleSupprimer} />
+              </div>
+            ))}
             </div>
           </div>
         </div>
-      
-    
       </main>
       <Footer />
     </div>
