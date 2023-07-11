@@ -4,57 +4,57 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const ChatClient = () => {
-  const [messages, setMessages] = useState([]);
-  const [Pnom, setPnom] = useState([]);
+    const [messages, setMessages] = useState([]);
+  const [messageText, setMessageText] = useState(''); 
+   const [Pnom, setPnom] = useState([]);
 
   const [content, setContent] = useState('');
-
   const router = useRouter();
   const { clientId, proprietaireId, negotiationId } = router.query;
-  const fetchMessages = async () => {
-    try {
-      const res = await fetch(`/api/api_messages_modul?negotiationId=${negotiationId}`);
-      const data = await res.json();
-      setMessages(data.messages);
-      setPnom(data.Pnom)
-     
-    } catch (error) {
-      console.error('Failed to fetch messages:', error);
-    }
-  };
-
   useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const res = await fetch(`/api/api_messages_modul_proprietaire?negotiation_id=${negotiationId}`);
+        const data = await res.json();
+        setMessages(data);
+        console.log('data:', data);
+      } catch (error) {
+        console.error('Failed to fetch messages:', error);
+      }
+    };
+
     if (negotiationId) {
       fetchMessages();
     }
   }, [negotiationId]);
 
   const handleBackClick = () => {
-    router.push(`/negotiation_client`);
+    router.push(`/negotiation_proprietaire`);
   };
 
   const handleSendMessage = async () => {
     try {
-      const url = `/api/api_messages_modul`;
+      const url = `/api/api_messages_modul?negotiation_id=${negotiationId}&sender_id=${proprietaireId}&receiver_id=${clientId}&content=${encodeURIComponent(messageText)}`;
       const res = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          content,
-          proprietaireId,
-          clientId,
-          negotiationId,
-        }),
       });
       const data = await res.json();
       console.log('Message sent:', data);
       // Clear message input
-      setContent();
+      setMessageText('');
       // Fetch updated messages
-      fetchMessages();
-    } catch (error) {
+      const fetchMessages = async () => {
+        try {
+          const url = `/api/api_messages_modul?negotiation_id=${negotiationId}&sender_id=${proprietaireId}&receiver_id=${clientId}&content=${encodeURIComponent(messageText)}`;
+          const data = await response.json();
+          setMessages(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };    } catch (error) {
       console.error('Failed to send message:', error);
     }
   };
@@ -102,11 +102,11 @@ const ChatClient = () => {
 
         <div className="mt-4">
           <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            value={messageText}
+            onChange={(e) => setMessageText(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-lg"
             placeholder="Écrire un message..."
-            rows={4}
+            rows={10}
           ></textarea>
         </div>
         <div className="mt-2">

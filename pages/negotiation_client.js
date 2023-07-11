@@ -11,6 +11,7 @@ const NegotiationClient = () => {
   const [negotiations, setNegotiations] = useState([]);
   const [clientName, setClientName] = useState('');
   const [proprietaireID, setProprietaireID] = useState('');
+  const [clientID, setClientID] = useState('');
 
   const router = useRouter();
 
@@ -25,6 +26,7 @@ const NegotiationClient = () => {
           console.log(clientID);
           const clientName = decodedToken.nom; // Assuming the name is stored in the token
           setClientName(clientName);
+        
           const res = await fetch(`/api/api_voir_negotiation_client?client_id=${clientID}`);
           const data = await res.json();
           setProprietaireID(data.negotiations[0]?.Proprietaire?.id_proprietaire); // Access the first negotiation object and get the id_proprietaire
@@ -57,7 +59,7 @@ const NegotiationClient = () => {
     const token = localStorage.getItem('token');
     const decodedToken = jwt.decode(token);
     const userType = decodedToken.userType;
-    const clientID = userType === 'proprietaire' ? decodedToken.id_client : decodedToken.id;
+    const clientID = decodedToken.id;
     const proprietaireID = negotiation.Proprietaire?.id_proprietaire;
     const negotiationID = negotiation.id_negotiation;
 
