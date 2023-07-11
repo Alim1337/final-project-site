@@ -4,13 +4,13 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
-    const proprietaireID = req.query.proprietaireID; // Accessing the proprietaireID from req.query
-    console.log(proprietaireID);
+    const clientId = req.query.clientId; // Accessing the proprietaireID from req.query
+    console.log("client id ",clientId);
 
     try {
       const negotiations = await prisma.negotiation_demande.findMany({
         where: {
-          id_proprietaire: parseInt(proprietaireID),
+          id_client: parseInt(clientId),
         },
         include: {
           Proprietaire: {
@@ -20,6 +20,12 @@ export default async function handler(req, res) {
             },
           },
           
+            Client: {
+              select: {
+                id_client : true,
+                nom: true,
+              },
+            },
         },
       });
 

@@ -31,6 +31,8 @@ const NegotiationProprietaire = () => {
         clientId = decodedToken.id;
       } else if (decodedToken.userType === 'proprietaire') {
         clientId = decodedToken.id_client;
+        setProprietaireNom(decodedToken.nom);
+console.log('nom',decodedToken.nom);
       }
       console.log('clientId', clientId);
       if (clientId) {
@@ -40,7 +42,6 @@ const NegotiationProprietaire = () => {
           setNegotiations(data.negotiations);
           setDC(data.negotiation.id_);
           setProprietaireID(proprietaireID);
-          setProprietaireNom(decodedToken.nom);
          
         } catch (error) {
           console.error('Failed to fetch negotiations:', error);

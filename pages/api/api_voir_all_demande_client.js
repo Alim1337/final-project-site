@@ -5,9 +5,10 @@ const prisma = new PrismaClient();
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-        const demandeClients = await prisma.demande_client.findMany();
+      const demandeClients = await prisma.demande_client.findMany({
+        
+      });
 
-//console.log(demandeClients);
       res.status(200).json({ demandeClients });
     } catch (error) {
       console.error('Failed to fetch demandeClients:', error);
