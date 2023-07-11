@@ -80,7 +80,25 @@ const Demande_client_card = ({
               Anuller
             </button>
             </div>
-            <div className="flex items-center space-x-4"></div>
+            {showConfirmation && (
+              <div className="mt-4">
+                <p>Êtes-vous sûr de vouloir annuler cette demande ?</p>
+                <div className="flex items-center mt-2 space-x-4">
+                  <button
+                    className="inline-block rounded border bg-red-500 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white transition duration-150 ease-in-out hover:bg-red-600 focus:bg-red-600 focus:outline-none focus:ring-0 active:bg-red-700"
+                    onClick={handleConfirmDelete}
+                  >
+                    Confirmer
+                  </button>
+                  <button
+                    className="inline-block rounded border bg-gray-300 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-800 transition duration-150 ease-in-out hover:bg-gray-400 focus:bg-gray-400 focus:outline-none focus:ring-0 active:bg-gray-500"
+                    onClick={handleCancelDelete}
+                  >
+                    Annuler
+                  </button>
+                </div>
+              </div>
+            )}
           </li>
         ))}
       </ul>

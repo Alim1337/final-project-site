@@ -52,7 +52,7 @@ export default function ModifierDemandeClient(props) {
       if (response.ok) {
         const data = await response.json();
         setDemandeClient(data.demandeClient);
-setDemandeClient_id(data.demandeClient[0].id_demande_client);
+       setDemandeClient_id(data.demandeClient[0].id_demande_client);
 
         console.log("i am demandeClient",demandeClient);
         console.log("i am demandeClient id",demandeClient_id);
@@ -64,14 +64,14 @@ setDemandeClient_id(data.demandeClient[0].id_demande_client);
       console.error('API Error:', error);
     }
   };
-  const handleModifier = async (demandeId) => {
-    console.log('Modifier clicked for demande ID:', demandeId);
+  const handleModifier = async (demandeClient_id) => {
+    console.log('Modifier clicked for demande ID:', demandeClient_id);
     // Implement your logic to modify the demande with the specified ID
     // Call your API endpoint to handle the modification
   };
 
-  const handleSupprimer = async (demandeId) => {
-    console.log('Supprimer clicked for demande ID:', demandeId);
+  const handleSupprimer = async (demandeClient_id) => {
+    console.log('Supprimer clicked for demande ID:', demandeClient_id);
     // Implement your logic to delete the demande with the specified ID
     // Call your API endpoint to handle the deletion
     try {
@@ -80,7 +80,7 @@ setDemandeClient_id(data.demandeClient[0].id_demande_client);
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ demandeId , demandeClient  }),
+        body: JSON.stringify({ demandeClient_id , demandeClient  }),
       });
 
       if (response.ok) {
