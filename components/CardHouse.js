@@ -100,15 +100,30 @@ function CardHouse({ id_biens, description, type_bien, adresse, ville, code_post
           className="rounded-lg"
         />
       </div>
-      <p className="text-xl mb-2 ">Proprietaire: {Proprietaire.nom}</p>
-
-      <p className="text-xl mb-2 ">Titre: {description}</p>
-      <p className="text-xl mb-2">Type: {type_bien}</p>
-      <p className="text-xl mb-2">Adresse: {adresse}</p>
-      <p className="text-xl mb-2">Ville: {ville}</p>
-      <p className="text-xl mb-2">prix estime: {prix_estime}</p>
-      <p className="text-xl mb-2">état: {etat}</p>
-      <p className="text-xl mb-2">Nombre de chambres: {nbrChambre}</p>
+      <p className="text-xl mb-2 ">Proprietaire:</p>
+      <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
+      > {Proprietaire.nom}</p>
+      <p className="text-xl mb-2 ">Titre: </p>
+      <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
+      >{description}</p>
+      <p className="text-xl mb-2">Type: </p>
+      <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
+      >{type_bien}</p>
+      <p className="text-xl mb-2">Adresse: </p>
+      <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
+      >{adresse}</p>
+      <p className="text-xl mb-2">Ville: </p>
+      <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
+      >{ville}</p>
+      <p className="text-xl mb-2">prix estime: </p>
+      <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
+      >{prix_estime}</p>
+      <p className="text-xl mb-2">état: </p>
+      <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
+      >{etat}</p>
+      <p className="text-xl mb-2">Nombre de chambres: </p>
+      <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
+      >{nbrChambre}</p>
 
      
       {decodedToken && decodedToken.id === Proprietaire.id_proprietaire ? (

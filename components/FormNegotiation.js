@@ -71,13 +71,27 @@ function FormNegotiation({ onSubmit }) {
         <label htmlFor="duree" className="block font-bold text-black">
           Durée:
         </label>
-        <input
-          type="text"
-          id="duree"
-          value={duree}
-          onChange={(e) => setDuree(e.target.value)}
-          className="border text-black border-gray-300 px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500 hover:border-blue-500 hover:shadow-md"
-        />
+        <select
+      type="text"
+      id="duree"
+      value={duree}
+      onChange={(e) => setDuree(e.target.value)}
+      className="border border-gray-300 text-bl text-black px-4 py-2 rounded-lg w-full focus:outline-none focus:border-blue-500"
+    >
+      <option value="1 mois ">1 mois </option>
+      <option value="2 mois ">2 mois </option>
+      <option value="3 mois ">3 mois </option>
+      <option value="4 mois ">4 mois </option>
+      <option value="5 mois ">5 mois </option>
+      <option value="6 mois ">6 mois </option>
+      <option value="7 mois ">7 mois </option>
+      <option value="8 mois ">8 mois </option>
+      <option value="9 mois ">9 mois </option>
+      <option value="10 mois">10 mois</option>
+      <option value="11 mois">11 mois</option>
+      <option value="1 ans  ">1 ans  </option>
+      <option value="2 ans  ">2 ans  </option>
+    </select>
       </div>
       <div className="mb-4">
         <label htmlFor="commentaire" className="block font-bold text-black">

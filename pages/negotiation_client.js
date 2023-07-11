@@ -6,8 +6,6 @@ import Footer from '@/components/Footer';
 import { HiArrowLeft } from "react-icons/hi2";
 
 const NegotiationClient = () => {
-  const [rdv, setRdv] = useState([]);
-
   const [negotiations, setNegotiations] = useState([]);
   const [clientName, setClientName] = useState('');
   const [proprietaireID, setProprietaireID] = useState('');
@@ -113,7 +111,7 @@ const NegotiationClient = () => {
       <div className="flex justify-start mb-4">
       <button
         onClick={handleBackClick}
-        className="text-white text-xl bg-gradient-to-r bg-neutral-800 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg px-5 py-2.5 text-center mr-2 mb-2"
+        className="text-white text-xl bg-gradient-to-r bg-neutral-800 hover:bg-gradient-to-bl font-medium rounded-lg px-5 py-2.5 text-center mr-2 mb-2"
       >
         <HiArrowLeft />
       </button>
@@ -127,19 +125,15 @@ const NegotiationClient = () => {
         className="bg-gray-100 p-8 rounded-lg font-semibold shadow-md hover:shadow-lg hover:bg-gray-300 transition-shadow duration-300 border border-gray-300"
       >
         {/* Display negotiation details */}
-        <div className="border-b-2 pb-4">
-          <div className="border-b-2 pb-2">
-            <p className="text-lg border-b pb-2">
-              Négociation ID: {negotiation.id_negotiation}
+        <div className="pb-4 text-lg">
+          <div className=" pb-2">
+            <p className="pb-2">
+              Prix Proposé: 
             </p>
-            <p className="text-lg border-b pb-2">
-               Titre: {negotiation.biens?.description}
-              </p>
-            <p className="text-lg border-b pb-2">
-              Prix Proposé: {negotiation.prix_propose}
-            </p>
-            <p className="text-lg border-b pb-2">Durée: {negotiation.duree}</p>
-            <p className="text-lg border-b pb-2">
+            <p className='block border rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline w-full'>{negotiation.prix_propose}</p>
+            <p className="">Durée: </p>
+            <p className='block border rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline w-full'>{negotiation.duree}</p>
+            <p className="">
               Statut:{" "}
               <span
                 className={`text-lg ${
@@ -150,22 +144,21 @@ const NegotiationClient = () => {
                     : ""
                 }`}
               >
-                {negotiation.statut}
+                <p className='block border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline w-full'>{negotiation.statut}</p>
               </span>
             </p>
           </div>
 
-          {/* Display biens information */}
-          <p className="text-lg border-b pb-2">
-            Type de bien: {negotiation.biens?.type_bien}
+          <p className="text-lg">
+            Type de bien: <p className='block border rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline w-full'>{negotiation.biens?.type_bien}</p>
           </p>
 
           {/* Display Proprietaire information */}
-          <div className="border-t-2 mt-4 pt-4">
-            <p className="text-lg border-b pb-2">
-              Nom du propriétaire: {negotiation.Proprietaire?.nom}
+          <div className="">
+            <p className="text-lg pb-2">
+              Nom du propriétaire: <p className='block border rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline w-full'>{negotiation.Proprietaire?.nom}</p>
             </p>
-            <p className="text-lg">Nom du Client: {negotiation.Client?.nom}</p>
+            <p className="text-lg">Nom du Client: <p className='block border rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline w-full'>{negotiation.Client?.nom}</p></p>
           </div>
       
               {/* Display RDV information */}
@@ -189,7 +182,7 @@ const NegotiationClient = () => {
                 {negotiation.rdv ? (
                   <button
                     onClick={() => handleModifier(negotiation.id_negotiation)}
-                    className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                    className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
                   >
                     Modifier
                   </button>
@@ -204,7 +197,7 @@ const NegotiationClient = () => {
 
                     <button
                       onClick={() => handleModifier(negotiation.id_negotiation)}
-                      className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                      className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
                     >
                       Modifier
                     </button>
@@ -213,7 +206,7 @@ const NegotiationClient = () => {
 
                 <button
                   onClick={() => handleContacter(negotiation)}
-                  className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                  className="inline-block rounded border border-neutral-400 bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
                 >
                   Contacter
                 </button>
