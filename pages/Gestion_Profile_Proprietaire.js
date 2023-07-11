@@ -1,7 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import jwt from 'jsonwebtoken';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 
-export default function GestionProfileProprietaire() {
-  const [proprietaire, setProprietaire] = useState(null);
+export default function GestionProfile() {
+  const [client, setClient] = useState(null);
+  const [idClient, setidClient] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const [updatedData, setUpdatedData] = useState({
     nom: '',
@@ -14,20 +18,52 @@ export default function GestionProfileProprietaire() {
   });
 
   useEffect(() => {
-    async function fetchProprietaire() {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const decodedToken = jwt.decode(token);
+        try {
+          console.log("Decoded token:", decodedToken);
+          console.log("Decoded client:", decodedToken.id);
+
+          if (decodedToken.userType === 'proprietaire') {
+            setidClient(decodedToken.id_client);
+          } else if (decodedToken.userType === 'client') {
+            setidClient(decodedToken.id);
+            console.log("id_client", decodedToken.id);
+          }
+        } catch (error) {
+          console.error('Failed to verify JWT token:', error);
+        }
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    async function fetchClient() {
       try {
-        // Fetch proprietaire data from your backend or API
-        const response = await fetch('/api/api_profil_proprietaire');
-        const data = await response.json();
-        setProprietaire(data);
-        setUpdatedData(data);
+        console.log('idClient', idClient);
+        const response = await fetch(`/api/api_getClient?clientId=${idClient}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setClient(data);
+          setUpdatedData(data);
+        } else {
+          console.error('Failed to fetch client:', response.status);
+        }
       } catch (error) {
-        console.error('Error fetching proprietaire data:', error);
+        console.error('Error fetching client data:', error);
       }
     }
 
-    fetchProprietaire();
-  }, []);
+    fetchClient();
+  }, [idClient]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -35,24 +71,27 @@ export default function GestionProfileProprietaire() {
 
   const handleCancelClick = () => {
     setIsEditing(false);
-    setUpdatedData(proprietaire);
+    setUpdatedData(client);
   };
 
   const handleSaveClick = async () => {
     try {
-      // Send updatedData to your backend or API to update the profile information
-      await fetch('your-update-api-endpoint', {
+      const response = await fetch('/api/api_updateClient', {
         method: 'PUT',
-        body: JSON.stringify(updatedData),
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify(updatedData),
       });
 
-      setProprietaire(updatedData);
-      setIsEditing(false);
+      if (response.ok) {
+        setClient(updatedData);
+        setIsEditing(false);
+      } else {
+        console.error('Failed to update client');
+      }
     } catch (error) {
-      console.error('Error updating profile information:', error);
+      console.error('Error updating client information:', error);
     }
   };
 
@@ -61,18 +100,20 @@ export default function GestionProfileProprietaire() {
   };
 
   return (
-    <div className="bg-gray-100 p-8">
+    <div className="bg-gray-100 min-h-screen flex flex-col">
+      <Header/>
+    <div className="flex-grow p-8">
       <h1 className="text-3xl font-bold mb-4 text-red-600">Gestion de profil</h1>
 
-      {proprietaire && !isEditing && (
+      {client && !isEditing && (
         <div className="border rounded p-4 bg-gray-300 text-black font-mono">
-          <p className="mb-2">Nom: {proprietaire.nom}</p>
-          <p className="mb-2">Prénom: {proprietaire.prenom}</p>
-          <p className="mb-2">Email: {proprietaire.email}</p>
-          <p className="mb-2">Ville: {proprietaire.ville}</p>
-          <p className="mb-2">Téléphone: {proprietaire.telephone}</p>
-          <p className="mb-2">Date de naissance: {proprietaire.date_naissance}</p>
-          <p className="mb-2">Sexe: {proprietaire.sex}</p>
+          <p className="mb-2">Nom: {client.nom}</p>
+          <p className="mb-2">Prénom: {client.prenom}</p>
+          <p className="mb-2">Email: {client.email}</p>
+          <p className="mb-2">Ville: {client.ville}</p>
+          <p className="mb-2">Téléphone: {client.telephone}</p>
+          <p className="mb-2">Date de naissance: {client.date_naissance}</p>
+          <p className="mb-2">Sexe: {client.sex}</p>
 
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600"
@@ -83,7 +124,7 @@ export default function GestionProfileProprietaire() {
         </div>
       )}
 
-      {proprietaire && isEditing && (
+      {client && isEditing && (
         <div className="border rounded p-4 bg-gray-300 text-black font-mono">
           <label htmlFor="nom" className="block mb-2">
             Nom:
@@ -95,18 +136,18 @@ export default function GestionProfileProprietaire() {
               className="border border-gray-400 rounded px-2 py-1 mt-1 w-full"
             />
           </label>
-          <label htmlFor="Prenom" className="block mb-2">
-          Prénom:
+          <label htmlFor="prenom" className="block mb-2">
+            Prénom:
             <input
               type="text"
-              name="Prenom"
-              value={updatedData.Prenom}
+              name="prenom"
+              value={updatedData.prenom}
               onChange={handleInputChange}
               className="border border-gray-400 rounded px-2 py-1 mt-1 w-full"
             />
           </label>
           <label htmlFor="email" className="block mb-2">
-          Email:
+            Email:
             <input
               type="email"
               name="email"
@@ -115,18 +156,9 @@ export default function GestionProfileProprietaire() {
               className="border border-gray-400 rounded px-2 py-1 mt-1 w-full"
             />
           </label>
-          <label htmlFor="ville" className="block mb-2">
-          Ville:
-            <input
-              type="text"
-              name="ville"
-              value={updatedData.ville}
-              onChange={handleInputChange}
-              className="border border-gray-400 rounded px-2 py-1 mt-1 w-full"
-            />
-          </label>
+  
           <label htmlFor="telephone" className="block mb-2">
-          Téléphone:
+            Téléphone:
             <input
               type="text"
               name="telephone"
@@ -135,9 +167,8 @@ export default function GestionProfileProprietaire() {
               className="border border-gray-400 rounded px-2 py-1 mt-1 w-full"
             />
           </label>
-          
           <label htmlFor="date_naissance" className="block mb-2">
-          Date de naissance:
+            Date de naissance:
             <input
               type="date"
               name="date_naissance"
@@ -147,18 +178,18 @@ export default function GestionProfileProprietaire() {
             />
           </label>
           <label htmlFor="sex" className="block mb-2">
-                    Sexe:
-                    <select
-                  name="sex"
-                   value={updatedData.sex}
-                onChange={handleInputChange}
-                  className="border border-gray-400 rounded px-2 py-1 mt-1 w-full"
-                 >
-                     <option value="">Sélectionner</option>
-                    <option value="Homme">Homme</option>
-                         <option value="Femme">Femme</option>
-                      </select>
-              </label>
+            Sexe:
+            <select
+              name="sex"
+              value={updatedData.sex}
+              onChange={handleInputChange}
+              className="border border-gray-400 rounded px-2 py-1 mt-1 w-full"
+            >
+              <option value="">Sélectionner</option>
+              <option value="Homme">Homme</option>
+              <option value="Femme">Femme</option>
+            </select>
+          </label>
 
           <div className="mt-4">
             <button
@@ -177,7 +208,10 @@ export default function GestionProfileProprietaire() {
         </div>
       )}
 
-      {!proprietaire && <p>Chargement des données...</p>}
+      {!client && <p>Chargement des données...</p>}
     </div>
-  );
+
+   <Footer/>
+  </div>
+);
 }
