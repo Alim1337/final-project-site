@@ -119,7 +119,7 @@ function CardHouse({ id_biens, description, type_bien, adresse, ville, code_post
             className="text-red-500 border-2xl border-red-400 bg-white px-8 py-4 font-mono shadow-md rounded-full font-bold my-3 hover:shadow-2xl active:scale-90 transition duration-150"
             onClick={() => onInterestedClick(id_biens, Proprietaire.id_proprietaire)}
           >
-            <div className="flex items-center justify-between"><HiHeart className='mr-2'/><p>J'aime</p></div>
+            <div className="flex items-center justify-between"><HiHeart className='mr-2'/><p>Jaime</p></div>
             
           </button>
         )

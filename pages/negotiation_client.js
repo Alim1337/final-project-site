@@ -6,6 +6,8 @@ import Footer from '@/components/Footer';
 import { HiArrowLeft } from "react-icons/hi2";
 
 const NegotiationClient = () => {
+  const [rdv, setRdv] = useState([]);
+
   const [negotiations, setNegotiations] = useState([]);
   const [clientName, setClientName] = useState('');
   const [proprietaireID, setProprietaireID] = useState('');
@@ -26,7 +28,8 @@ const NegotiationClient = () => {
           const data = await res.json();
           setProprietaireID(data.negotiations[0]?.Proprietaire?.id_proprietaire); // Access the first negotiation object and get the id_proprietaire
           setNegotiations(data.negotiations);
-          console.log('data:', data);
+          setRdv(data.rdv);
+          console.log('rdv:', data.rdv);
         } else {
           router.push('/login'); // Redirect to the login page if the token is not found
         }
@@ -132,6 +135,15 @@ const NegotiationClient = () => {
             <p className="text-lg">Nom du Client: {negotiation.Client?.nom}</p>
           </div>
         </div>
+      
+          <div className="border-t-2 mt-4 pt-4">
+            <p className="text-lg border-b pb-2">RDV Dates:</p>
+            {/* Iterate over the rdv array and display each date */}
+              <p key={negotiation.rdv?.date_rdv} className="text-lg">
+                {index + 1}. {negotiation.rdv?.date_rdv}
+              </p>
+          </div>
+      
 
         {/* Buttons */}
               <div className="flex justify-end mt-4 space-x-4">

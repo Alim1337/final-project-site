@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-function sidebar() {
+function Sidebar() {
     const menus = [
         { title: 'Dashboard', icon: HiOutlineHome },
         { title: 'Gestion de profil', icon: HiUser, button1:true}, /* hawlik sbab lmachakil 3ndou function fi ligne 48 ou render fi ligne 187, glhf :) */
@@ -27,4 +27,4 @@ function sidebar() {
   )
 }
 
-export default sidebar
+export default Sidebar
