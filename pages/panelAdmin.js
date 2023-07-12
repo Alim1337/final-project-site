@@ -10,7 +10,7 @@ function PanelAdminClient() {
     { title: 'Gérer les clients', icon: HiUser, button1: true },
     { title: 'Gérer les demandes VIP', icon: FaSketch, button2: true },
   ];
-
+  
   const router = useRouter();
 
   const handleGestionBien = () => {
@@ -28,18 +28,27 @@ function PanelAdminClient() {
   const [biens, setBiens] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchData = async () => {
       try {
+        const tokenAdmin = localStorage.getItem('tokenAdmin');
+        if (tokenAdmin) {
+          console.log(tokenAdmin);
+          console.log('token');
+        } else {
+          console.log('no token');
+        }
+  
         const response = await fetch('/api/api_biens_admin');
         const data = await response.json();
         setBiens(data);
       } catch (error) {
         console.error(error);
       }
-    }
+    };
   
     fetchData();
   }, []);
+  
   console.log('biens',biens);
 
 
@@ -95,14 +104,17 @@ function PanelAdminClient() {
           <div className='text-black'>
             <div className='flex flex-row w-auto items-center justify-between'>
               <p className='ml-8 mt-5 text-2xl mb-0 font-semibold'>Gérer les Biens :</p>
-              <button className='mt-8 inline-block mr-5 rounded border border-neutral-400 bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]'>
-                Déconnecter
-              </button>
+              <div>
+                {/* <p>{tokenAdmin.username}</p> */}
+                <button className='mt-8 inline-block mr-5 rounded border border-neutral-400 bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]'>
+                  Déconnecter
+                </button>
+              </div>
             </div>
             <p className='ml-8 text-md mb-5'>Nombre de clients : {biens.length}</p>
             <div className='mb-5 divide-y-2 rounded-lg mx-6 h-screen flex flex-col border-4
              bg-white border-neutral-400'>
-              <div className='w-full h-8 grid grid-cols-5 divide-x-2 text-center'>
+              <div className='w-full h-8 grid grid-cols-4 divide-x-2 text-center'>
                 <p>ID</p>
                 <p>description</p>
                 <p>type_bien</p>
@@ -110,7 +122,7 @@ function PanelAdminClient() {
               </div>
               {biens.bien?.length > 0 ? (
   biens.bien.map((bien) => (
-                  <div key={bien.id_bien} className='w-full h-8 grid grid-cols-5 divide-x-2 text-center'>
+                  <div key={bien.id_bien} className='w-full h-8 grid grid-cols-4 divide-x-2 text-center'>
                     <p className='my-1'>{bien.id_biens}</p>
                     <p>{bien.description}</p>
                     <p>{bien.type_bien}</p>
