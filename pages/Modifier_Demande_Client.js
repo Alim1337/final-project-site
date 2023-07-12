@@ -70,30 +70,23 @@ export default function ModifierDemandeClient(props) {
     // Call your API endpoint to handle the modification
   };
 
-  const handleSupprimer = async (demandeClient_id) => {
-    console.log('Supprimer clicked for demande ID:', demandeClient_id);
-    // Implement your logic to delete the demande with the specified ID
-    // Call your API endpoint to handle the deletion
+  const handleSupprimer = async (id_demande_client) => {
+    console.log({id:JSON.stringify(id_demande_client)});
+
     try {
-      const response = await fetch('/api/api_modifier_demande_client', {
+      await fetch(`/api/api_supprimer_demande?id=${id_demande_client}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ demandeClient_id , demandeClient  }),
-      });
 
-      if (response.ok) {
-        console.log('Demande deleted successfully');
-        // Perform any necessary actions after deletion
-        // Fetch updated demande clients
-        fetchDemandeClient(localStorage.getItem('token'));
-      } else {
-        console.log('Failed to delete demande');
-        // Perform any necessary error handling
-      }
+        body: JSON.stringify( {id:id_demande_client}), 
+        // Use { id_client } instead of id_client
+      });
+      // Refresh the clients data after deletion
+      fetchData();
     } catch (error) {
-      console.error('API Error:', error);
+      console.error(error);
     }
   };
   return (
@@ -132,14 +125,16 @@ export default function ModifierDemandeClient(props) {
           <div className="p-7 text-2xl text-black font-semibold flex-1 h-screen overflow-auto">
             <h2 className="text-3xl font-mono mb-4">Tu As  {demandeClient.length ? demandeClient.length : ''} Demande Client:</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {demandeClient.map((demandeClient, index) => (
-              <div key={index} className="mb-4">
-                <Demande_client_card demandeClient={[demandeClient]} clientName={ClientName} cardIndex={index + 1} className="hover:scale-105
-                transition-all duration-300"
+          {demandeClient.map((demandeClient, index) => (
+            <div key={index} className="mb-4">
+              <Demande_client_card
+                demandeClient={demandeClient}
+                clientName={ClientName}
                 handleModifier={handleModifier}
-                handleSupprimer={handleSupprimer} />
-              </div>
-            ))}
+                handleSupprimer={handleSupprimer}
+              />
+            </div>
+          ))}
             </div>
           </div>
         </div>

@@ -51,40 +51,37 @@ model Client_vip {
 
 /// This table has subclasses and requires additional setup for migrations. Visit https://pris.ly/d/table-inheritance for more info.
 model Demande_client {
-  id_demande_client     Int                    @id(map: "Demande_client_pkey") @unique(map: "u_d") @default(autoincrement())
+  id_demande_client     Int         @id(map: "Demande_client_pkey") @unique(map: "u_d") @default(autoincrement())
   id_client             Int
-  type_bien             String?                @map("type bien") @db.VarChar
-  type_de_transaction   String?                @map("type de transaction") @db.VarChar
-  prix_minimum          Decimal?               @map("prix minimum") @db.Decimal
-  prix_maximum          Decimal?               @map("prix maximum") @db.Decimal
-  surface_minimum       Decimal?               @map("surface minimum") @db.Decimal
-  nbr_chambre_minimum   String?                @map("nbr chambre minimum") @db.VarChar
-  date_debut_rechercher DateTime?              @map("date debut rechercher") @db.Date
-  date_fin_recherche    DateTime?              @map("date fin recherche") @db.Date
-  statut_demande        String?                @map("statut demande") @db.VarChar
-  Client                Client                 @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client")
-  Demande_client_valide Demande_client_valide?
-  Demande_client_vip_   Demande_client_vip_?
+  type_bien             String?     @map("type bien") @db.VarChar
+  type_de_transaction   String?     @map("type de transaction") @db.VarChar
+  prix_minimum          Decimal?    @map("prix minimum") @db.Decimal
+  prix_maximum          Decimal?    @map("prix maximum") @db.Decimal
+  surface_minimum       Decimal?    @map("surface minimum") @db.Decimal
+  nbr_chambre_minimum   String?     @map("nbr chambre minimum") @db.VarChar
+  date_debut_rechercher DateTime?   @map("date debut rechercher") @db.Date
+  date_fin_recherche    DateTime?   @map("date fin recherche") @db.Date
+  statut_demande        String?     @map("statut demande") @db.VarChar
+  Client                Client      @relation(fields: [id_client], references: [id_client], onDelete: Cascade, map: "fk_demande_client")
   interesse             interesse[]
 
   @@map("Demande client")
 }
 
 model Demande_client_valide {
-  id_demande_client       Int            @default(autoincrement())
+  id_demande_client       Int       @default(autoincrement())
   id_client               Int
-  type_bien               String?        @map("type bien") @db.VarChar
-  type_de_transaction     String?        @map("type de transaction") @db.VarChar
-  prix_minimum            Decimal?       @map("prix minimum") @db.Decimal
-  prix_maximum            Decimal?       @map("prix maximum") @db.Decimal
-  surface_minimum         Decimal?       @map("surface minimum") @db.Decimal
-  nbr_chambre_minimum     String?        @map("nbr chambre minimum") @db.VarChar
-  date_debut_rechercher   DateTime?      @map("date debut rechercher") @db.Date
-  date_fin_recherche      DateTime?      @map("date fin recherche") @db.Date
-  statut_demande          String?        @map("statut demande") @db.VarChar
-  id_demande_client_valid Int            @id @default(autoincrement())
-  Demande_client          Demande_client @relation(fields: [id_demande_client_valid], references: [id_demande_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_valid")
-  Client                  Client         @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_valid_client")
+  type_bien               String?   @map("type bien") @db.VarChar
+  type_de_transaction     String?   @map("type de transaction") @db.VarChar
+  prix_minimum            Decimal?  @map("prix minimum") @db.Decimal
+  prix_maximum            Decimal?  @map("prix maximum") @db.Decimal
+  surface_minimum         Decimal?  @map("surface minimum") @db.Decimal
+  nbr_chambre_minimum     String?   @map("nbr chambre minimum") @db.VarChar
+  date_debut_rechercher   DateTime? @map("date debut rechercher") @db.Date
+  date_fin_recherche      DateTime? @map("date fin recherche") @db.Date
+  statut_demande          String?   @map("statut demande") @db.VarChar
+  id_demande_client_valid Int       @id @default(autoincrement())
+  Client                  Client    @relation(fields: [id_client], references: [id_client], onDelete: Cascade, map: "fk_demande_client_valid_client")
 
   @@map("Demande client valide")
 }
@@ -103,8 +100,7 @@ model Demande_client_vip_ {
   date_fin_recherche        DateTime?                   @map("date fin recherche") @db.Date
   statut_demande            String?                     @map("statut demande") @db.VarChar
   id_demande_client_vip     Int                         @id @default(autoincrement())
-  Demande_client            Demande_client              @relation(fields: [id_demande_client_vip], references: [id_demande_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_vip")
-  Client                    Client                      @relation(fields: [id_client], references: [id_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_demande_client_vip_client")
+  Client                    Client                      @relation(fields: [id_client], references: [id_client], onDelete: Cascade, map: "fk_demande_client_vip_client")
   Demande_client_vip_valid_ Demande_client_vip_valid_[]
 
   @@map("Demande client vip ")
@@ -340,7 +336,7 @@ model interesse {
   id_proprietaire     Int
   time                DateTime?             @default(now()) @db.Timetz(6)
   Demande_client      Demande_client        @relation(fields: [iid_demande_client], references: [id_demande_client], onDelete: NoAction, onUpdate: NoAction, map: "fk_dc")
-  Proprietaire        Proprietaire          @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: NoAction, onUpdate: NoAction, map: "fk_pp")
+  Proprietaire        Proprietaire          @relation(fields: [id_proprietaire], references: [id_proprietaire], onDelete: Cascade, map: "fk_pp")
   negotiation_demande negotiation_demande[]
 
   @@map("interesse")
