@@ -10,8 +10,7 @@ export default function HomesListFiltred() {
   const router = useRouter();
 
   // Extract query fields into variables
-  const { address, location, numBedrooms, propertyType } = router.query;
-  console.log(propertyType);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -25,7 +24,6 @@ export default function HomesListFiltred() {
            const location=router.query.location;
            const propertyType=router.query.propertyType;
 
-           const numBedrooms=router.query.numBedrooms;
 
      
 
@@ -35,13 +33,19 @@ export default function HomesListFiltred() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            address : address, location : location, numBedrooms : numBedrooms, propertyType : propertyType,
+            address : address, location : location, propertyType : propertyType,
 
           }),
         });
 
         const data = await response.json();
-        setSearchResults(data);
+if (!data){
+  return null;
+}
+console.log({data});
+
+        setSearchResults([...data.searchResults]);
+        console.log({searchResults});
       } catch (error) {
         console.error(error);
       }

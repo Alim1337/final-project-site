@@ -4,44 +4,46 @@ const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
   try {
-    const { location, address, propertyType, numBedrooms } = req.body;
-    console.log(propertyType);
-    console.log(address);
-    console.log(numBedrooms);
-    let biens; // Declare the biens variable here
+    const { location, address, propertyType } = req.body;
+    console.log({propertyType});
+    console.log({address});
+    console.log({location});
+    if(!propertyType || !address || !location){
+      return  res.status(400).json({});
 
-    if (propertyType) {
-      biens = await prisma.biens.findMany({
-        where: {
-          type_bien: propertyType,
-          adresse: address,
-          ville: "Alger",
-        },
-        select: {
-          id_biens: true,
-          description: true,
-          type_bien: true,
-          nbrChambre: true,
-          adresse: true,
-          ville: true,
-          code_postal: true,
-          prix_estime: true,
-          etat: true,
-          Proprietaire: {
-            select: {
-              id_proprietaire: true,
-              nom: true,
-            },
-          },
-        },
-      });
-      
     }
-    
-    console.log("biens",biens);
-    res.status(200).json(biens);
+    const searchResults = await prisma.biens.findMany({
+      where: {
+        adresse: {
+          contains: address,
+        },
+        ville: {
+          contains: location,
+        },
+        type_bien: {
+          contains: propertyType,
+        },
+      },
+    });
+console.log({searchResults});
+
+    const biensWithProprietaire = await Promise.all(
+      searchResults.map(async (bien) => {
+        const proprietaire = await prisma.proprietaire.findUnique({
+          where: { id_proprietaire: bien.id_proprietaire },
+          select: {
+            id_proprietaire: true,
+            nom: true,
+          },
+        });
+        return { ...bien, Proprietaire: proprietaire };
+      })
+    );
+    console.log({biensWithProprietaire});
+
+    res.status(200).json({ searchResults: biensWithProprietaire });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to fetch biens from the database.' });
+    res.status(500).json({ error: 'Failed to fetch search results from the database.' });
   }
 }
