@@ -5,7 +5,7 @@ import { FiPlus } from "react-icons/fi";
 import { FaSketch } from "react-icons/fa";
 import { useRouter } from 'next/router';
 
-function panelAdminVIP() {
+function PanelAdminVIP() {
   const menus = [
     { title: 'Gérer les bien', icon: HiOutlineHome,button: true},
     { title: 'Gérer les cliens', icon: HiUser, button1 : true},
@@ -106,4 +106,4 @@ function panelAdminVIP() {
   )
 }
 
-export default panelAdminVIP
+export default PanelAdminVIP
