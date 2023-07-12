@@ -2,8 +2,9 @@ import BgLogin from "../components/bg_login";
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useRouter } from 'next/router';
+import { useRouter} from 'next/router';
 import Image from "next/image";
+import {useRouter as IR } from "next/navigation";
 
 
 function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adresse, ville, code_postal, prix_estime, etat, Proprietaire }) {
@@ -95,7 +96,7 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
     console.log(id_biens);
   
     try {
-      const response = await fetch(`/api/api_supprimer_bien_button/${id_biens}`, {
+      const response = await fetch(`/api/api_supprimer_bien_button?id=${id_biens}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -105,6 +106,11 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
   
       if (response.ok) {
         const data = await response.json();
+        toast.success('Bien a ete supprimé');
+        location.reload();
+        
+
+
         // Handle the success response
         console.log('Supprimer API response:', data);
         // Add your logic here
@@ -317,10 +323,12 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
         Supprimer
       </button>
           </div>
+
         </div>
         
       )}
-     
+               <ToastContainer />
+
     </div>
   );
 }
