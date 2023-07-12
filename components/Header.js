@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import jwt from 'jsonwebtoken';
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
+import {FaCrown} from 'react-icons/fa'
 
 function Header() {
   const [proprietaireName, setProprietaireName] = useState('');
@@ -14,10 +15,10 @@ function Header() {
   const [searchadresse, setSearchAdresse] = useState('');
   const [searchPropertyType, setSearchPropertyType] = useState('');
   const [searchNumBedrooms, setSearchNumBedrooms] = useState('');
+  const [statusVIP, setStatusVIP] = useState(false);
 
-
-  const locationOptions = ['Alger'];
-  const adresseOptions = ['Aïn Benian','Aïn Taya','Alger-Centre','Baba Hassen','Bab El Oued','Bab Ezzouar',
+  const locationOptions = ['Toutes les willaya','Alger'];
+  const adresseOptions = ['Toutes les ville','Aïn Benian','Aïn Taya','Alger-Centre','Baba Hassen','Bab El Oued','Bab Ezzouar',
   'Bachdjerrah','Baraki','Belouizdad','Ben Aknoun','Beni Messous',
   'Birkhadem','Bir Mourad Raïs','Birtouta','Bologhine',
   'Bordj El Bahri','Bordj El Kiffan','Bourouba','Bouzareah','Casbah',
@@ -30,14 +31,15 @@ function Header() {
   'Rahmania','Raïs Hamidou','Réghaïa','Rouïba','Saoula',
   
   'Sidi MHamed','Sidi Moussa','Souidania','Staoueli','Tessala El Merdja','Zéralda'];
-  const propertyTypeOptions = ['appartement', 'villa'];
-  const numBedroomsOptions = ['F1', 'F2', 'F3 ', 'F4' , 'F5' , 'F6'
+  const propertyTypeOptions = ['Toutes les type','appartement', 'villa'];
+  const numBedroomsOptions = ['Toutes taille','F1', 'F2', 'F3 ', 'F4' , 'F5' , 'F6'
 ,' F7','F8','F9','F10','F11',"F12","F13","F14"];
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
       const decodedToken = jwt.decode(token);
+      setStatusVIP(decodedToken.statusVIP);
       if (decodedToken && decodedToken.nom) {
         setProprietaireName(decodedToken.nom);
         setShowDisconnectButton(true);
@@ -227,11 +229,12 @@ function Header() {
       <GlobeAltIcon className='h-6' />
         {showDisconnectButton ? (
           <div className='flex items-center space-x-2 border-2 p-2 rounded-full'>
+            {statusVIP && (<p className='text-yellow-500 pl-3'><FaCrown/></p>)}
             <h1 className='pl-2'>{proprietaireName}</h1>
             <UserCircleIcon className='h-6 cursor-pointer' />
             <Menu as="div" className="relative inline-block text-left">
               <div>
-                <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-50">
+                <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900">
                   <MenuIcon className='h-6 cursor-pointer' />
                 </Menu.Button>
               </div>

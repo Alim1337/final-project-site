@@ -31,7 +31,23 @@ export default function Page() {
         toast.success('Signup completed!', {
           position: toast.POSITION.TOP_CENTER,
         });
-        router.push('/panel');
+        const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.userType) {
+        const userType = decodedToken.userType;
+        const statusVIP = decodedToken.statusVIP;
+        if (statusVIP) {
+          console.log('Redirecting to /Vip');
+          router.push('/Vip');
+        } else if (userType === 'proprietaire') {
+          console.log('Redirecting to /panel');
+          router.push('/panel');
+        }
+        else if (userType ==='client'){
+          console.log('Redirecting to /panel')
+          router.push('/panel')
+        }
+      
+      }
       } else {
         const errorMessage = data?.error || 'Error creating user';
         toast.error(errorMessage, {

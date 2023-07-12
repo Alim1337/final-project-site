@@ -131,7 +131,7 @@ export default function BienForm({ onSubmit }) {
                         value={typeBien}
                         onChange={(e) => setTypeBien(e.target.value)}
                       >
-                        <option value="">Select type de bien</option>
+                        <option value="">Sélectionner type de bien</option>
                         <option value="appartement">Appartement</option>
                         <option value="villa">Villa</option>
                         <option value="autre">Autre</option>
@@ -159,6 +159,25 @@ export default function BienForm({ onSubmit }) {
                       <option value="F10">F10</option>
                     </select>
                   </div>
+                  
+                  <div>
+                    <label htmlFor="ville" className="block text-gray-700 font-bold mb-2">
+                      Willaya :
+                    </label>
+                    <div className="mt-1">
+                      <select
+                        id="ville"
+                        name="ville"
+                        required
+                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
+                        value={ville}
+                        onChange={(e) => setVille(address)}
+                      >
+                        <option value="Alger">Alger</option>
+                      </select>
+                    </div>
+                  </div>
                   <div>
                     <label htmlFor="adresse" className="block text-gray-700 font-bold mb-2">
                       Adresse :
@@ -173,30 +192,12 @@ export default function BienForm({ onSubmit }) {
                         value={selectedAddress}
                         onChange={(e) => setSelectedAddress(e.target.value)}
                       >
-                        <option value="">Select an address</option>
+                        <option value="">Sélectionner une address</option>
                         {adresseOptions.map((address) => (
                           <option key={address} value={address}>
                             {address}
                           </option>
                         ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="ville" className="block text-gray-700 font-bold mb-2">
-                      Ville :
-                    </label>
-                    <div className="mt-1">
-                      <select
-                        id="ville"
-                        name="ville"
-                        required
-                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-                        value={ville}
-                        onChange={(e) => setVille(address)}
-                      >
-                        <option value="Alger">Alger</option>
                       </select>
                     </div>
                   </div>
@@ -234,13 +235,13 @@ export default function BienForm({ onSubmit }) {
                         value={etat}
                         onChange={(e) => setEtat(e.target.value)}
                       >
-                        <option value="">Select a property status</option>
-                        <option value="neuf">Neuf (New)</option>
-                        <option value="bonne_condition">Bonne condition (Good condition)</option>
-                        <option value="rénové">Rénové (Renovated)</option>
-                        <option value="à_rénover">À rénover (To renovate)</option>
-                        <option value="partiellement_rénové">Partiellement rénové (Partially renovated)</option>
-                        <option value="en_construction">En construction (Under construction)</option>
+                        <option value="">Sélectionner une etat de propriéter</option>
+                        <option value="neuf">Neuf</option>
+                        <option value="bonne_condition">Bonne condition</option>
+                        <option value="rénové">Rénové</option>
+                        <option value="à_rénover">À rénover</option>
+                        <option value="partiellement_rénové">Partiellement rénové</option>
+                        <option value="en_construction">En construction</option>
                         {/* Add more options here */}
                       </select>
                     </div>

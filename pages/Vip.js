@@ -80,51 +80,46 @@ console.log(userType);
       <Header />
       <div>
         <main>
-        <div className="bg-gray-100  hover:bg-gray-200  shadow-md p-4 transition duration-300">
-  <h2 className="text-black text-xl font-bold">Vous êtes un utilisateur VIP</h2>
-</div>
-
           <div className="flex bg-gray-100 text-gray-700">
             <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
               <FiChevronLeft
-                className={`absolute bg-red-400 border-red-400 rounded-full h-7 cursor-pointer 
+                className={`absolute bg-red-400 text-white border-red-400 rounded-full h-7 cursor-pointer 
                 -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
                   open ? 'rotate-180' : ''
                 }`}
                 onClick={() => setOpen(!open)}
               />
-              <ul className={`gap-x-4 space-y-3 pt-6 origin-left font-medium text-xl duration-300`}>
-              {menus.map((menu, index) => (
-  <li
-    key={index}
-    className={`rounded-full text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
-    border-opacity-70  border-red-500 active:scale-95 text-s flex items-center 
-    gap-x-4 cursor-pointer p-2 ${
-      !open ? 'transform scaleX(0)' : ''
-    } transition transform duration-300 ease-out`}
-    onClick={() => menu.route ? router.push(menu.route) : null}
-  >
-    {menu.button ? (
-      <button
-        className="flex items-center gap-x-2"
-        onClick={handleDevenirVIP} // Call the function when the button is clicked
-      >
-        {React.createElement(menu.icon, { className: 'text-white' })}
-        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-          {menu.title}
-        </span>
-      </button>
-    ) : (
-      <>
-        {React.createElement(menu.icon, { className: 'text-white' })}
-        <span className={`text-white transition transform ${!open ? 'transform scaleX(0)' : ''}`}>
-          {menu.title}
-        </span>
-      </>
-    )}
-  </li>
-))}
-
+              <ul className={`gap-x-4 space-y-3 px-5 pt-6 origin-left items-center font-medium text-xl duration-300 ${!open ? 'flex flex-col' : ''}`}>
+                {menus.map((menu, index) => (
+                  <li
+                    key={index}
+                    className={`rounded text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
+                    border-opacity-70  border-red-500 active:scale-95 text-s flex items-center
+                     gap-x-4 cursor-pointer p-2 ${
+                      !open ? 'transform scaleX(0)' : ''
+                    } transition transform duration-300 ease-out`}
+                    onClick={() => menu.route ? router.push(menu.route) : null}
+                  >
+                    {menu.button ? (
+                      <button
+                        className="flex items-center gap-x-2"
+                        onClick={handleDevenirVIP} // Call the function when the button is clicked
+                      >
+                        {React.createElement(menu.icon, { className: 'text-white' })}
+                        <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                          {menu.title}
+                        </span>
+                      </button>
+                    ) : (
+                      <>
+                        {React.createElement(menu.icon, { className: 'text-white' })}
+                        <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                          {menu.title}
+                        </span>
+                      </>
+                    )}
+                  </li>
+                ))}
               </ul>
             </div>
  <div className='grid grid-cols-3'>
@@ -136,7 +131,7 @@ console.log(userType);
                 <button className="text-left sm:grid-cols-2 lg:grid-cols-3
                 xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
                  transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent w-full" 
-                 onClick={() => router.push('/BienFormPage')}>
+                 onClick={() => router.push('/BienFormProprietaire')}>
                 <AjoutCard key="gestion" text="Ajouter un bien" />
                 </button>
                 </div>                

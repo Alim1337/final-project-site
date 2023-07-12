@@ -32,7 +32,7 @@ export default function Page() {
         toast.success('Bien ajouté!', {
           position: toast.POSITION.TOP_CENTER,
         });
-        router.push('/panel');
+        router.back();
 
       } else {
         const errorMessage = data?.error || 'Error creating user';
