@@ -103,9 +103,11 @@ function CardHouse({ id_biens, description, type_bien, adresse, ville, code_post
       <p className="text-xl mb-2 ">Proprietaire:</p>
       <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
       > {Proprietaire.nom}</p>
-      <p className="text-xl mb-2 ">Titre: </p>
-      <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
-      >{description}</p>
+     <p className="text-xl mb-2">Titre:</p>
+<p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'>
+  <strong>{description}</strong>
+</p>
+
       <p className="text-xl mb-2">Type: </p>
       <p className='block border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline w-full'
       >{type_bien}</p>
