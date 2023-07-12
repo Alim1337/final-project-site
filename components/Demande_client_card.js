@@ -75,12 +75,7 @@ const Demande_client_card = ({
             >
               Supprimer
             </button>
-            <button
-              className="inline-block rounded border bg-gray-300 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-800 transition duration-150 ease-in-out hover:bg-gray-400 focus:bg-gray-400 focus:outline-none focus:ring-0 active:bg-gray-500"
-              onClick={handleModify}
-            >
-              Modifier
-            </button>
+   
           </div>
           {showConfirmation && (
             <div className="mt-4">
