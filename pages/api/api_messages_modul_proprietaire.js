@@ -3,9 +3,10 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export default async function handler(req, res) {
+  const clientName = req.query.clientName;
   if (req.method === "GET") {
     const negotiationId = req.query.negotiation_id;
-
+    
     try {
       const messages = await prisma.message.findMany({
         where: {
@@ -21,7 +22,7 @@ export default async function handler(req, res) {
       res.status(500).json({ error: "Failed to fetch messages" });
     }
   } else if (req.method === "POST") {
-    const content = req.query.content;
+    const content = clientName + ' : ' + req.query.content;
     const clientId = req.query.receiver_id;
     const proprietaireId = req.query.sender_id;
     const negotiationId = req.query.negotiation_id;

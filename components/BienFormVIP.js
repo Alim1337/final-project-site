@@ -3,6 +3,7 @@ import Footer from './Footer';
 import { useRouter } from 'next/router';
 import Image from 'next/dist/client/image';
 import { MdOutlineWorkspacePremium } from "react-icons/md";
+import {FaCrown} from 'react-icons/fa'
 
 export default function BienFormVip({ onSubmit }) {
   const [description, setDescription] = useState('');
@@ -92,28 +93,20 @@ export default function BienFormVip({ onSubmit }) {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-        <div className="absolute inset-0opacity-75"></div>
-      </div>
-
-      <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-        &#8203;
-      </span>
-
       <div
-        className="inline-block items-center pt-20 align-bottomtext-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+        className="inline-block items-center pt-20 align-bottom text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-headline"
       >
         <div className="bg-white bg-opacity-80 px-10 pt-5 pb-5 sm:p-6 sm:pb-4">
-          <div className="sm:flex sm:items-start">
+          <div className="">
             
             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
               <div className="mt-2">
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div>
-                    <label className="block text-gray-700 font-bold mb-2" >Ben VIP <MdOutlineWorkspacePremium/></label>
+                    <h2 className="flex flex-row place-content-center text-center items-center text-gray-700 font-bold mb-2" >Ajouter Bien VIP <FaCrown className='text-yellow-500 ml-3'/></h2>
                     <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
                     Titre :
                     </label>
@@ -149,6 +142,7 @@ export default function BienFormVip({ onSubmit }) {
                         <option value="villa">Villa</option>
                         <option value="autre">Autre</option>
                       </select>
+                    </div>
                     </div>
                     <div>
                     <label htmlFor="typeLocation" className="block text-gray-700 font-bold mb-2">
@@ -283,21 +277,18 @@ export default function BienFormVip({ onSubmit }) {
                     <div className="flex justify-end">
                       <button
                         type="submit"
-                        className="text-red-500  flex-auto bg-white border border-red-100 px-4 py-2
-                        font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
+                        className="inline-block w-full border border-neutral-600 rounded bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
                       >
                         Submit
                       </button>
                       <button
                         type="button"
                         onClick={handleCancel}
-                        className="text-red-100  flex-auto bg-red-400 border border-red-500 px-4 py-2
-                        font-mono shadow-md rounded-full font-medium my-2 mx-1 hover:shadow-2xl active:scale-90 transition duration-150"
+                        className="inline-block w-full ml-5 rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
                       >
                         Anuller
                       </button>
                     </div>
-                  </div>
                   </div>
 
                 </form>

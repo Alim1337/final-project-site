@@ -81,7 +81,7 @@ console.log(userType);
       <div>
         <main>
           <div className="flex bg-gray-100 text-gray-700">
-            <div className={`${open ? 'w-60' : 'w-20'} h-screen relative bg-red-400`}>
+            <div className={`${open ? 'w-60' : 'w-20'} h-auto relative bg-red-400`}>
               <FiChevronLeft
                 className={`absolute bg-red-400 text-white border-red-400 rounded-full h-7 cursor-pointer 
                 -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${

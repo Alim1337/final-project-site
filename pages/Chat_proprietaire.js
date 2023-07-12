@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 const ChatProprietaire = () => {
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState('');
-
+  const [clientName, setClientName] = useState('');
   const router = useRouter();
   const { clientId, proprietaireId, negotiationId } = router.query;
 console.log('clientId',clientId);
@@ -16,6 +16,9 @@ console.log('proprietaireId',proprietaireId);
 console.log('negotiationId',negotiationId);
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const decodedToken = jwt.decode(token);
+    setClientName(decodedToken.nom);
     const fetchMessages = async () => {
       try {
         const res = await fetch(`/api/api_messages_modul_proprietaire?negotiation_id=${negotiationId}`);
@@ -57,7 +60,7 @@ console.log('negotiationId',negotiationId);
 
   const handleSendMessage = async () => {
     try {
-      const url = `/api/api_messages_modul_proprietaire?negotiation_id=${negotiationId}&sender_id=${proprietaireId}&receiver_id=${clientId}&content=${encodeURIComponent(messageText)}`;
+      const url = `/api/api_messages_modul_proprietaire?negotiation_id=${negotiationId}&clientName=${clientName}&sender_id=${proprietaireId}&receiver_id=${clientId}&content=${encodeURIComponent(messageText)}`;
       const res = await fetch(url, {
         method: 'POST',
         headers: {
@@ -122,9 +125,6 @@ console.log('negotiationId',negotiationId);
   <div className="border border-gray-300 p-4 rounded">
     {messages.map((message) => (
       <div key={message.id} className="mb-4">
-        <p className="text-sm font-bold">
-          {getSenderName(message.senderId, message.receiverId, clientId)}
-        </p>
         <p className="text-xl font-semibold">{message.content}</p>
         <p className="text-xl text-gray-500">{message.timestamp}</p>
       </div>

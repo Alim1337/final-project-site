@@ -278,14 +278,14 @@ function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adres
               <input type="file" id="image" accept="image/*" onChange={handleImageChange} />
             </div>
           </div>
-          <button type="submit" className="text-red-500  flex-auto bg-white border border-red-100 px-4 py-2
-            font-mono shadow-md rounded-full font-medium mt-5 mx-1 hover:shadow-2xl active:scale-90 transition duration-150 w-full">
+          <button type="submit" className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]">
             Done
           </button>
         </form>
       ) : (
         <div>
-          <p className="block text-gray-700 font-bold mb-2">Description :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+          <p className="block tex
+          t-gray-700 font-bold mb-2">Description :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
                         focus:outline-none focus:shadow-outline w-full">{description}</p>
           <p className="block text-gray-700 font-bold mb-2">Type :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
                         focus:outline-none focus:shadow-outline w-full">{type_bien}</p>

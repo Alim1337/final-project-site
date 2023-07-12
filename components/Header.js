@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import {FaCrown} from 'react-icons/fa'
+import {GiModernCity} from 'react-icons/gi'
 
 function Header() {
   const [proprietaireName, setProprietaireName] = useState('');
@@ -147,7 +148,7 @@ function Header() {
       {/* LEFT SECTION */}
       <div onClick={() => router.push({ pathname: "/", mode: true })} className='relative flex items-center top-2 h-16 my-auto'>
         <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-gray-900">
-          <img className="w-8 h-8 mr-2" src="https://img.uxwing.com/wp-content/themes/uxwing/download/buildings-architecture-real-estate/property-icon.svg" alt="logo" />
+        <GiModernCity />
           E-krili
         </a>
       </div>
