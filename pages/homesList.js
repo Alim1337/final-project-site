@@ -51,16 +51,9 @@ export default function HomesList() {
   };
   
   const handleBackClick = () => {
-    try {
-      const decodedToken = jwt.decode(token);
-      const userType = decodedToken ? decodedToken.userType : null;
-
-      if (userType ) {
+   
         router.back();
-      }
-    } catch (error) {
-      console.error('Failed to decode token:', error);
-    }
+ 
   };
 
   // Filter out the VIP bien from search results

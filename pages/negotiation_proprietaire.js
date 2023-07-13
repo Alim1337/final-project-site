@@ -105,9 +105,32 @@ const NegotiationProprietaire = () => {
     console.log('Updated rdv:', rdv);
   }, [rdv]);
   */
-  const handleAnnuler = (id) => {
-    // Logic for handling 'Annuler' button click
+  const handleAnnuler = (negotiationId) => {
+    console.log({negotiationId});
+  
+    fetch('/api/api_annuler_neg', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        negotiationId: negotiationId,
+      }),
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Handle successful response
+          console.log('Negotiation cancelled successfully');
+        } else {
+          // Handle error response
+          console.error('Failed to cancel negotiation');
+        }
+      })
+      .catch((error) => {
+        console.error('Failed to make API request:', error);
+      });
   };
+  
   const handleValider = async (negotiation) => {
     console.log(negotiation);
     try {
@@ -331,9 +354,14 @@ const NegotiationProprietaire = () => {
             className="bg-gray-100 p-8 rounded-lg font-semibold shadow-md transition-shadow duration-300 border border-gray-300"
           >
             {/* Display negotiation details */}
+
             <div className=" pb-4">
               <div className=" pb-2">
-             
+             <p className="text-lg  pb-2">
+                Titre de bien: <p className='block 
+                bg-white border rounded py-2 px-3 leading-tight focus:outline-none 
+                focus:shadow-outline w-full'> {negotiation.biens?.description}</p>
+              </p> 
                 <p className="text-lg  pb-2">
                   Prix Proposé:<p className='block bg-white border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline w-full'> {negotiation.prix_propose}</p>
                 </p>
@@ -346,6 +374,8 @@ const NegotiationProprietaire = () => {
                         ? "text-yellow-500"
                         : negotiation.statut === "validated"
                         ? "text-green-500"
+                        : negotiation.statut === "annuler"
+                        ? "text-red-500"
                         : ""
                     }`}
                   >
