@@ -30,7 +30,7 @@ export default function LoginClient() {
       console.log('User Type:', userType);
       localStorage.setItem('token', token);
       console.log(statusVIP)
-      toast.success('Login Successful!', {
+      toast.success('Login Connexion réussie!!', {
         position: toast.POSITION.TOP_CENTER,
       })
 
