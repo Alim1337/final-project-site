@@ -194,10 +194,10 @@ const NegotiationClient = () => {
               {/* Display RDV information */}
               {negotiation.rdv && negotiation.rdv?.length > 0 && (
   <div className="border-t-2 mt-4 pt-4">
-    <p className="text-lg border-b pb-2">Dates RDV :</p>
+    <p className="text-lg border-b pb-2">RDV Dates:</p>
     {negotiation.rdv.map((rdv, index) => (
       <p key={index} className="text-lg">
-        {index + 1}. {new Date(rdv.date_rdv).toLocaleDateString()}
+        {index + 1}. {rdv.date_rdv}
       </p>
     ))}
   </div>

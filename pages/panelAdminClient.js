@@ -122,7 +122,7 @@ function PanelAdminClient() {
             </div>
             <p className='ml-8 text-md mb-5'>Nombre de clients : {clients.length}</p>
             <div className='mb-5 divide-y-2 rounded-lg mx-6 h-screen flex flex-col border-4 bg-white border-neutral-400'>
-              <div className='w-full h-8 grid grid-cols-4 divide-x-2 text-center'>
+              <div className='w-full h-8 grid grid-cols-5 divide-x-2 text-center'>
                 <p>ID</p>
                 <p>nom</p>
                 <p>email</p>
@@ -130,7 +130,7 @@ function PanelAdminClient() {
               </div>
               {clients.Client?.length > 0 ? (
   clients.Client.map((client) => (
-                  <div key={client.id_client} className='w-full h-8 grid grid-cols-4 divide-x-2 text-center'>
+                  <div key={client.id_client} className='w-full h-8 grid grid-cols-5 divide-x-2 text-center'>
                     <p className='my-1'>{client.id_client}</p>
                     <p>{client.nom}</p>
                     <p>{client.email}</p>
