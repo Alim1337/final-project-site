@@ -23,11 +23,9 @@ export default function DemandeClient() {
     const [ClientEmail, setClientEmail] = useState('');
     const [decodedToken, setDecodedToken] = useState(null); // State variable to store decoded token
     const [open, setOpen] = useState(true);
-    const [verifi,setVirifi] = useState(false);
     const token = localStorage.getItem('token');
     let clientId;
     if (token) {
-      setVirifi(true);
       const decodedToken = jwt.decode(token);
      
     
@@ -47,13 +45,7 @@ export default function DemandeClient() {
     const handleModifierProfil= () => {
       router.push('/Gestion_Profile_Proprietaire');
     };
-    const handleConnexionClick = () => {
-      router.push('/login_client');
-    };
-  
-    const handleSignupClick = () => {
-      router.push('/signup_client');
-    };
+
     useEffect(() => {
       const token = localStorage.getItem('token');
       console.log("token:",token); // Retrieve the token from local storage
@@ -128,7 +120,6 @@ export default function DemandeClient() {
     return (
       <div className=" min-h-screen">
         <Header />
-        {verifi ?(
         <main className="">
           <div className="flex bg-white text-gray-700">
             
@@ -187,25 +178,6 @@ export default function DemandeClient() {
            </div>
          
          </main>
-         ) : (
-          <div className='flex flex-col items-center place-content-center text-6xl font-bold text-gray-800 bg-white h-screen w-full'>
-            <p>Veuiller vous connecter</p>
-            <div className="flex mt-10 space-x-4">
-            <button
-              className="inline-block rounded border border-neutral-400 bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
-              onClick={handleConnexionClick}
-            >
-              Connecter
-            </button>
-            <button
-              className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
-              onClick={handleSignupClick}
-            >
-              Créer un compte
-            </button>
-          </div>
-          </div>
-        )}
         
          <ToastContainer />
 
