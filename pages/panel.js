@@ -56,12 +56,12 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
       }
       setHasToken(true);
     } else {
-      router.push('/'); // Redirect to the homepage
+      router.push('/login_client'); // Redirect to the homepage
     }
   }, []);
 
   if (!hasToken) {
-    return null; // Don't render anything if the user has no token
+    return <div className='h-screen flex items-center place-content-center'><p className='font-bold text-4xl text-center items-center'>You are not connected ... redirecting to login</p></div>; // Display a message indicating that the user is not connected
   }
   const handleDevenirVIP = () => {
     setShowVIPWindow(true);

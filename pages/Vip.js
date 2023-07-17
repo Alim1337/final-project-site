@@ -22,6 +22,8 @@ import ModifyCard from '@/components/modify_card';
 
 export default function VipPnel({ exploreData, cardsData }) {
   const [open, setOpen] = useState(true);
+  const [hasToken, setHasToken] = useState(false);
+
   const [showVIPWindow, setShowVIPWindow] = useState(false);
   const menus = [
     { title: 'Gestion de profil', icon: HiUser, route: '/Gestion_Profile_Proprietaire' },
@@ -44,14 +46,25 @@ export default function VipPnel({ exploreData, cardsData }) {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      const decoded = jwt.decode(token);
-
-        setDecodedToken(decoded);
-        setUserType(decoded.userType); // Set userType based on decoded token
-
-    
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.nom) {
+        setProprietaireName(decodedToken.nom);
+        setProprietaireEmail(decodedToken.email);
+        setUserType(decodedToken.userType);
+        setClientName(decodedToken.nom);
+        setClientEmail(decodedToken.nom);
+      }
+      setHasToken(true);
+    } else {
+      router.push('/login_client'); // Redirect to the homepage
     }
   }, []);
+
+  if (!hasToken) {
+    return <div className='h-screen flex items-center place-content-center'><p className='font-bold text-4xl text-center items-center'>You are not connected ... redirecting to login</p></div>; // Display a message indicating that the user is not connected
+  }
+
+
 
   const handleVoirNegotiationBien = () => {
 
