@@ -26,8 +26,13 @@ import ModifyCard from '@/components/modify_card';
 export default function ProprietaireHouses({ exploreData, cardsData }) {
   const [open, setOpen] = useState(true);
   const [showVIPWindow, setShowVIPWindow] = useState(false);
-  const [showConfirmationWindow, setShowConfirmationWindow] = useState(false); // New state variable
-
+  const [showConfirmationWindow, setShowConfirmationWindow] = useState(false);
+  const [proprietaireName, setProprietaireName] = useState('');
+  const [proprietaireEmail, setProprietaireEmail] = useState('');
+  const [ClientName, setClientName] = useState('');
+  const [ClientEmail, setClientEmail] = useState('');
+  const [userType, setUserType] = useState('');
+  const [hasToken, setHasToken] = useState(false);
   const menus = [
     { title: 'Dashboard', icon: HiOutlineHome },
     { title: 'Gestion de profil', icon: HiUser, button1:true}, /* hawlik sbab lmachakil 3ndou function fi ligne 48 ou render fi ligne 187, glhf :) */
@@ -37,20 +42,6 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
   ];
 
   const router = useRouter();
-
-  const handleModifierBien = () => {
-    router.push('/gestionBien_modify');
-  };
-  const handleModifierProfil= () => {
-    router.push('/Gestion_Profile_Proprietaire');
-  };
-
-
-  const [proprietaireName, setProprietaireName] = useState('');
-  const [proprietaireEmail, setProprietaireEmail] = useState('');
-  const [ClientName, setClientName] = useState('');
-  const [ClientEmail, setClientEmail] = useState('');
-  const [userType, setUserType] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -63,9 +54,15 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
         setClientName(decodedToken.nom);
         setClientEmail(decodedToken.nom);
       }
+      setHasToken(true);
+    } else {
+      router.push('/'); // Redirect to the homepage
     }
   }, []);
 
+  if (!hasToken) {
+    return null; // Don't render anything if the user has no token
+  }
   const handleDevenirVIP = () => {
     setShowVIPWindow(true);
   };
@@ -83,7 +80,12 @@ export default function ProprietaireHouses({ exploreData, cardsData }) {
     router.push('/see_demande_client');
    };
  
-
+   const handleModifierBien = () => {
+    router.push('/gestionBien_modify');
+  };
+  const handleModifierProfil= () => {
+    router.push('/Gestion_Profile_Proprietaire');
+  };
   const handleConfirmation = () => {
     const token = localStorage.getItem('token');
     if (token) {
