@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { HiOutlineHome, HiUser, HiOutlineCog } from "react-icons/hi";
+import { FiPlus }from "react-icons/fi";
+import { FaSketch} from  "react-icons/fa";
+
 function Sidebar() {
     const menus = [
         { title: 'Dashboard', icon: HiOutlineHome },
