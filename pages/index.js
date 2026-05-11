@@ -72,14 +72,29 @@ export default function Home({ exploreData,cardsData }) {
 }
 
 export async function getStaticProps() {
-  const exploreData = await fetch("https://www.jsonkeeper.com/b/GZOI").then((res) => res.json())
-  const cardsData = await fetch("https://www.jsonkeeper.com/b/MJR0").then((res) => res.json())
-  
+  const exploreData = [
+    { img: "https://img.freepik.com/free-photo/old-buildings-port-evening_1268-14340.jpg", location: "Bordj El Bahri", distance: "20 min" },
+    { img: "https://img.freepik.com/free-photo/design-house-modern-villa-with-open-plan-living_1258-169741.jpg", location: "Aïn Benian", distance: "25 min" },
+    { img: "https://img.freepik.com/free-photo/3d-electric-car-building_23-2148972401.jpg", location: "Hydra", distance: "15 min" },
+    { img: "https://img.freepik.com/free-photo/analog-landscape-city-with-buildings_23-2149661457.jpg", location: "Dar El Beïda", distance: "30 min" },
+    { img: "https://img.freepik.com/free-photo/restaurant-complex-seashore-among-rocks_169016-12915.jpg", location: "Aïn Taya", distance: "35 min" },
+    { img: "https://img.freepik.com/free-photo/beautiful-white-mosque-blue-sky_181624-39804.jpg", location: "Birkhadem", distance: "20 min" },
+    { img: "https://img.freepik.com/free-photo/streets-with-architecture-resort-town_627829-8262.jpg", location: "Zéralda", distance: "45 min" },
+    { img: "https://img.freepik.com/premium-photo/apartment-modern-houses-residential-buildings_250132-5234.jpg", location: "Rouïba", distance: "40 min" },
+  ]
+
+  const cardsData = [
+    { img: "https://i.pinimg.com/originals/37/7e/6a/377e6a3255de4a183afbd9df0e32a1ce.jpg", title: "Escapades en plein air" },
+    { img: "https://i.pinimg.com/564x/77/71/c1/7771c19e37d5d94526fc9b40c843192d.jpg", title: "Des séjours uniques" },
+    { img: "https://i.pinimg.com/564x/a8/53/28/a85328fb6291717655363543beef809d.jpg", title: "Maisons entières" },
+    { img: "https://i.pinimg.com/originals/84/0a/05/840a053cca1d1d54db7fb7b8ec1658ac.jpg", title: "À découvrir" },
+    { img: "https://cdn.thespaces.com/wp-content/uploads/2023/01/MED439BFB92B97F4F45A30524FFADED34B5.jpeg", title: "Le meilleur pour vous" },
+  ]
 
   return {
     props: {
-      exploreData
-      , cardsData
+      exploreData,
+      cardsData,
     }
   }
 }

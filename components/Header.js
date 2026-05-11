@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { SearchIcon, GlobeAltIcon, MenuIcon, UserCircleIcon, UsersIcon } from "@heroicons/react/solid";
+import { MagnifyingGlassIcon, GlobeAltIcon, Bars3Icon, UserCircleIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { useRouter } from 'next/router';
 import jwt from 'jsonwebtoken';
 import { Fragment } from 'react'
@@ -236,7 +236,7 @@ function Header() {
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900">
-                  <MenuIcon className='h-6 cursor-pointer' />
+                  <Bars3Icon  className='h-6 cursor-pointer' />
                 </Menu.Button>
               </div>
               <Transition
