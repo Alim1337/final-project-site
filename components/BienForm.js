@@ -1,206 +1,279 @@
-import Footer from './Footer';
 import React, { useState } from 'react';
-
-
-
+import Footer from './Footer';
+import { useRouter } from 'next/router';
+import Image from 'next/dist/client/image';
 export default function BienForm({ onSubmit }) {
   const [description, setDescription] = useState('');
   const [typeBien, setTypeBien] = useState('');
   const [adresse, setAdresse] = useState('');
   const [ville, setVille] = useState('');
+  const [nbrChambre, setNbrChambre] = useState('');
+  const [selectedAddress, setSelectedAddress] = useState('');
+  const [image, setImage] = useState(null);
+
+  const adresseOptions = ['Aïn Benian','Aïn Taya','Alger-Centre','Baba Hassen','Bab El Oued','Bab Ezzouar',
+  'Bachdjerrah','Baraki','Belouizdad','Ben Aknoun','Beni Messous',
+  'Birkhadem','Bir Mourad Raïs','Birtouta','Bologhine',
+  'Bordj El Bahri','Bordj El Kiffan','BouroubaBouzareah','Casbah',
+  'Chéraga','Dar El Beïda','Dely Ibrahim',
+  'Djasr Kasentina','Douera','Draria',
+  'El Achour','El Biar','El Hammamet','El Harrach','El Madania',
+  'El Marsa','El Mouradia','El Magharia','Hraoua','Hussein-Dey','Hydra',
+  'Khraïssia','Kouba','Les Eucalyptus','Mahelma','Mohammadia','Oued Koriche',
+  'Oued Smar','Ouled Chebel','Ouled Fayet',
+  'Rahmania','Raïs Hamidou','Réghaïa','Rouïba','Saoula',
+  
+  'Sidi MHamed','Sidi Moussa','Souidania','Staoueli','Tessala El Merdja','Zéralda'];
+
   const [codePostal, setCodePostal] = useState('');
-  const [prixEstime, setPrixEstime] = useState('');
+  const [minPrixEstime, setMinPrixEstime] = useState('');
   const [etat, setEtat] = useState('');
+  const router = useRouter();
 
   function handleSubmit(event) {
     event.preventDefault();
-  
+
     onSubmit(
       description,
       typeBien,
-      adresse,
+      nbrChambre,
+      selectedAddress, // Pass the selected address value
       ville,
       codePostal,
-      prixEstime,
+      minPrixEstime,
+
       etat
     );
   }
 
+  
+  function handleCancel(event) {
+    event.preventDefault();
+
+    if (window.confirm('Are you sure you want to cancel?')) {
+      router.push('/panel');
+    }
+  }
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const timestamp = new Date().getTime(); // Get a timestamp
+      const imageName = `image_${timestamp}`; // Create a unique image name
+      const imageData = e.target.result;
+      const imageObject = {
+        name: imageName,
+        data: imageData
+      };
+
+      setImage(imageObject);
+      // Save the image in localStorage
+      localStorage.setItem('selectedImage', JSON.stringify(imageObject));
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmitIMAGE = (event) => {
+    event.preventDefault();
+    // Logic for handling 'Modifier' button click
+    console.log('Image submitted:', image);
+    // Save the image in localStorage
+    localStorage.setItem('selectedImage', JSON.stringify(image));
+  };
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
-      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
-
-        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
-          &#8203;
-        </span>
-
-        <div
-          className="inline-block align-bottom bg-gray-600 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="modal-headline"
-        >
-          <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-            <div className="sm:flex sm:items-start">
-              <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
-                <svg
-                  className="h-6 w-6 text-blue-600"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                  />
-                </svg>
-              </div>
-              <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                  Add a new house
-                </h3>
-                <div className="mt-2">
-                  <form className="space-y-6" onSubmit={handleSubmit}>
-                    <div>
-                      <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-                        Description
-                      </label>
-                      <div className="mt-1">
-                        <textarea
-                          id="description"
-                          name="description"
-                          rows="3"
-                          className="border-gray-400 shadow-sm text-black focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          required
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                        ></textarea>
-                      </div>
+    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <div
+        className="inline-block items-center pt-20 align-bottom text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-headline"
+      >
+        <div className="bg-white bg-opacity-80 px-10 pt-5 pb-5 sm:p-6 sm:pb-4">
+          <div className="sm:flex sm:items-start">
+            
+            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+              <div className="mt-2">
+                <form className="pl-10" onSubmit={handleSubmit}>
+                  <div>
+                    <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
+                    Titre :
+                    </label>
+                    <div className="mt-1">
+                      <input
+                        id="description"
+                        name="description"
+                        rows="3"
+                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
+                        required
+                        placeholder='Title'
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                      ></input>
                     </div>
-                    <div>
-                      <label htmlFor="typeBien" className="block text-sm font-medium text-gray-700">
-                        Type of Property
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          id="typeBien"
-                          name="typeBien"
-                          autoComplete="typeBien"
-                          required
-                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={typeBien}
-                          onChange={(e) => setTypeBien(e.target.value)}
-                        />
-                      </div>
+                  </div>
+                  <div>
+                    <label htmlFor="typeBien" className="block text-gray-700 font-bold mb-2">
+                      Type de bien :
+                    </label>
+                    <div className="mt-1">
+                      <select
+                        id="typeBien"
+                        name="typeBien"
+                        required
+                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
+                        value={typeBien}
+                        onChange={(e) => setTypeBien(e.target.value)}
+                      >
+                        <option value="">Sélectionner type de bien</option>
+                        <option value="appartement">Appartement</option>
+                        <option value="villa">Villa</option>
+                        <option value="autre">Autre</option>
+                      </select>
                     </div>
-                    <div>
-                      <label htmlFor="adresse" className="block text-sm font-medium text-gray-700">
-                        Address
-                      </label>
-                      <div className="mt-1">
-                        <textarea
-                          id="adresse"
-                          name="adresse"
-                          rows="3"
-                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          required
-                          value={adresse}
-                          onChange={(e) => setAdresse(e.target.value)}
-                        ></textarea>
-                      </div>
+                  </div>
+                  <div>
+                    <label className='block text-gray-700 font-bold mb-2'>Nombre de Chambres :</label>
+                    <select
+                      id="nbrChambre"
+                      name="nbrChambre"
+                      className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                      focus:outline-none focus:shadow-outline w-full"
+                      value={nbrChambre}
+                      onChange={(e) => setNbrChambre(e.target.value)}
+                    >
+                      <option value="">nombre de chambres</option>
+                      <option value="F3">F3</option>
+                      <option value="F4">F4</option>
+                      <option value="F5">F5</option>
+                      <option value="F6">F6</option>
+                      <option value="F7">F7</option>
+                      <option value="F8">F8</option>
+                      <option value="F9">F9</option>
+                      <option value="F10">F10</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label htmlFor="ville" className="block text-gray-700 font-bold mb-2">
+                      Willaya :
+                    </label>
+                    <div className="mt-1">
+                      <select
+                        id="ville"
+                        name="ville"
+                        required
+                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
+                        value={ville}
+                        onChange={(e) => setVille(address)}
+                      >
+                        <option value="Alger">Alger</option>
+                      </select>
                     </div>
-                    <div>
-                      <label htmlFor="ville" className="block text-sm font-medium text-gray-700">
-                        City
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          id="ville"
-                          name="ville"
-                          autoComplete="ville"
-                          required
-                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={ville}
-                          onChange={(e) => setVille(e.target.value)}
-                        />
-                      </div>
+                  </div>
+                  <div>
+                    <label htmlFor="adresse" className="block text-gray-700 font-bold mb-2">
+                      Adresse :
+                    </label>
+                    <div className="mt-1">
+                      <select
+                        id="adresse"
+                        name="adresse"
+                        required
+                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
+                        value={selectedAddress}
+                        onChange={(e) => setSelectedAddress(e.target.value)}
+                      >
+                        <option value="">Sélectionner une address</option>
+                        {adresseOptions.map((address) => (
+                          <option key={address} value={address}>
+                            {address}
+                          </option>
+                        ))}
+                      </select>
                     </div>
-                    <div>
-                      <label htmlFor="codePostal" className="block text-sm font-medium text-gray-700">
-                        Postal Code
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          id="codePostal"
-                          name="codePostal"
-                          autoComplete="codePostal"
-                          required
-                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={codePostal}
-                          onChange={(e) => setCodePostal(e.target.value)}
-                        />
-                      </div>
+                  </div>
+                  <div>
+                    <label htmlFor="prixEstime" className="block text-gray-700 font-bold mb-2">
+                      Prix Estimé pour le mois :
+                    </label>
+                    <div className="mt-1 flex">
+                      <input
+                        type="text"
+                        id="minPrixEstime"
+                        name="minPrixEstime"
+                        required
+                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
+                        placeholder="Min Price"
+                        value={minPrixEstime}
+                        onChange={(e) => setMinPrixEstime(e.target.value)}
+                      />
+                     
+                      {/* Add more input fields here */}
                     </div>
-                    <div>
-                      <label htmlFor="prixEstime" className="block text-sm font-medium text-gray-700">
-                        Estimated Price
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          id="prixEstime"
-                          name="prixEstime"
-                          autoComplete="prixEstime"
-                          required
-                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={prixEstime}
-                          onChange={(e) => setPrixEstime(e.target.value)}
-                        />
-                      </div>
+                  </div>
+                  <div>
+                    <label htmlFor="etat" className="block text-gray-700 font-bold mb-2 pt-2">
+                      État du bien :
+                    </label>
+                    <div className="mt-1">
+                      <select
+                        id="etat"
+                        name="etat"
+                        required
+                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
+                        focus:outline-none focus:shadow-outline w-full"
+                        value={etat}
+                        onChange={(e) => setEtat(e.target.value)}
+                      >
+                        <option value="">Sélectionner une etat de propriéter</option>
+                        <option value="neuf">Neuf</option>
+                        <option value="bonne_condition">Bonne condition</option>
+                        <option value="rénové">Rénové</option>
+                        <option value="à_rénover">À rénover</option>
+                        <option value="partiellement_rénové">Partiellement rénové</option>
+                        <option value="en_construction">En construction</option>
+                        {/* Add more options here */}
+                      </select>
                     </div>
-                    <div>
-                      <label htmlFor="etat" className="block text-sm font-medium text-gray-700">
-                        Property Status
-                      </label>
-                      <div className="mt-1">
-                        <input
-                          type="text"
-                          id="etat"
-                          name="etat"
-                          autoComplete="etat"
-                          required
-                          className="border-gray-400 text-black shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm rounded-md"
-                          value={etat}
-                          onChange={(e) => setEtat(e.target.value)}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex justify-center mt-6">
+                  </div>
+                  
+                  <div className="pt-5">
+                    <div className="flex justify-end">
                       <button
                         type="submit"
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        className="inline-block w-full border border-neutral-600 rounded bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
                       >
-                        Ajouter
+                        Confirmer
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleCancel}
+                        className="inline-block w-full ml-5 rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+                      >
+                        Anuller
                       </button>
                     </div>
-                  </form>
-                </div>
+                  </div>
+                </form>
+         
               </div>
             </div>
           </div>
         </div>
+        
       </div>
-      <Footer />
     </div>
-  );
+    <Footer />
+  </div>
+);
 }

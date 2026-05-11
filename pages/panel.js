@@ -1,0 +1,442 @@
+import React, { useState, useEffect } from 'react';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { FiArrowLeft, FiChevronLeft, FiHome, FiChevronDown, FiPlus } from 'react-icons/fi';
+import { useRouter } from 'next/router';
+import GestionCard from '@/components/CardGestion';
+import Header_signup from '@/components/Header_signup';
+import AjoutCard from '@/components/AjoutCard';
+import DemandeClientCard from '@/components/DemandeClientCard';
+import { HiOutlineHome } from "react-icons/hi2";
+import { HiUser } from "react-icons/hi2";
+import { HiUserGroup } from "react-icons/hi";
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { HiOutlineCog } from "react-icons/hi2";
+import jwt from 'jsonwebtoken';
+import { FaSketch } from "react-icons/fa";
+import DemandeUsersCard from '@/components/demande_client_users_card';
+import NegotiationCard from '@/components/negotiation_card';
+import SearchCard from '@/components/SearchCard';
+import EcrireDemande from '@/components/ecrire_card';
+import ModifyCard from '@/components/modify_card';
+
+/** @param {import('next').InferGetStaticPropsType<typeof getStaticProps> } props */
+  
+
+export default function ProprietaireHouses({ exploreData, cardsData }) {
+  const [open, setOpen] = useState(true);
+  const [showVIPWindow, setShowVIPWindow] = useState(false);
+  const [showConfirmationWindow, setShowConfirmationWindow] = useState(false);
+  const [proprietaireName, setProprietaireName] = useState('');
+  const [proprietaireEmail, setProprietaireEmail] = useState('');
+  const [ClientName, setClientName] = useState('');
+  const [ClientEmail, setClientEmail] = useState('');
+  const [userType, setUserType] = useState('');
+  const [hasToken, setHasToken] = useState(false);
+  const menus = [
+    { title: 'Dashboard', icon: HiOutlineHome },
+    { title: 'Gestion de profil', icon: HiUser, button1:true}, /* hawlik sbab lmachakil 3ndou function fi ligne 48 ou render fi ligne 187, glhf :) */
+    { title: 'Support', icon: FiPlus },
+    { title: 'Devenir VIP', icon: FaSketch, button: true},
+    { title: 'Paramètre', icon: HiOutlineCog }
+  ];
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.nom) {
+        setProprietaireName(decodedToken.nom);
+        setProprietaireEmail(decodedToken.email);
+        setUserType(decodedToken.userType);
+        setClientName(decodedToken.nom);
+        setClientEmail(decodedToken.nom);
+      }
+      setHasToken(true);
+    } else {
+      router.push('/login_client'); // Redirect to the homepage
+    }
+  }, []);
+
+  if (!hasToken) {
+    return <div className='h-screen flex items-center place-content-center'><p className='font-bold text-4xl text-center items-center'>You are not connected ... redirecting to login</p></div>; // Display a message indicating that the user is not connected
+  }
+  const handleDevenirVIP = () => {
+    setShowVIPWindow(true);
+  };
+  const handleGoBack = () => {
+    router.push('/');
+  };
+
+  const handleJaipaye = () => {
+    setShowConfirmationWindow(true); // Show the confirmation window
+  };
+  const handleVoirbienliked = () => {
+    router.push('/');
+  };
+  const handleVoirDemande = () => {
+    router.push('/see_demande_client');
+   };
+ 
+   const handleModifierBien = () => {
+    router.push('/gestionBien_modify');
+  };
+  const handleModifierProfil= () => {
+    router.push('/Gestion_Profile_Proprietaire');
+  };
+  const handleConfirmation = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.userType) {
+        const requestData = { decodedToken }; // Adjust the data structure as per your API requirements
+        const apiUrl = '/api/api_create_vip'; // Adjust the API endpoint URL
+  
+        fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        })
+          .then(response => {
+            // Check if the response was successful
+            if (!response.ok) {
+              throw new Error('Failed to create VIP');
+            }
+  
+            // Handle the response as needed
+            router.push('/Vip'); // Redirect to "/Vip"
+          })
+          .catch(error => {
+            // Handle the error
+            console.error(error);
+  
+            // Display a notification with the error message
+            // Replace this with your notification logic
+            alert('Failed to create VIP: ' + error.message);
+  
+            // Close the window
+            setShowConfirmationWindow(false); 
+            setShowVIPWindow(false);
+            // Show the confirmation window
+          });
+      }
+    }
+  };
+  const handleVoirNegotiation = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwt.decode(token);
+      if (decodedToken && decodedToken.userType === 'client') {
+        router.push('/negotiation_client');
+      } else if (decodedToken && decodedToken.userType === 'proprietaire') {
+        router.push('/negotiation_proprietaire');
+      }
+    }
+  };
+  
+  const handleVoirNegotiationDemande = () => {
+    router.push('/negotiation_demande_proprietaire');
+  }; // Add the closing curly brace here
+  const handleVoirNegotiationDemandeClient = () => {
+    
+    router.push('/negotiation_demande_client');
+  }; // Add the closing curly brace here
+  
+
+  const handleVoirNegotiationP = () => {
+    router.push('/negotiation_client');
+  };
+  console.log(userType);
+
+  return (
+    <div>
+      <Header />
+      <div>
+        <main>
+          <div className="flex bg-gray-100 text-gray-700">
+            <div className={`${open ? 'w-60' : 'w-20'} h-auto relative bg-red-400`}>
+              <FiChevronLeft
+                className={`absolute bg-red-400 text-white border-red-400 rounded-full h-7 cursor-pointer 
+                -right-3 top-9 w-7 border-2 border-dark-purple transition transform duration-300 ease-out ${
+                  open ? 'rotate-180' : ''
+                }`}
+                onClick={() => setOpen(!open)}
+              />
+             <ul className={`gap-x-4 space-y-3 px-5 pt-6 origin-left items-center font-medium text-xl duration-300 ${!open ? 'flex flex-col' : ''}`}>
+              {menus.map((menu, index) => (
+              <li
+                key={index}
+                className={`rounded text-gray hover:border bg-red-500 bg-opacity-0 hover:bg-opacity-70 
+                border-opacity-70  border-red-500 active:scale-95 text-s flex items-center
+                 gap-x-4 cursor-pointer p-2 ${
+                  !open ? 'transform scaleX(0)' : ''
+                } transition transform duration-300 ease-out`}
+              >
+              {menu.button ? (
+                <button className="flex items-center gap-x-2" onClick={handleDevenirVIP}>
+                  {React.createElement(menu.icon, { className: 'text-white' })}
+                  <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                    {menu.title}
+                  </span>
+                </button>
+                ): null}
+              {menu.button1 && (
+                <button className="flex items-center gap-x-2" onClick={handleModifierProfil}>
+                  {React.createElement(menu.icon, { className: 'text-white' })}
+                  <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                    {menu.title}
+                  </span>
+                </button>
+              )}
+              {!menu.button && !menu.button1 && (<button className='flex items-center gap-x-2'>
+                    {React.createElement(menu.icon, { className: 'text-white' })}
+                    <span className={`text-white transition transform ${!open ? 'hidden' : ''}`}>
+                      {menu.title}
+                    </span>
+                  </button>)}
+              </li>
+            ))}
+            </ul>
+            </div>
+            <div className='grid grid-cols-3'>
+            <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion des biens</h1>
+              {userType=== 'client' && (
+                <div>
+                <p className=' text-red-1000 text-sm'>* ajouter au moin un bien pour devenir proprietaire</p>
+                <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
+                 onClick={() => router.push('/BienFormPage')}>
+                <AjoutCard key="gestion" text="Ajouter un bien" />
+                </button>
+                </div>                
+              )}
+               {userType=== 'proprietaire' && (
+
+                <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
+                  onClick={() => router.push('/BienFormProprietaire')}>
+                  <AjoutCard key="gestion" text="Ajouter un bien" />
+                </button>
+              )}
+
+             {userType === 'proprietaire' && (
+                <button className="text-left  sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                 transform hover:scale-105 hover:cursor-pointer 
+                 font-mono bg-transparent" onClick={handleModifierBien}>
+                  <GestionCard key="gestion" text="Modifier un bien" />
+                </button>
+              )}
+
+        
+               
+                
+              <button 
+                className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent" 
+                onClick={() => router.push('/homesList')}>
+                <SearchCard key="gestion" text="Consulter les biens"/>
+              </button>
+              {userType === 'proprietaire' && (
+              <button className="text-left sm:grid-cols-2 lg:grid-cols-3 
+              xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+               transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+              onClick={() => handleVoirDemande()}              >
+                <DemandeUsersCard key="gestion" text="Voir Les Demandes Des Clients" />
+              </button> 
+               )}
+            </div>
+
+        
+            <div className="mt-5 ml-5 text-2xl font-semibold flex flex-col h-screen">
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion des négotiations</h1>
+              <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationDemandeClient()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur vous demandes client" />
+                </button>  
+                <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationP()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations avec les proprietaires" />
+                </button>
+                {userType === 'proprietaire' && (
+                     <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiation()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur vos biens" />
+                </button>       
+                )}
+                     {userType === 'proprietaire' && (
+                     <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => handleVoirNegotiationDemande()}
+                >
+                  <NegotiationCard key="gestion" text="Negotiations sur les demandes des clients" />
+                </button>       
+                )}
+                
+              </div>
+              <div className="p-7 text-2xl font-semibold h-screen flex flex-col">
+              <h1 className="font-bold text-gray-700 text-4xl">Gestion des annonces</h1>
+                <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+                   text-gray-690 transition duration-300 ease-in-out transform hover:scale-105 
+                   hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => router.push('/Demande_Client')}
+                >
+                  <EcrireDemande key="gestion" text="Créer une demande personnalisée" />
+                </button>
+              
+                <button
+                  className="text-left sm:grid-cols-2 lg:grid-cols-3 
+                  xl:grid-cols-4 text-gray-690 transition duration-300 ease-in-out
+                   transform hover:scale-105 hover:cursor-pointer font-mono bg-transparent"
+                  onClick={() => router.push('/Modifier_Demande_Client')}
+                >
+                  <ModifyCard key="gestion" text="Consulter et modifier vous demandes personnalisée" />
+                </button>
+              
+           
+
+                  
+             
+            </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <div>
+       {/* VIP Window */}
+       {showVIPWindow && (
+        <div className="fixed inset-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-75">
+          <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg">
+            <div className="p-3 mr-4 text-yellow-500 bg-yellow-100 rounded-full">
+              <svg
+                className="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <div className="text-left">
+              <p className="mb-2 text-sm font-medium text-gray-600">DevienirVIP</p>
+            </div>
+            <div className="flex justify-between mt-4">
+              <button
+                className="text-white bg-gradient-to-r from-green-400 via-green-500
+                to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
+                focus:ring-green-300 dark:focus:ring-green-800 shadow-lg
+                shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80
+                font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"
+                onClick={handleJaipaye} // Call the handleJaipaye function on button click
+              >
+                Jai payé
+              </button>
+
+              <button
+                className="text-white bg-gradient-to-r from-neutral-800 via-red-500
+                to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
+                  focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg
+                  dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"
+                onClick={() => {
+                  setShowVIPWindow(false);
+                }}
+              >
+                Jai pas payé encore
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Confirmation Window */}
+      {showConfirmationWindow && (
+        <div className="fixed inset-0 flex items-center justify-center z-10 bg-gray-800 bg-opacity-75">
+          <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-lg">
+            <div className="p-3 mr-4 text-yellow-500 bg-yellow-100 rounded-full">
+              {/* Existing code */}
+              <svg
+                className="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+              </svg>
+            </div>
+            <div className="text-left">
+              {/* Existing code */}
+            </div>
+            <h1 className="text-black font-semi-bold text-xl mt-4">On considère que le paiement est fait</h1>
+
+            <div className="flex justify-between mt-4">
+              
+              <button
+                className="text-white bg-gradient-to-r from-green-400 via-green-500
+                to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
+                focus:ring-green-300 dark:focus:ring-green-800 shadow-lg
+                shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80
+                font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"
+                onClick={handleConfirmation} // Call the handleConfirmation function on button click
+              >
+                Oui je suis sûr
+              </button>
+              <button
+                className="text-white bg-gradient-to-r from-neutral-800 via-red-500
+                to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
+                focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg
+                dark:shadow-red-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-left mr-2 mb-2"
+                onClick={() => setShowConfirmationWindow(false)} // Close the confirmation window
+              >
+                Non je ne suis pas sûr
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+       </div>
+      <Footer />
+    </div>
+  );
+}
+
+export async function getStaticProps() {
+  const exploreData = await fetch('https://www.jsonkeeper.com/b/592I').then((res) => res.json());
+  return {
+    props: {
+      exploreData,
+    },
+  };
+}

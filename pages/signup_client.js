@@ -1,15 +1,20 @@
 import { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import Header from '@/components/Header';
 import FormClient from '../components/form_client';
-import Header_signup from '@/components/Header_signup';
 import BgLogin from '@/components/bg_login';
+import Footer from '@/components/Footer';
+import { useRouter } from 'next/router';
+
 
 export default function SignupClient() {
   const [signupCompleted, setSignupCompleted] = useState(false);
+  const router = useRouter();
+
 
   async function handleSubmit(nom, prenom, email, telephone, mdps, date_naissance, sex) {
+
     const response = await fetch('/api/api_insert_client', {
       method: 'POST',
       headers: {
@@ -25,15 +30,19 @@ export default function SignupClient() {
         sex,
       }),
     });
-
+  
     const data = await response.json();
     console.log('Result:', data);
-
+  
     if (response.ok) {
       setSignupCompleted(true);
       toast.success('Signup completed!', {
         position: toast.POSITION.TOP_CENTER,
       });
+      toast.success('Signup completed!');
+
+      // Redirect to clientHouses page
+      router.push('/login_client');
     } else {
       const errorMessage = data?.error || 'Error creating user';
       toast.error(errorMessage, {
@@ -44,10 +53,13 @@ export default function SignupClient() {
 
   return (
     <div>
-      <Header_signup />
+      <Header />
       <BgLogin />
-      <FormClient onSubmit={handleSubmit} />
+      <div className='mt-5 mb-5 h-screen'>
+        <FormClient onSubmit={handleSubmit} />
+      </div>
       <ToastContainer />
+      <Footer />
     </div>
   );
 }

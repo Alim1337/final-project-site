@@ -1,55 +1,92 @@
-import React, { useState } from 'react'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import React, { useState, useEffect } from 'react';
+import CardHouse from '../components/CardHouse';
 import { useRouter } from 'next/router';
+import Header from '@/components/Header';
+import jwt from 'jsonwebtoken';
+import { HiArrowLeft } from "react-icons/hi2";
 
-function homesList({searchResults}) {
+export default function HomesList() {
+  const [searchResults, setSearchResults] = useState([]);
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null; // Retrieve the token from local storage if running in the browser
   const router = useRouter();
-  const {location} = router.query
   
-  return (
-    <div className=' bg-slate-50'>
-      <Header />
-        <main className='flex'>
-            <section className='flex-grow pt-14 px-6'>
-                <div className='h-screen text-black text-xs'>
-                    <h1 className=' text-3xl font-semibold mb-6 '>{location}</h1>
-                    <div className='hidden lg:inline-flex mb-5 space-x-3 text-gray-800 whitespace-nowrap '>
-                        <p className='button'>Type</p>
-                        <p className='button'>Price</p>
-                        <p className='button'>Filters</p>
-                    </div>
-                </div>
-
-                <div>
-                  {/*searchResults.map(({ img, location, title, description, star, price, total}) => (
-                    key={img},
-                    img = {img},
-                    location = {location},
-                    title = {title},
-                    description = {description},
-                    star = {star},
-                    price = {price},
-                    total = {total}
-                  ))*/}
-                </div>
-
-                
-            </section>
-        </main>
-      <Footer/>
-    </div>
-  )
-}
-
-export default homesList
-
-{/*export async function getServerSideProps() {
-  const searchResults = await fetch("https://links.papareact.com/isz").then((res) => res.json())
-  
-  return{
-    props :{
-      searchResults,
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch('/api/api_fetch_all_biens');
+        const data = await response.json();
+        setSearchResults(data);
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
-}*/}
+  
+    fetchData();
+  }, []);
+  
+  const handleInterestedClick = async (bienId, proprietaireId) => {
+    try {
+      const res = await fetch('/api/api_create_like', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          decodedToken: token,
+          bien_id: bienId,
+          proprietaire_id: proprietaireId,
+        }),
+      });
+  
+      if (res.ok) {
+        const like = await res.json();
+        // Redirect to the negotiation page with the like ID, bien ID, and proprietaire ID
+        router.push(`/negotiation?id_likes=${like.id_likes}&bien_id=${bienId}&proprietaire_id=${proprietaireId}`);
+      } else {
+        console.error('Failed to create like');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const handleBackClick = () => {
+   
+        router.back();
+ 
+  };
+
+  // Filter out the VIP bien from search results
+  const filteredResults = searchResults.filter((result) => !result.biens_vip);
+
+  return (
+    <div className="bg-slate-50">
+      <Header />
+      <div className="container mx-auto py-8">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-black">Home Listings</h2>
+          <button
+            className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
+            onClick={handleBackClick}
+          >
+            <HiArrowLeft />
+          </button>
+        </div>
+        <div className="grid grid-cols-1 text-black gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          {Array.isArray(filteredResults) ? (
+            filteredResults.map((result) => (
+              <CardHouse
+                key={result.id_biens}
+                {...result}
+                token={token}
+                onInterestedClick={handleInterestedClick}
+              />
+            ))
+          ) : (
+            <p>No search results found.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
