@@ -3,10 +3,14 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import { toast } from 'react-toastify';
 import bcrypt from 'bcryptjs';
+import { useRouter } from 'next/router';
+
 
 dotenv.config(); // Load the environment variables from .env file
 
 const prisma = new PrismaClient();
+const router = useRouter();
+
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
@@ -75,6 +79,8 @@ export default async function handler(req, res) {
       console.log('Bien created:', bien); // Log the created bien
 
       res.status(200).json({ success: true, bienId: bien.id_biens });
+      router.push('/clientHouses');
+
     } catch (error) {
       console.error('Error creating Proprietaire and biens:', error);
       toast.error('Failed to create Proprietaire and biens', {
