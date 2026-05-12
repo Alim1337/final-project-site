@@ -1,336 +1,249 @@
-import BgLogin from "../components/bg_login";
-import React, { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useRouter} from 'next/router';
-import Image from "next/image";
-import {useRouter as IR } from "next/navigation";
+import React, { useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+import { MdOutlineWorkspacePremium } from 'react-icons/md'
 
+const GOLD   = '#B8892A'
+const TEXT   = '#1A1713'
+const MUTED  = '#5A5248'
+const FAINT  = '#8A8278'
+const BG     = '#EDE9E1'
+const BG2    = '#F5F1EA'
+const BORDER = 'rgba(184,137,42,0.22)'
+const RED    = '#C0392B'
 
-function CardHouseModifier({ id_biens, description, type_bien, nbrChambre, adresse, ville, code_postal, prix_estime, etat, Proprietaire }) {
-  const router = useRouter();
-  const [image, setImage] = useState(null);
-  const [isModifying, setIsModifying] = useState(false);
-  const [newValues, setNewValues] = useState({
-    id_biens: id_biens,
-    description: description,
-    type_bien: type_bien,
-    nbrChambre: nbrChambre,
-    adresse: adresse,
-    ville: ville,
-    code_postal: code_postal,
-    prix_estime: prix_estime,
-    etat: etat,
-    Proprietaire: Proprietaire
-  });
-
-  const adresseOptions = ['Aïn Benian','Aïn Taya','Alger-Centre','Baba Hassen','Bab El Oued','Bab Ezzouar',
-  'Bachdjerrah','Baraki','Belouizdad','Ben Aknoun','Beni Messous',
-  'Birkhadem','Bir Mourad Raïs','Birtouta','Bologhine',
-  'Bordj El Bahri','Bordj El Kiffan','BouroubaBouzareah','Casbah',
-  'Chéraga','Dar El Beïda','Dely Ibrahim',
-  'Djasr Kasentina','Douera','Draria',
-  'El Achour','El Biar','El Hammamet','El Harrach','El Madania',
-  'El Marsa','El Mouradia','El Magharia','Hraoua','Hussein-Dey','Hydra',
-  'Khraïssia','Kouba','Les Eucalyptus','Mahelma','Mohammadia','Oued Koriche',
-  'Oued Smar','Ouled Chebel','Ouled Fayet',
-  'Rahmania','Raïs Hamidou','Réghaïa','Rouïba','Saoula',
-  'Sidi MHamed','Sidi Moussa','Souidania','Staoueli','Tessala El Merdja','Zéralda'];
-
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const timestamp = new Date().getTime(); // Get a timestamp
-      const imageName = `image_${id_biens}_${timestamp}`; // Create a unique image name with id_biens
-      const imageData = e.target.result;
-      const imageObject = {
-        name: imageName,
-        data: imageData
-      };
-
-      setImage(imageObject);
-      // Save the image in localStorage
-      localStorage.setItem(`image_${id_biens}`, JSON.stringify(imageObject));
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleModifier = () => {
-    setIsModifying(true);
-  };
-
-  const handleDone = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await fetch('/api/api_modifier_bien_button', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id_biens, newValues , Proprietaire}),
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        // Handle the success response
-        console.log('Modifier API response:', data);
-        // Add your logic here
-      } else {
-        // Handle the error response
-        console.log('Modifier API error');
-      }
-    } catch (error) {
-      console.error(error);
-      // Handle the error
-    }
-    setIsModifying(false);
-    router.push('/gestionBien_modify');
-  };
-  const handleSupprimer = async (event) => {
-    event.preventDefault();
-    console.log(id_biens);
-  
-    try {
-      const response = await fetch(`/api/api_supprimer_bien_button?id=${id_biens}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id_biens }), // Pass id_biens directly
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        toast.success('Bien a ete supprimé');
-        location.reload();
-        
-
-
-        // Handle the success response
-        console.log('Supprimer API response:', data);
-        // Add your logic here
-      } else {
-        // Handle the error response
-        console.log('Supprimer API error');
-      }
-    } catch (error) {
-      console.error(error);
-      // Handle the error
-    }
-  };
-  
-  
-  
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
-  
-
-  const getImageSrc = () => {
-    if (type_bien === 'villa') {
-      return 'https://www.livehome3d.com/assets/img/articles/design-house/how-to-design-a-house@2x.jpg';
-    } else {
-      return 'https://www.designferia.com/sites/default/files/styles/article_images__s640_/public/field/image/petit-appartement-amenage.jpg';
-    }
-  };
-
-  const getStoredImage = () => {
-    const storedImage = localStorage.getItem(`image_${id_biens}`);
-    if (storedImage) {
-      return JSON.parse(storedImage).data;
-    }
-    return null;
-  };
-
-  return (
-    <div className="bg-white border rounded-lg shadow-md p-1 md:p-2 
-    transition duration-300ease-out transform">
-    <div className="relative h-32 w-full mb-4">
-        <Image
-          src={getStoredImage() || getImageSrc()}
-          alt="Property Image"
-          layout="fill"
-          objectFit="cover"
-          className="rounded-lg"
-        />
-      </div>
-
-      {isModifying ? (
-        <form onSubmit={handleDone}>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="description">Description :</label>
-            <input
-            className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-              type="text"
-              id="description"
-              name="description"
-              value={newValues.description}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="type_bien">Type :</label>
-            <input
-            className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-              type="text"
-              id="type_bien"
-              name="type_bien"
-              value={newValues.type_bien}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="nbrChambre">Nombre de chambres :</label>
-            <select
-              type="number"
-              id="nbrChambre"
-              name="nbrChambre"
-              className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-              focus:outline-none focus:shadow-outline w-full"
-              value={newValues.nbrChambre}
-              onChange={handleInputChange}
-            >
-              <option value="F3">F3</option>
-              <option value="F4">F4</option>
-              <option value="F5">F5</option>
-              <option value="F6">F6</option>
-              <option value="F7">F7</option>
-              <option value="F8">F8</option>
-              <option value="F9">F9</option>
-              <option value="F10">F10</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="adresse">Adresse :</label>
-            <select
-              type="text"
-              id="adresse"
-              name="adresse"
-              className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-              focus:outline-none focus:shadow-outline w-full"
-              value={newValues.adresse}
-              onChange={handleInputChange}
-            >
-              <option value="">Select an address</option>
-              {adresseOptions.map((address) => (
-                <option key={address} value={address}>
-                  {address}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="ville">Ville :</label>
-            <select
-              type="text"
-              id="ville"
-              name="ville"
-              className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-              focus:outline-none focus:shadow-outline w-full"
-              value={newValues.ville}
-              onChange={handleInputChange}
-            >
-              <option value="Alger">Alger</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="prix_estime">Prix estimé :</label>
-            <input
-            className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-              type="number"
-              id="prix_estime"
-              name="prix_estime"
-              value={newValues.prix_estime}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="etat">État :</label>
-            <select
-              type="text"
-              id="etat"
-              name="etat"
-              className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-              focus:outline-none focus:shadow-outline w-full"
-              value={newValues.etat}
-              onChange={handleInputChange}
-            >
-              <option value="">Select a property status</option>
-              <option value="neuf">Neuf (New)</option>
-              <option value="bonne_condition">Bonne condition (Good condition)</option>
-              <option value="rénové">Rénové (Renovated)</option>
-              <option value="à_rénover">À rénover (To renovate)</option>
-              <option value="partiellement_rénové">Partiellement rénové (Partially renovated)</option>
-              <option value="en_construction">En construction (Under construction)</option>
-              {/* Add more options here */}
-            </select>
-          </div>
-          <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="image">Image :</label>
-            <div>
-              <input type="file" id="image" accept="image/*" onChange={handleImageChange} />
-            </div>
-          </div>
-          <button type="submit" className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]">
-            Done
-          </button>
-        </form>
-      ) : (
-        <div>
-          <p className="block tex
-          t-gray-700 font-bold mb-2">Description :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full">{description}</p>
-          <p className="block text-gray-700 font-bold mb-2">Type :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full">{type_bien}</p>
-          <p className="block text-gray-700 font-bold mb-2">Adresse :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full">{adresse}</p>
-          <p className="block text-gray-700 font-bold mb-2">Ville : </p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full">{ville}</p>
-          <p className="block text-gray-700 font-bold mb-2">prix estime :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"> {prix_estime} Dzd</p>
-          <p className="block text-gray-700 font-bold mb-2">état :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"> {etat}</p>
-          <p className="block text-gray-700 font-bold mb-2">Nombre de chambres :</p><p className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"> {nbrChambre}</p>
-          <div className="flex justify-end mt-4">
-        
-      </div>   
-      <div className="flex px-3">
-      <button
-            className="inline-block rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
-            onClick={handleModifier}
-          >
-            Modifier
-          </button>
-          <div className="pr-2"/>
-      <button
-        className="inline-block rounded bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
-        onClick={handleSupprimer}
-      >
-        Supprimer
-      </button>
-          </div>
-
-        </div>
-        
-      )}
-               <ToastContainer />
-
-    </div>
-  );
+const TYPE_IMAGES = {
+  villa:       'https://www.livehome3d.com/assets/img/articles/design-house/how-to-design-a-house@2x.jpg',
+  appartement: 'https://www.designferia.com/sites/default/files/styles/article_images__s640_/public/field/image/petit-appartement-amenage.jpg?itok=GapSYMo3',
+  default:     'https://www.designferia.com/sites/default/files/styles/article_images__s640_/public/field/image/petit-appartement-amenage.jpg?itok=GapSYMo3',
 }
 
-export default CardHouseModifier;
+function CardHouseModifier({
+  id_biens, description, type_bien, nbrChambre,
+  adresse, ville, code_postal, prix_estime, etat, Proprietaire,
+}) {
+  const router = useRouter()
+  const [isModifying, setIsModifying] = useState(false)
+  const [deleted, setDeleted]         = useState(false)
+  const [saving, setSaving]           = useState(false)
+  const [newValues, setNewValues] = useState({
+    id_biens, description, type_bien, nbrChambre,
+    adresse, ville, code_postal, prix_estime, etat, Proprietaire,
+  })
+
+  const getStoredImage = () => {
+    if (typeof window === 'undefined') return null
+    const stored = localStorage.getItem(`image_${id_biens}`)
+    return stored ? JSON.parse(stored).data : null
+  }
+
+  const getImageSrc = () =>
+    getStoredImage() || TYPE_IMAGES[type_bien?.toLowerCase()] || TYPE_IMAGES.default
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      const obj = { name: `image_${id_biens}_${Date.now()}`, data: ev.target.result }
+      localStorage.setItem(`image_${id_biens}`, JSON.stringify(obj))
+    }
+    reader.readAsDataURL(file)
+  }
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
+    setNewValues(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleDone = async (e) => {
+    e.preventDefault()
+    setSaving(true)
+    try {
+      const res = await fetch('/api/api_modifier_bien_button', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_biens, newValues }),
+      })
+      if (res.ok) setIsModifying(false)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleSupprimer = async () => {
+    if (!confirm('Supprimer ce bien ?')) return
+    try {
+      const res = await fetch(`/api/api_supprimer_bien_button/${id_biens}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      })
+      if (res.ok) setDeleted(true)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  if (deleted) return null
+
+  return (
+    <article style={{
+      background: BG2,
+      border: `1px solid ${BORDER}`,
+      display: 'flex', flexDirection: 'column',
+      overflow: 'hidden',
+      transition: 'box-shadow 0.3s, transform 0.3s',
+    }}
+      onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.10)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
+      onMouseLeave={e => { e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)' }}
+    >
+      {/* ── Image ── */}
+      <div style={{ position: 'relative', height: 180, overflow: 'hidden', flexShrink: 0 }}>
+        <Image
+          src={getImageSrc()}
+          alt={description || 'Bien'}
+          fill
+          style={{ objectFit: 'cover', transition: 'transform 0.5s' }}
+        />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(20,15,10,0.55) 0%, transparent 55%)', pointerEvents: 'none' }} />
+        {type_bien && (
+          <div style={{
+            position: 'absolute', top: 10, left: 10,
+            fontFamily: "'Raleway', sans-serif", fontSize: 8, letterSpacing: 3,
+            color: '#F5F0E8', background: 'rgba(20,15,10,0.55)',
+            padding: '4px 10px', backdropFilter: 'blur(4px)',
+          }}>
+            {type_bien.toUpperCase()}
+          </div>
+        )}
+        {prix_estime && (
+          <div style={{ position: 'absolute', bottom: 10, left: 14 }}>
+            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontWeight: 400, color: '#F5F0E8' }}>
+              {Number(prix_estime).toLocaleString('fr-DZ')} DZD
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── Body ── */}
+      <div style={{ padding: '16px 18px 18px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+
+        {isModifying ? (
+          /* ── Edit form ── */
+          <form onSubmit={handleDone} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {[
+              { label: 'Description', name: 'description', type: 'text' },
+              { label: 'Type de bien', name: 'type_bien', type: 'text' },
+              { label: 'Adresse', name: 'adresse', type: 'text' },
+              { label: 'Ville', name: 'ville', type: 'text' },
+              { label: 'Prix estimé', name: 'prix_estime', type: 'number' },
+              { label: 'Nb chambres', name: 'nbrChambre', type: 'number' },
+              { label: 'État', name: 'etat', type: 'text' },
+            ].map(({ label, name, type }) => (
+              <div key={name}>
+                <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 2, color: FAINT, marginBottom: 4 }}>
+                  {label.toUpperCase()}
+                </div>
+                <input
+                  type={type} name={name} value={newValues[name] || ''}
+                  onChange={handleInputChange}
+                  style={{
+                    width: '100%', background: 'transparent',
+                    border: 'none', borderBottom: `1px solid ${BORDER}`,
+                    fontFamily: "'Raleway', sans-serif", fontSize: 12,
+                    color: TEXT, padding: '6px 0', outline: 'none',
+                    transition: 'border-color 0.2s',
+                  }}
+                  onFocus={e => e.target.style.borderBottomColor = GOLD}
+                  onBlur={e => e.target.style.borderBottomColor = BORDER}
+                />
+              </div>
+            ))}
+
+            {/* image upload */}
+            <div>
+              <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 2, color: FAINT, marginBottom: 6 }}>
+                IMAGE
+              </div>
+              <input type="file" accept="image/*" onChange={handleImageChange}
+                style={{ fontFamily: "'Raleway', sans-serif", fontSize: 11, color: MUTED }} />
+            </div>
+
+            <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+              <button type="submit" disabled={saving} style={{
+                flex: 1, background: GOLD, border: 'none', color: BG,
+                fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 3,
+                padding: '10px 0', cursor: 'pointer', opacity: saving ? 0.6 : 1,
+              }}>
+                {saving ? 'ENREGISTREMENT…' : 'ENREGISTRER'}
+              </button>
+              <button type="button" onClick={() => setIsModifying(false)} style={{
+                flex: 1, background: 'transparent', border: `1px solid ${BORDER}`, color: MUTED,
+                fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 3,
+                padding: '10px 0', cursor: 'pointer',
+              }}>
+                ANNULER
+              </button>
+            </div>
+          </form>
+        ) : (
+          /* ── Display mode ── */
+          <>
+            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 17, fontWeight: 400, color: TEXT, marginBottom: 6, lineHeight: 1.3 }}>
+              {description || '—'}
+            </div>
+            <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 10, letterSpacing: 1, color: FAINT, display: 'flex', alignItems: 'center', gap: 4, marginBottom: 16 }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+              </svg>
+              {[adresse, ville, code_postal].filter(Boolean).join(', ')}
+            </div>
+
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', paddingTop: 12, borderTop: `1px solid ${BORDER}`, marginBottom: 16 }}>
+              {nbrChambre && <Chip label={`${nbrChambre} ch.`} />}
+              {etat       && <Chip label={etat} />}
+            </div>
+
+            <div style={{ display: 'flex', gap: 8, marginTop: 'auto' }}>
+              <button onClick={() => setIsModifying(true)} style={{
+                flex: 1, background: 'transparent', border: `1px solid ${GOLD}`, color: GOLD,
+                fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 3,
+                padding: '10px 0', cursor: 'pointer', transition: 'all 0.2s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = GOLD; e.currentTarget.style.color = BG }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = GOLD }}
+              >
+                MODIFIER
+              </button>
+              <button onClick={handleSupprimer} style={{
+                flex: 1, background: 'transparent', border: `1px solid rgba(192,57,43,0.4)`, color: RED,
+                fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 3,
+                padding: '10px 0', cursor: 'pointer', transition: 'all 0.2s',
+              }}
+                onMouseEnter={e => { e.currentTarget.style.background = RED; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = RED }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = RED; e.currentTarget.style.borderColor = 'rgba(192,57,43,0.4)' }}
+              >
+                SUPPRIMER
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </article>
+  )
+}
+
+function Chip({ label }) {
+  return (
+    <div style={{
+      fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 1, color: MUTED,
+      border: `1px solid ${BORDER}`, padding: '3px 8px',
+    }}>
+      {label}
+    </div>
+  )
+}
+
+export default CardHouseModifier

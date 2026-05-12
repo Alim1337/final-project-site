@@ -1,100 +1,190 @@
-import React, { useState, useEffect } from 'react';
-import CardHouse from '../components/CardHouse';
-import CardHouseModifiervip from '@/components/CardHouse_Modifier_vip';
-import { useRouter } from 'next/router';
-import Header from '@/components/Header';
-import jwt from 'jsonwebtoken';
-import CardHouseVIP from '@/components/CardHouseVIP';
+import React, { useState, useEffect } from 'react'
+import CardHouseVIP from '@/components/CardHouseVIP'
+import { useRouter } from 'next/router'
+import Header from '@/components/Header'
+import jwt from 'jsonwebtoken'
 
-export default function HomesList() {
-  const [searchResults, setSearchResults] = useState([]);
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null; // Retrieve the token from local storage if running in the browser
-  const router = useRouter();
-  
+const GOLD   = '#B8892A'
+const TEXT   = '#1A1713'
+const MUTED  = '#5A5248'
+const FAINT  = '#8A8278'
+const BG     = '#EDE9E1'
+const BG2    = '#E4DFD5'
+const BORDER = 'rgba(184,137,42,0.22)'
+
+export default function VipList() {
+  const [searchResults, setSearchResults] = useState([])
+  const [loading, setLoading]             = useState(true)
+
+  const token  = typeof window !== 'undefined' ? localStorage.getItem('token') : null
+  const router = useRouter()
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetch('/api/api_fetch_all_biens_vip');
-        const data = await response.json();
-        setSearchResults(data);
+        setLoading(true)
+        const response = await fetch('/api/api_fetch_all_biens_vip')
+        const data     = await response.json()
+        setSearchResults(data)
       } catch (error) {
-        console.error(error);
+        console.error(error)
+      } finally {
+        setLoading(false)
       }
     }
-  
-    fetchData();
-  }, []);
-  
+    fetchData()
+  }, [])
+
   const handleInterestedClick = async (bienId, proprietaireId) => {
     try {
       const res = await fetch('/api/api_create_like', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          decodedToken: token,
-          bien_id: bienId,
-          proprietaire_id: proprietaireId,
-        }),
-      });
-  
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ decodedToken: token, bien_id: bienId, proprietaire_id: proprietaireId }),
+      })
       if (res.ok) {
-        const like = await res.json();
-        // Redirect to the negotiation page with the like ID, bien ID, and proprietaire ID
-        router.push(`/negotiation?id_likes=${like.id_likes}&bien_id=${bienId}&proprietaire_id=${proprietaireId}`);
-      } else {
-        console.error('Failed to create like');
+        const like = await res.json()
+        router.push(`/negotiation?id_likes=${like.id_likes}&bien_id=${bienId}&proprietaire_id=${proprietaireId}`)
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
-  
+  }
+
   const handleBackClick = () => {
     try {
-      const decodedToken = jwt.decode(token);
-      const userType = decodedToken ? decodedToken.userType : null;
-
-      if (userType ) {
-        router.push('/panel');
-      }
+      const decodedToken = jwt.decode(token)
+      const userType     = decodedToken ? decodedToken.userType : null
+      if (userType) router.push('/panel')
     } catch (error) {
-      console.error('Failed to decode token:', error);
+      console.error('Failed to decode token:', error)
     }
-  };
+  }
 
   return (
-    <div className="bg-slate-50">
-    <Header />
-    <div className="container mx-auto py-8">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-black">Home Listings</h2>
-        <button
-          className="inline-block rounded-full bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
-          onClick={handleBackClick}
-        >
-          Back
-        </button>
+    <div style={{ background: BG, minHeight: '100vh' }}>
+      <Header />
+
+      {/* ── Hero banner ── */}
+      <div
+        style={{
+          background: 'linear-gradient(135deg, #1A1713 0%, #2E2118 60%, #3D2B1A 100%)',
+          borderBottom: `1px solid ${BORDER}`,
+          padding: '56px 40px 48px',
+        }}
+      >
+        <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+
+          {/* back link */}
+          <button
+            onClick={handleBackClick}
+            style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              fontFamily: "'Raleway', sans-serif", fontSize: 10,
+              letterSpacing: 3, color: 'rgba(255,255,255,0.4)',
+              display: 'flex', alignItems: 'center', gap: 6,
+              padding: 0, marginBottom: 32, transition: 'color 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = GOLD}
+            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.4)'}
+          >
+            ← RETOUR
+          </button>
+
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+            <div>
+              <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 10, letterSpacing: 5, color: GOLD, marginBottom: 12 }}>
+                ★ COLLECTION EXCLUSIVE
+              </div>
+              <h1
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 48, fontWeight: 300, color: '#F5F0E8',
+                  margin: 0, lineHeight: 1.1,
+                }}
+              >
+                Biens <span style={{ fontStyle: 'italic', color: GOLD }}>prestige</span>
+              </h1>
+              <p
+                style={{
+                  fontFamily: "'Raleway', sans-serif", fontSize: 11,
+                  letterSpacing: 3, color: 'rgba(255,255,255,0.35)',
+                  marginTop: 16, marginBottom: 0,
+                }}
+              >
+                UNE SÉLECTION RIGOUREUSEMENT TRIÉE POUR VOUS
+              </p>
+            </div>
+
+            {/* stat */}
+            <div
+              style={{
+                border: `1px solid rgba(184,137,42,0.3)`,
+                padding: '18px 28px',
+                background: 'rgba(237,233,225,0.06)',
+                textAlign: 'center',
+                backdropFilter: 'blur(8px)',
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: 32, fontWeight: 300, color: GOLD, lineHeight: 1,
+                }}
+              >
+                {loading ? '—' : searchResults.length}
+              </div>
+              <div
+                style={{
+                  fontFamily: "'Raleway', sans-serif",
+                  fontSize: 9, letterSpacing: 4,
+                  color: 'rgba(255,255,255,0.35)', marginTop: 4,
+                }}
+              >
+                BIENS VIP
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="grid grid-cols-1 text-black gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-        {Array.isArray(searchResults) ? (
-          searchResults.map((result) => (
-         (
+
+      {/* ── Gold rule ── */}
+      <div style={{ height: 1, background: `linear-gradient(to right, transparent, ${GOLD}, transparent)` }} />
+
+      {/* ── Grid ── */}
+      <main style={{ maxWidth: 1280, margin: '0 auto', padding: '56px 40px 96px' }}>
+        {loading ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 3 }}>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} style={{ height: 380, background: BG2, animation: 'pulse 1.5s ease-in-out infinite' }} />
+            ))}
+          </div>
+        ) : searchResults.length > 0 ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 3 }}>
+            {searchResults.map(result => (
               <CardHouseVIP
                 key={result.id_biens}
                 {...result}
                 token={token}
                 onInterestedClick={handleInterestedClick}
               />
-            )
-          ))
+            ))}
+          </div>
         ) : (
-          <p>No search results found.</p>
+          <div style={{ textAlign: 'center', padding: '80px 0' }}>
+            <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 28, fontWeight: 300, color: TEXT, marginBottom: 12 }}>
+              Aucun bien VIP disponible
+            </div>
+            <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 11, letterSpacing: 2, color: FAINT }}>
+              Revenez bientôt pour découvrir notre sélection prestige
+            </div>
+          </div>
         )}
-      </div>
+      </main>
+
+      <style jsx>{`
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+      `}</style>
     </div>
-  </div>
-  
-  );
+  )
 }

@@ -10,12 +10,8 @@ export default async function handler(req, res) {
     const existingClient = await prisma.client.findFirst({
       where: {
         OR: [
-          {
-            email: email,
-          },
-          {
-            telephone: telephone,
-          },
+          { email: email },
+          { telephone: telephone },
         ],
       },
     });
@@ -24,7 +20,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Email or telephone number already exists' });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(mdps, 10);
 
     const result = await prisma.client.create({
@@ -33,8 +28,8 @@ export default async function handler(req, res) {
         prenom,
         email,
         telephone,
-        mdps: hashedPassword, // Store the hashed password in the database
-        date_naissance,
+        mdps: hashedPassword,
+        date_naissance: new Date(date_naissance + 'T00:00:00.000Z'),  // ← fix
         sex,
         date_dinscription: new Date(),
       },

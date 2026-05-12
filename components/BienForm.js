@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import Footer from './Footer';
-import { useRouter } from 'next/router';
-import Image from 'next/dist/client/image';
-export default function BienForm({ onSubmit }) {
-  const [description, setDescription] = useState('');
-  const [typeBien, setTypeBien] = useState('');
-  const [adresse, setAdresse] = useState('');
-  const [ville, setVille] = useState('');
-  const [nbrChambre, setNbrChambre] = useState('');
-  const [selectedAddress, setSelectedAddress] = useState('');
-  const [image, setImage] = useState(null);
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-  const adresseOptions = ['Aïn Benian','Aïn Taya','Alger-Centre','Baba Hassen','Bab El Oued','Bab Ezzouar',
+const GOLD   = '#B8892A'
+const GOLD_L = '#D4A84B'
+const TEXT   = '#1A1713'
+const MUTED  = '#5A5248'
+const FAINT  = '#8A8278'
+const BG     = '#EDE9E1'
+const BG2    = '#E4DFD5'
+const BORDER = 'rgba(184,137,42,0.22)'
+
+const adresseOptions = [
+  'Aïn Benian','Aïn Taya','Alger-Centre','Baba Hassen','Bab El Oued','Bab Ezzouar',
   'Bachdjerrah','Baraki','Belouizdad','Ben Aknoun','Beni Messous',
   'Birkhadem','Bir Mourad Raïs','Birtouta','Bologhine',
-  'Bordj El Bahri','Bordj El Kiffan','BouroubaBouzareah','Casbah',
+  'Bordj El Bahri','Bordj El Kiffan','Bourouba','Bouzareah','Casbah',
   'Chéraga','Dar El Beïda','Dely Ibrahim',
   'Djasr Kasentina','Douera','Draria',
   'El Achour','El Biar','El Hammamet','El Harrach','El Madania',
@@ -22,258 +24,337 @@ export default function BienForm({ onSubmit }) {
   'Khraïssia','Kouba','Les Eucalyptus','Mahelma','Mohammadia','Oued Koriche',
   'Oued Smar','Ouled Chebel','Ouled Fayet',
   'Rahmania','Raïs Hamidou','Réghaïa','Rouïba','Saoula',
-  
-  'Sidi MHamed','Sidi Moussa','Souidania','Staoueli','Tessala El Merdja','Zéralda'];
+  'Sidi MHamed','Sidi Moussa','Souidania','Staoueli','Tessala El Merdja','Zéralda',
+]
 
-  const [codePostal, setCodePostal] = useState('');
-  const [minPrixEstime, setMinPrixEstime] = useState('');
-  const [etat, setEtat] = useState('');
-  const router = useRouter();
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    onSubmit(
-      description,
-      typeBien,
-      nbrChambre,
-      selectedAddress, // Pass the selected address value
-      ville,
-      codePostal,
-      minPrixEstime,
-
-      etat
-    );
-  }
-
-  
-  function handleCancel(event) {
-    event.preventDefault();
-
-    if (window.confirm('Are you sure you want to cancel?')) {
-      router.push('/panel');
-    }
-  }
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const timestamp = new Date().getTime(); // Get a timestamp
-      const imageName = `image_${timestamp}`; // Create a unique image name
-      const imageData = e.target.result;
-      const imageObject = {
-        name: imageName,
-        data: imageData
-      };
-
-      setImage(imageObject);
-      // Save the image in localStorage
-      localStorage.setItem('selectedImage', JSON.stringify(imageObject));
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSubmitIMAGE = (event) => {
-    event.preventDefault();
-    // Logic for handling 'Modifier' button click
-    console.log('Image submitted:', image);
-    // Save the image in localStorage
-    localStorage.setItem('selectedImage', JSON.stringify(image));
-  };
+function FormField({ label, children }) {
   return (
-    <div className="fixed z-10 inset-0 overflow-y-auto">
-    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-      <div
-        className="inline-block items-center pt-20 align-bottom text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modal-headline"
-      >
-        <div className="bg-white bg-opacity-80 px-10 pt-5 pb-5 sm:p-6 sm:pb-4">
-          <div className="sm:flex sm:items-start">
-            
-            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-              <div className="mt-2">
-                <form className="pl-10" onSubmit={handleSubmit}>
-                  <div>
-                    <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
-                    Titre :
-                    </label>
-                    <div className="mt-1">
-                      <input
-                        id="description"
-                        name="description"
-                        rows="3"
-                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-                        required
-                        placeholder='Title'
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                      ></input>
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="typeBien" className="block text-gray-700 font-bold mb-2">
-                      Type de bien :
-                    </label>
-                    <div className="mt-1">
-                      <select
-                        id="typeBien"
-                        name="typeBien"
-                        required
-                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-                        value={typeBien}
-                        onChange={(e) => setTypeBien(e.target.value)}
-                      >
-                        <option value="">Sélectionner type de bien</option>
-                        <option value="appartement">Appartement</option>
-                        <option value="villa">Villa</option>
-                        <option value="autre">Autre</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label className='block text-gray-700 font-bold mb-2'>Nombre de Chambres :</label>
-                    <select
-                      id="nbrChambre"
-                      name="nbrChambre"
-                      className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                      focus:outline-none focus:shadow-outline w-full"
-                      value={nbrChambre}
-                      onChange={(e) => setNbrChambre(e.target.value)}
-                    >
-                      <option value="">nombre de chambres</option>
-                      <option value="F3">F3</option>
-                      <option value="F4">F4</option>
-                      <option value="F5">F5</option>
-                      <option value="F6">F6</option>
-                      <option value="F7">F7</option>
-                      <option value="F8">F8</option>
-                      <option value="F9">F9</option>
-                      <option value="F10">F10</option>
-                    </select>
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="ville" className="block text-gray-700 font-bold mb-2">
-                      Willaya :
-                    </label>
-                    <div className="mt-1">
-                      <select
-                        id="ville"
-                        name="ville"
-                        required
-                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-                        value={ville}
-                        onChange={(e) => setVille(address)}
-                      >
-                        <option value="Alger">Alger</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="adresse" className="block text-gray-700 font-bold mb-2">
-                      Adresse :
-                    </label>
-                    <div className="mt-1">
-                      <select
-                        id="adresse"
-                        name="adresse"
-                        required
-                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-                        value={selectedAddress}
-                        onChange={(e) => setSelectedAddress(e.target.value)}
-                      >
-                        <option value="">Sélectionner une address</option>
-                        {adresseOptions.map((address) => (
-                          <option key={address} value={address}>
-                            {address}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="prixEstime" className="block text-gray-700 font-bold mb-2">
-                      Prix Estimé pour le mois :
-                    </label>
-                    <div className="mt-1 flex">
-                      <input
-                        type="text"
-                        id="minPrixEstime"
-                        name="minPrixEstime"
-                        required
-                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-                        placeholder="Min Price"
-                        value={minPrixEstime}
-                        onChange={(e) => setMinPrixEstime(e.target.value)}
-                      />
-                     
-                      {/* Add more input fields here */}
-                    </div>
-                  </div>
-                  <div>
-                    <label htmlFor="etat" className="block text-gray-700 font-bold mb-2 pt-2">
-                      État du bien :
-                    </label>
-                    <div className="mt-1">
-                      <select
-                        id="etat"
-                        name="etat"
-                        required
-                        className="block border rounded py-2 px-3 text-gray-700 leading-tight 
-                        focus:outline-none focus:shadow-outline w-full"
-                        value={etat}
-                        onChange={(e) => setEtat(e.target.value)}
-                      >
-                        <option value="">Sélectionner une etat de propriéter</option>
-                        <option value="neuf">Neuf</option>
-                        <option value="bonne_condition">Bonne condition</option>
-                        <option value="rénové">Rénové</option>
-                        <option value="à_rénover">À rénover</option>
-                        <option value="partiellement_rénové">Partiellement rénové</option>
-                        <option value="en_construction">En construction</option>
-                        {/* Add more options here */}
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div className="pt-5">
-                    <div className="flex justify-end">
-                      <button
-                        type="submit"
-                        className="inline-block w-full border border-neutral-600 rounded bg-neutral-50 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-800 shadow-[0_4px_9px_-4px_#cbcbcb] transition duration-150 ease-in-out hover:bg-neutral-100 hover:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:bg-neutral-100 focus:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] focus:outline-none focus:ring-0 active:bg-neutral-200 active:shadow-[0_8px_9px_-4px_rgba(203,203,203,0.3),0_4px_18px_0_rgba(203,203,203,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(251,251,251,0.3)] dark:hover:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:focus:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)] dark:active:shadow-[0_8px_9px_-4px_rgba(251,251,251,0.1),0_4px_18px_0_rgba(251,251,251,0.05)]"
-                      >
-                        Confirmer
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleCancel}
-                        className="inline-block w-full ml-5 rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]"
-                      >
-                        Anuller
-                      </button>
-                    </div>
-                  </div>
-                </form>
-         
-              </div>
-            </div>
-          </div>
-        </div>
-        
-      </div>
+    <div style={{ marginBottom: 24 }}>
+      <label style={{
+        display: 'block',
+        fontFamily: "'Raleway', sans-serif",
+        fontSize: 9, letterSpacing: 4,
+        color: GOLD, marginBottom: 10,
+      }}>
+        {label}
+      </label>
+      {children}
     </div>
-    <Footer />
-  </div>
-);
+  )
+}
+
+function StyledInput({ value, onChange, placeholder, type = 'text', required }) {
+  const [focused, setFocused] = useState(false)
+  return (
+    <input
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      required={required}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={{
+        display: 'block', width: '100%', boxSizing: 'border-box',
+        background: focused ? BG : 'rgba(237,233,225,0.5)',
+        border: `1px solid ${focused ? GOLD : BORDER}`,
+        padding: '11px 14px',
+        fontFamily: "'Raleway', sans-serif", fontSize: 11,
+        color: TEXT, outline: 'none', transition: 'all 0.2s',
+        letterSpacing: 0.3,
+      }}
+    />
+  )
+}
+
+function StyledSelect({ value, onChange, required, children }) {
+  const [focused, setFocused] = useState(false)
+  return (
+    <select
+      value={value}
+      onChange={onChange}
+      required={required}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      style={{
+        display: 'block', width: '100%', boxSizing: 'border-box',
+        backgroundColor: focused ? BG : 'rgba(237,233,225,0.5)',
+        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238A8278' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'right 14px center',
+        border: `1px solid ${focused ? GOLD : BORDER}`,
+        padding: '11px 14px',
+        fontFamily: "'Raleway', sans-serif", fontSize: 11,
+        color: value ? TEXT : FAINT,
+        outline: 'none', transition: 'all 0.2s',
+        appearance: 'none',
+        cursor: 'pointer',
+      }}
+    >
+      {children}
+    </select>
+  )
+}
+
+function ActionBtn({ children, onClick, type = 'button', primary, disabled }) {
+  const [hover, setHover] = useState(false)
+  return (
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        flex: 1,
+        padding: '13px 0',
+        background: primary
+          ? (disabled ? MUTED : hover ? '#9A7020' : GOLD)
+          : (hover ? BG : 'transparent'),
+        border: primary ? 'none' : `1px solid ${hover ? MUTED : BORDER}`,
+        color: primary ? BG : MUTED,
+        fontFamily: "'Raleway', sans-serif",
+        fontSize: 9, letterSpacing: 3,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        transition: 'all 0.2s',
+      }}
+    >
+      {children}
+    </button>
+  )
+}
+
+function SectionLabel({ children }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 22, marginTop: 8 }}>
+      <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 8, letterSpacing: 4, color: GOLD_L, whiteSpace: 'nowrap' }}>
+        {children}
+      </div>
+      <div style={{ flex: 1, height: 1, background: BORDER }} />
+    </div>
+  )
+}
+
+export default function BienForm() {
+  const [description,     setDescription]    = useState('')
+  const [typeBien,        setTypeBien]        = useState('')
+  const [ville,           setVille]           = useState('Alger')
+  const [nbrChambre,      setNbrChambre]      = useState('')
+  const [selectedAddress, setSelectedAddress] = useState('')
+  const [codePostal,      setCodePostal]      = useState('')
+  const [minPrixEstime,   setMinPrixEstime]   = useState('')
+  const [etat,            setEtat]            = useState('')
+  const [image,           setImage]           = useState(null)
+  const [loading,         setLoading]         = useState(false)
+
+  const router = useRouter()
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setLoading(true)
+
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        toast.error('Session expirée, veuillez vous reconnecter.', { position: 'top-center' })
+        router.push('/login_client')
+        return
+      }
+
+      const res = await fetch('/api/addBien', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          description,
+          type_bien: typeBien,
+          nbr_chambre: nbrChambre,
+          adresse: selectedAddress,
+          ville,
+          code_postal: codePostal,
+          prix_estime: minPrixEstime,
+          etat,
+        }),
+      })
+
+      if (res.ok) {
+        toast.success('Bien ajouté avec succès !', { position: 'top-center' })
+        setTimeout(() => router.push('/clientHouses'), 1200)
+      } else {
+        const data = await res.json()
+        toast.error(data.error || 'Une erreur est survenue.', { position: 'top-center' })
+      }
+    } catch (err) {
+      toast.error('Erreur réseau, veuillez réessayer.', { position: 'top-center' })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function handleCancel(e) {
+    e.preventDefault()
+    if (window.confirm('Voulez-vous vraiment annuler ?')) router.push('/clientHouses')
+  }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      const obj = { name: `image_${Date.now()}`, data: ev.target.result }
+      setImage(obj)
+      localStorage.setItem('selectedImage', JSON.stringify(obj))
+    }
+    reader.readAsDataURL(file)
+  }
+
+  return (
+    <div style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
+
+      <main style={{ flex: 1, display: 'flex', justifyContent: 'center', padding: '56px 24px 72px' }}>
+        <div style={{ width: '100%', maxWidth: 640 }}>
+
+          {/* Page header */}
+          <div style={{ marginBottom: 44 }}>
+            <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 5, color: GOLD, marginBottom: 10 }}>
+              ESPACE CLIENT
+            </div>
+            <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: TEXT, margin: 0, lineHeight: 1 }}>
+              Ajouter un bien
+            </h1>
+            <div style={{ width: 36, height: 1, background: GOLD, marginTop: 14 }} />
+            <p style={{ fontFamily: "'Raleway', sans-serif", fontSize: 11, color: FAINT, marginTop: 14, fontWeight: 300, letterSpacing: 0.3 }}>
+              Renseignez les informations de votre propriété pour publier votre annonce.
+            </p>
+          </div>
+
+          {/* Form card */}
+          <div style={{ background: BG2, border: `1px solid ${BORDER}`, padding: '40px 44px' }}>
+            <form onSubmit={handleSubmit}>
+
+              <SectionLabel>INFORMATIONS GÉNÉRALES</SectionLabel>
+
+              <FormField label="TITRE DE L'ANNONCE">
+                <StyledInput
+                  value={description}
+                  onChange={e => setDescription(e.target.value)}
+                  placeholder="Ex. : Villa moderne avec piscine à Hydra"
+                  required
+                />
+              </FormField>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                <FormField label="TYPE DE BIEN">
+                  <StyledSelect value={typeBien} onChange={e => setTypeBien(e.target.value)} required>
+                    <option value="">Sélectionner</option>
+                    <option value="appartement">Appartement</option>
+                    <option value="villa">Villa</option>
+                    <option value="autre">Autre</option>
+                  </StyledSelect>
+                </FormField>
+
+                <FormField label="NOMBRE DE CHAMBRES">
+                  <StyledSelect value={nbrChambre} onChange={e => setNbrChambre(e.target.value)}>
+                    <option value="">Sélectionner</option>
+                    {['F3','F4','F5','F6','F7','F8','F9','F10'].map(f => (
+                      <option key={f} value={f}>{f}</option>
+                    ))}
+                  </StyledSelect>
+                </FormField>
+              </div>
+
+              <SectionLabel>LOCALISATION</SectionLabel>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                <FormField label="WILAYA">
+                  <StyledSelect value={ville} onChange={e => setVille(e.target.value)} required>
+                    <option value="Alger">Alger</option>
+                  </StyledSelect>
+                </FormField>
+
+                <FormField label="COMMUNE / ADRESSE">
+                  <StyledSelect value={selectedAddress} onChange={e => setSelectedAddress(e.target.value)} required>
+                    <option value="">Sélectionner</option>
+                    {adresseOptions.map(a => <option key={a} value={a}>{a}</option>)}
+                  </StyledSelect>
+                </FormField>
+              </div>
+
+              <SectionLabel>DÉTAILS DU BIEN</SectionLabel>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                <FormField label="PRIX MENSUEL ESTIMÉ (DA)">
+                  <StyledInput
+                    value={minPrixEstime}
+                    onChange={e => setMinPrixEstime(e.target.value)}
+                    placeholder="Ex. : 80 000"
+                    required
+                  />
+                </FormField>
+
+                <FormField label="ÉTAT DU BIEN">
+                  <StyledSelect value={etat} onChange={e => setEtat(e.target.value)} required>
+                    <option value="">Sélectionner</option>
+                    <option value="neuf">Neuf</option>
+                    <option value="bonne_condition">Bonne condition</option>
+                    <option value="rénové">Rénové</option>
+                    <option value="à_rénover">À rénover</option>
+                    <option value="partiellement_rénové">Partiellement rénové</option>
+                    <option value="en_construction">En construction</option>
+                  </StyledSelect>
+                </FormField>
+              </div>
+
+              <SectionLabel>PHOTO PRINCIPALE</SectionLabel>
+
+              <FormField label="AJOUTER UNE IMAGE">
+                <label style={{
+                  display: 'flex', alignItems: 'center', gap: 12,
+                  border: `1px dashed ${BORDER}`,
+                  padding: '16px 18px', cursor: 'pointer',
+                  background: 'rgba(237,233,225,0.4)',
+                  fontFamily: "'Raleway', sans-serif", fontSize: 10,
+                  color: image ? GOLD : FAINT, letterSpacing: 1,
+                }}>
+                  <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke={image ? GOLD : FAINT} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12" />
+                  </svg>
+                  {image ? image.name : 'Cliquez pour sélectionner une image'}
+                  <input type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
+                </label>
+              </FormField>
+
+              <div style={{ display: 'flex', gap: 12, marginTop: 36 }}>
+                <ActionBtn type="submit" primary disabled={loading}>
+                  {loading ? 'ENVOI...' : 'CONFIRMER'}
+                </ActionBtn>
+                <ActionBtn onClick={handleCancel}>ANNULER</ActionBtn>
+              </div>
+
+            </form>
+          </div>
+
+          {/* Bottom bar */}
+          <div style={{ marginTop: 48, paddingTop: 20, borderTop: `1px solid ${BORDER}`, display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 2, color: FAINT }}>
+              © {new Date().getFullYear()} E-KRILI — IMMOBILIER DE PRESTIGE
+            </span>
+            <span
+              onClick={() => router.push('/clientHouses')}
+              style={{ fontFamily: "'Raleway', sans-serif", fontSize: 9, letterSpacing: 2, color: FAINT, cursor: 'pointer' }}
+              onMouseEnter={e => e.currentTarget.style.color = GOLD}
+              onMouseLeave={e => e.currentTarget.style.color = FAINT}
+            >
+              ← RETOUR AU TABLEAU DE BORD
+            </span>
+          </div>
+
+        </div>
+      </main>
+
+      <ToastContainer toastStyle={{ background: BG2, color: TEXT, border: `1px solid ${BORDER}` }} />
+    </div>
+  )
 }
