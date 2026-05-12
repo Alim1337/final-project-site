@@ -24,18 +24,7 @@ export default function DemandeClientVIP() {
     const [ClientEmail, setClientEmail] = useState('');
     const [decodedToken, setDecodedToken] = useState(null); // State variable to store decoded token
     const [open, setOpen] = useState(true);
-    const token = localStorage.getItem('token');
-    let clientId;
-    if (token) {
-      const decodedToken = jwt.decode(token);
-     
-    
-      if (decodedToken.userType === 'client') {
-        clientId = decodedToken.id;
-      } else if (decodedToken.userType === 'proprietaire') {
-        clientId = decodedToken.id_client;
-      }
-    }
+    const [clientId, setClientId] = useState(null);
     const handleDevenirVIP = () => {
       setShowVIPWindow(true);
     };
@@ -49,21 +38,21 @@ export default function DemandeClientVIP() {
 
     useEffect(() => {
       const token = localStorage.getItem('token');
-      console.log("token:",token); // Retrieve the token from local storage
+      console.log("token:",token);
       if (token) {
         const decodedToken = jwt.decode(token);
-        let clientId;
-      
+        let id;
         if (decodedToken.userType === 'client') {
-          clientId = decodedToken.id;
+          id = decodedToken.id;
         } else if (decodedToken.userType === 'proprietaire') {
-          clientId = decodedToken.id_client;
+          id = decodedToken.id_client;
         }
+        setClientId(id);
         console.log("decoded token:",decodedToken)
         if (decodedToken && decodedToken.nom) {
           setClientName(decodedToken.nom);
           setClientEmail(decodedToken.email);
-          setDecodedToken(decodedToken); // Store decoded token in state variable
+          setDecodedToken(decodedToken);
         }
       }
     }, []);
@@ -188,4 +177,3 @@ export default function DemandeClientVIP() {
        </div>
        );
     }
-       
