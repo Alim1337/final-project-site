@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Footer from './Footer';
 import { useRouter } from 'next/router';
-import Image from 'next/dist/client/image';
+// Correct
+import Image from 'next/image';
 import { MdOutlineWorkspacePremium } from "react-icons/md";
 import {FaCrown} from 'react-icons/fa'
 
