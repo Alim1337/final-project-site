@@ -38,6 +38,12 @@
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "^3.3.5"
   },
+  "eslintConfig": {
+    "extends": "next",
+    "rules": {
+      "react/no-unescaped-entities": "off"
+    }
+  },
   "engines": {
     "node": "24.x"
   },
