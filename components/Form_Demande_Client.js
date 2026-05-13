@@ -1,115 +1,194 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-const Form_Demande_Client = ({ onSubmit }) => {
-  const [type_bien, setType_bien] = useState('');
-  const [prix_minimum, setPrixMinimum] = useState('');
-  const [prix_maximum, setPrixMaximum] = useState('');
-  const [surface_minimum, setSurfaceMinimum] = useState('');
-  const [nbr_chambre_minimum, setNbrChambreMinimum] = useState('');
-  const [date_debut_rechercher, setDateDebutRechercher] = useState(new Date().toISOString().slice(0, 10));
-  const [date_fin_recherche, setDateFinRecherche] = useState('');
+const GOLD   = '#B8892A'
+const TEXT   = '#1A1713'
+const MUTED  = '#5A5248'
+const FAINT  = '#8A8278'
+const BG     = '#EDE9E1'
+const BORDER = 'rgba(184,137,42,0.22)'
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    onSubmit(
-      type_bien,
-      prix_minimum,
-      prix_maximum,
-      surface_minimum,
-      nbr_chambre_minimum,
-      date_debut_rechercher,
-    );
+const labelStyle = {
+  display: 'block',
+  fontFamily: "'Raleway', sans-serif",
+  fontSize: 9,
+  letterSpacing: 4,
+  color: GOLD,
+  marginBottom: 10,
+  textTransform: 'uppercase',
+}
+
+const inputStyle = {
+  width: '100%',
+  background: 'transparent',
+  border: 'none',
+  borderBottom: `1px solid rgba(184,137,42,0.28)`,
+  color: TEXT,
+  fontFamily: "'Raleway', sans-serif",
+  fontSize: 14,
+  fontWeight: 300,
+  padding: '10px 0',
+  outline: 'none',
+  transition: 'border-color 0.3s',
+  appearance: 'none',
+  WebkitAppearance: 'none',
+  marginBottom: 36,
+}
+
+const CHAMBRES = ['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12']
+
+function FieldGroup({ children, half }) {
+  return (
+    <div style={{ display: half ? 'grid' : 'block', gridTemplateColumns: '1fr 1fr', gap: '0 48px' }}>
+      {children}
+    </div>
+  )
+}
+
+const Form_Demande_Client = ({ onSubmit, submitting }) => {
+  const [type_bien,             setTypeBien]             = useState('')
+  const [prix_minimum,          setPrixMinimum]           = useState('')
+  const [prix_maximum,          setPrixMaximum]           = useState('')
+  const [surface_minimum,       setSurfaceMinimum]        = useState('')
+  const [nbr_chambre_minimum,   setNbrChambreMinimum]     = useState('')
+  const [date_debut_rechercher, setDateDebutRechercher]   = useState(new Date().toISOString().slice(0, 10))
+
+  // Track focused field for gold underline effect
+  const [focused, setFocused] = useState(null)
+
+  const getFocusStyle = (name) => ({
+    ...inputStyle,
+    borderBottomColor: focused === name ? GOLD : 'rgba(184,137,42,0.28)',
+  })
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    onSubmit(type_bien, prix_minimum, prix_maximum, surface_minimum, nbr_chambre_minimum, date_debut_rechercher)
   }
 
   return (
-    <div className=" max-w-md mx-auto bg-white rounded p-6">
-      <form id="form" onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="type_bien" className="block font-medium mb-2">
-            Type de bien
-          </label>
-          <select
-            id="type_bien"
-            value={type_bien}
-            onChange={(e) => setType_bien(e.target.value)}
-            required
-            className="border border-gray-300 rounded px-4 py-2 w-full"
-          >
-            <option value="">-- Choisissez --</option>
-            <option value="appartement">Appartement</option>
-            <option value="villa">Villa</option>
-            <option value="autre">Autre</option>
-          </select>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="prix_maximum" className="block font-medium mb-2">
-            Prix maximum
-          </label>
-          <input
-            type="number"
-            id="prix_maximum"
-            value={prix_maximum}
-            onChange={(e) => setPrixMaximum(e.target.value)}
-            required
-            className="border border-gray-300 rounded px-4 py-2 w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="surface_minimum" className="block font-medium mb-2">
-            Surface minimum (optionnel)
-          </label>
-          <input
-            type="number"
-            id="surface_minimum"
-            value={surface_minimum}
-            onChange={(e) => setSurfaceMinimum(e.target.value)}
-            className="border border-gray-300 rounded px-4 py-2 w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="nbr_chambre_minimum" className="block font-medium mb-2">
-            Nombre de chambres minimum
-          </label>
-          <select
-            id="nbr_chambre_minimum"
-            value={nbr_chambre_minimum}
-            onChange={(e) => setNbrChambreMinimum(e.target.value)}
-            required
-            className="border border-gray-300 rounded px-4 py-2 w-full"
-          >
-            <option value="">-- Choisissez --</option>
-            <option value="F1">F1</option>
-            <option value="F2">F2</option>
-            <option value="F3">F3</option>
-            <option value="F4">F4</option>
-            <option value="F5">F5</option>
-            <option value="F6">F6</option>
-            <option value="F7">F7</option>
-            <option value="F8">F8</option>
-            <option value="F9">F9</option>
-            <option value="F10">F10</option>
-            <option value="F11">F11</option>
-            <option value="F12">F12</option>
-          </select>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="date_fin_recherche" className="block font-medium mb-2">
-            Date de fin de recherche (optionnel)
-          </label>
-          <input
-            type="date"
-            id="date_fin_recherche"
-            value={date_fin_recherche}
-            onChange={(e) => setDateFinRecherche(e.target.value)}
-            className="border border-gray-300 rounded px-4 py-2 w-full"
-          />
-        </div>
-        <button type="submit" className="inline-block w-full rounded bg-neutral-800 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] transition duration-150 ease-in-out hover:bg-neutral-800 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-neutral-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:outline-none focus:ring-0 active:bg-neutral-900 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] dark:bg-neutral-900 dark:shadow-[0_4px_9px_-4px_#030202] dark:hover:bg-neutral-900 dark:hover:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:focus:bg-neutral-900 dark:focus:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)] dark:active:bg-neutral-900 dark:active:shadow-[0_8px_9px_-4px_rgba(3,2,2,0.3),0_4px_18px_0_rgba(3,2,2,0.2)]">
-          Postuler
-        </button>
-      </form>
-    </div>
-  );
-};
+    <form onSubmit={handleSubmit}>
 
-export default Form_Demande_Client;
+      {/* Type de bien */}
+      <div>
+        <label style={labelStyle}>Type de bien</label>
+        <select
+          value={type_bien}
+          onChange={e => setTypeBien(e.target.value)}
+          required
+          onFocus={() => setFocused('type')}
+          onBlur={() => setFocused(null)}
+          style={{ ...getFocusStyle('type'), color: type_bien ? TEXT : FAINT }}
+        >
+          <option value="" disabled style={{ color: FAINT }}>Sélectionner un type</option>
+          <option value="appartement" style={{ background: BG, color: TEXT }}>Appartement</option>
+          <option value="villa"       style={{ background: BG, color: TEXT }}>Villa</option>
+          <option value="autre"       style={{ background: BG, color: TEXT }}>Autre</option>
+        </select>
+      </div>
+
+      {/* Prix min / max */}
+      <FieldGroup half>
+        <div>
+          <label style={labelStyle}>Prix minimum (DA)</label>
+          <input
+            type="number"
+            placeholder="Ex: 5 000 000"
+            value={prix_minimum}
+            onChange={e => setPrixMinimum(e.target.value)}
+            onFocus={() => setFocused('pmin')}
+            onBlur={() => setFocused(null)}
+            style={{ ...getFocusStyle('pmin'), '::placeholder': { color: FAINT } }}
+          />
+        </div>
+        <div>
+          <label style={labelStyle}>Prix maximum (DA)</label>
+          <input
+            type="number"
+            placeholder="Ex: 50 000 000"
+            value={prix_maximum}
+            onChange={e => setPrixMaximum(e.target.value)}
+            required
+            onFocus={() => setFocused('pmax')}
+            onBlur={() => setFocused(null)}
+            style={getFocusStyle('pmax')}
+          />
+        </div>
+      </FieldGroup>
+
+      {/* Surface / Chambres */}
+      <FieldGroup half>
+        <div>
+          <label style={labelStyle}>Surface minimum (m²) <span style={{ color: FAINT, fontSize: 8, letterSpacing: 1 }}>— optionnel</span></label>
+          <input
+            type="number"
+            placeholder="Ex: 80"
+            value={surface_minimum}
+            onChange={e => setSurfaceMinimum(e.target.value)}
+            onFocus={() => setFocused('surf')}
+            onBlur={() => setFocused(null)}
+            style={getFocusStyle('surf')}
+          />
+        </div>
+        <div>
+          <label style={labelStyle}>Chambres minimum</label>
+          <select
+            value={nbr_chambre_minimum}
+            onChange={e => setNbrChambreMinimum(e.target.value)}
+            required
+            onFocus={() => setFocused('chambre')}
+            onBlur={() => setFocused(null)}
+            style={{ ...getFocusStyle('chambre'), color: nbr_chambre_minimum ? TEXT : FAINT }}
+          >
+            <option value="" disabled style={{ color: FAINT }}>Sélectionner</option>
+            {CHAMBRES.map(c => (
+              <option key={c} value={c} style={{ background: BG, color: TEXT }}>{c}</option>
+            ))}
+          </select>
+        </div>
+      </FieldGroup>
+
+      {/* Date début */}
+      <div style={{ maxWidth: 280 }}>
+        <label style={labelStyle}>Date de début de recherche</label>
+        <input
+          type="date"
+          value={date_debut_rechercher}
+          onChange={e => setDateDebutRechercher(e.target.value)}
+          required
+          onFocus={() => setFocused('date')}
+          onBlur={() => setFocused(null)}
+          style={{ ...getFocusStyle('date'), colorScheme: 'light' }}
+        />
+      </div>
+
+      {/* Divider */}
+      <div style={{ height: 1, background: `linear-gradient(to right, rgba(184,137,42,0.3), transparent)`, margin: '4px 0 32px' }} />
+
+      {/* Submit */}
+      <button
+        type="submit"
+        disabled={submitting}
+        style={{
+          background: submitting ? FAINT : GOLD,
+          border: 'none',
+          color: '#EDE9E1',
+          fontFamily: "'Raleway', sans-serif",
+          fontSize: 10,
+          fontWeight: 500,
+          letterSpacing: 4,
+          padding: '15px 56px',
+          cursor: submitting ? 'not-allowed' : 'pointer',
+          transition: 'background 0.2s',
+          opacity: submitting ? 0.7 : 1,
+        }}
+        onMouseEnter={e => { if (!submitting) e.currentTarget.style.background = '#9A7020' }}
+        onMouseLeave={e => { if (!submitting) e.currentTarget.style.background = GOLD }}
+      >
+        {submitting ? 'ENVOI EN COURS...' : 'SOUMETTRE MA DEMANDE'}
+      </button>
+
+    </form>
+  )
+}
+
+export default Form_Demande_Client
